@@ -28,15 +28,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-phaser-game-template/devfavicon.ico"
   },
   {
-    "revision": "9a57fa093a877f553798",
-    "url": "/educational-phaser-game-template/devgen.main.3f950e9be425afd537af.bundle.js"
+    "revision": "f2d6ffde3635096d0b72",
+    "url": "/educational-phaser-game-template/devgen.main.03450bb04826ae30acae.bundle.js"
   },
   {
     "revision": "5e69403aa42e950fedff",
     "url": "/educational-phaser-game-template/devgen.vendors.0805bb80903235d40eaf.bundle.js"
   },
   {
-    "revision": "33638d36ff6608061bb476a3d9fe1718",
+    "revision": "d15e1e67854a86ddb225635b22907621",
     "url": "/educational-phaser-game-template/devindex.html"
   },
   {
@@ -44,7 +44,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-phaser-game-template/devmanifest.json"
   },
   {
-    "revision": "701445d8817f73e3da17e450b69faa36",
+    "revision": "a8029749c7edd38204cf67287cb14139",
     "url": "/educational-phaser-game-template/devsw.js"
   }
 ]);
