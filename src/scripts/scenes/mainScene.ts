@@ -31,13 +31,23 @@ export default class MainScene extends Phaser.Scene {
       faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
     });
 
-    this.exampleObject = new ExampleObject(this, 0, 0);
+
 
     this.player = this.physics.add.sprite(300, 300, "cat");
     this.player.play("cat_down");
     this.physics.add.collider(this.player, worldLayer);
     this.player.tint = 0xff00ff;
+
+    //belowLayer.setCollisionByProperty({color:"red"});
+    this.physics.add.overlap(this.player, aboveLayer, this.changeColor, undefined, this);
+
+    this.exampleObject = new ExampleObject(this, 0, 0);
   }
+  changeColor(){
+    this.player.tint = 0x00ff00;  
+    console.log("ehhhhhh");  
+  }
+
 
   update() {
     this.movePlayerManager();
@@ -66,4 +76,10 @@ export default class MainScene extends Phaser.Scene {
       //better to have an idle, stops on blurry frames sometimes
     }
   }
+
+
+checkColor(){
+
+}
+
 }
