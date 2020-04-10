@@ -21,6 +21,7 @@ export default class MainScene extends Phaser.Scene {
     // Parameters: layer name (or index) from Tiled, tileset, x, y
     const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
     const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
+    this.player = this.physics.add.sprite(300, 300, "cat");
     const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
     worldLayer.setCollisionByProperty({ collides: true });
 
@@ -33,18 +34,18 @@ export default class MainScene extends Phaser.Scene {
 
 
 
-    this.player = this.physics.add.sprite(300, 300, "cat");
     this.player.play("cat_down");
     this.physics.add.collider(this.player, worldLayer);
-    this.player.tint = 0xff00ff;
+    this.player.tint = 0x0000ff;
 
     //belowLayer.setCollisionByProperty({color:"red"});
-    this.physics.add.overlap(this.player, aboveLayer, this.changeColor, undefined, this);
+    //this.physics.add.overlap(this.player, aboveLayer, this.changeColor, undefined, this);
 
-    this.exampleObject = new ExampleObject(this, 0, 0);
+    //this.exampleObject = new ExampleObject(this, 0, 0);
   }
+  
   changeColor(){
-    this.player.tint = 0x00ff00;  
+    this.player.tint = 0x0000ff;
     console.log("ehhhhhh");  
   }
 
