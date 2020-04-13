@@ -1,8 +1,9 @@
 import ExampleObject from '../objects/exampleObject';
+import Player from '../objects/player';
 
 export default class MainScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
-  player;
+  player:Player;
   cursorKeys;
   playerXVelocity = 100;
   playerYVelocity = 100;
@@ -21,7 +22,7 @@ export default class MainScene extends Phaser.Scene {
     // Parameters: layer name (or index) from Tiled, tileset, x, y
     const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
     const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
-    this.player = this.physics.add.sprite(300, 300, "cat");
+    this.player = new Player(this, 20, 20);
     const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
     worldLayer.setCollisionByProperty({ collides: true });
 
@@ -33,15 +34,11 @@ export default class MainScene extends Phaser.Scene {
     });
 
 
-
-    this.player.play("cat_down");
     this.physics.add.collider(this.player, worldLayer);
     this.player.tint = 0x0000ff;
 
     //belowLayer.setCollisionByProperty({color:"red"});
     //this.physics.add.overlap(this.player, aboveLayer, this.changeColor, undefined, this);
-
-    //this.exampleObject = new ExampleObject(this, 0, 0);
   }
   
   changeColor(){
@@ -49,38 +46,8 @@ export default class MainScene extends Phaser.Scene {
     console.log("ehhhhhh");  
   }
 
-
   update() {
-    this.movePlayerManager();
-
+    this.player.move(this.cursorKeys);
   }
-
-  //does not allow diagonal movement currently
-  movePlayerManager(){
-    this.player.setVelocity(0,0);
-
-    if(this.cursorKeys.left.isDown){
-      this.player.setVelocityX(-this.playerXVelocity);
-      this.player.play("cat_left",true);
-    }else if(this.cursorKeys.right.isDown){
-      this.player.setVelocityX(this.playerXVelocity);
-      this.player.play("cat_right",true);
-    }else if(this.cursorKeys.up.isDown){
-      this.player.setVelocityY(-this.playerYVelocity);
-      this.player.play("cat_up",true);
-    }else if(this.cursorKeys.down.isDown){
-      this.player.setVelocityY(this.playerYVelocity);
-      this.player.play("cat_down",true);
-    }else{
-      this.player.setVelocity(0,0);
-      //this.player.anims.stop(); 
-      //better to have an idle, stops on blurry frames sometimes
-    }
-  }
-
-
-checkColor(){
-
-}
 
 }
