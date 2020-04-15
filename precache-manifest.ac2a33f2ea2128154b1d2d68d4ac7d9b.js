@@ -1,6 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e7087d5d91321d575b038366ef9f2407",
+    "revision": "fba88d26c7328028e97d39f9ad947696",
+    "url": "assets/catchara.png"
+  },
+  {
+    "revision": "b85ee1a762cd505965167871f12359fb",
     "url": "assets/citations.md"
   },
   {
@@ -24,19 +28,35 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/icons/icons8-game-controller-16.png"
   },
   {
+    "revision": "2f664528ea817529fe8fd6f320419725",
+    "url": "assets/tutorial/pkmn.png"
+  },
+  {
+    "revision": "9d84502cdfc9e9338c72eaee7eb4fb4d",
+    "url": "assets/tutorial/super-mario-tiles.png"
+  },
+  {
+    "revision": "f3a8b37f3ded924719d6a3acdb5d1a5e",
+    "url": "assets/tutorial/tiledemo.json"
+  },
+  {
+    "revision": "89689cb1492c7902be93302f5803c816",
+    "url": "assets/tutorial/tiledemo.tmx"
+  },
+  {
     "revision": "53cefca2a0f75654486b180949686165",
     "url": "favicon.ico"
   },
   {
-    "revision": "1558f280aeef4f6f153e6537edb420eb",
+    "revision": "6c1301d78862d39fcaeb0a831a80991d",
     "url": "index.html"
   },
   {
-    "revision": "2d7aff72c7980729fd2c",
-    "url": "main.3d1c882cba482391e26e.bundle.js"
+    "revision": "d57d2a19b9d8831f600c",
+    "url": "main.a1df5f6d3e4af4fb7fd2.bundle.js"
   },
   {
-    "revision": "003187cab0ecf7a20e343e2ba6db4a34",
+    "revision": "e3a72ed08fea663494fd70b7b7e9beff",
     "url": "manifest.json"
   },
   {
