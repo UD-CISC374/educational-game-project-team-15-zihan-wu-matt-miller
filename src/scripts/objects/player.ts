@@ -24,8 +24,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
         //better to have an idle, stops on blurry frames sometimes
         let framesPerDirection:number = 3;
         
-        console.log('Blue + Red = ',ColorMixer.mixColors(Color.BLUE, Color.RED));
-        console.log(ColorMixer.mixColors(Color.RED, Color.WHITE));
+        //console.log('Blue + Red = ',ColorMixer.mixColors(Color.BLUE, Color.RED));
+        
 
         if(cursor.up.isDown){
             this.setVelocityY(-this.velocityY);

@@ -6,7 +6,70 @@ export default class ColorMixer{
     }
 
     static mixColors(color1:Color, color2:Color):Color{
-        let r1:number, r2:number, rOut:string, g1:number, g2:number, gOut:string, b1:number, b2:number, bOut:string;
+
+        // For now, we only have the mixing of the primary colors
+        if((color1 == Color.RED && color2 == Color.BLUE) || (color2 == Color.RED && color1 == Color.BLUE))
+            return Color.PURPLE;
+        else if((color1 == Color.BLUE && color2 == Color.YELLOW) || (color2 == Color.YELLOW && color1 == Color.BLUE))
+            return Color.PURPLE;
+        else if((color1 == Color.YELLOW && color2 == Color.RED) || (color2 == Color.RED && color1 == Color.YELLOW))
+            return Color.ORANGE;
+
+            // Return -1 if no matches were found
+        return -1;
+    }
+
+    static rgb2cmyk(r:number, g:number, b:number){
+        let c = 255 - r;
+        let m = 255 - g;
+        let y = 255 - b;
+
+        let k = Math.min(c, m, y);
+
+        c = ((c - k) / (255 - k));
+        m = ((m - k) / (255 - k));
+        y = ((y - k) / (255 - k));
+        
+        return {
+            c: c,
+            m: m,
+            y: y,
+            k: k
+        }
+    }
+
+    static cmyk2rgb(c:number, m:number, y:number, k:number){
+        c = (c / 100);
+        m = (m / 100);
+        y = (y / 100);
+        k = (k / 100);
+        
+        let r = c * (1 - k) + k;
+        let g = m * (1 - k) + k;
+        let b = y * (1 - k) + k;
+        
+        r = Math.round((1.0 - r) * 255.0 + 0.5);
+        g = Math.round((1.0 - g) * 255.0 + 0.5);
+        b = Math.round((1.0 - b) * 255.0 + 0.5);
+        
+        return {
+            r: r,
+            g: g,
+            b: b
+        }
+    }q
+
+    static addZeroes(hexCode:string, desiredLength:number):string{
+        for(let i:number = hexCode.length; i < desiredLength; i++){
+            hexCode = '0' + hexCode;
+        }
+        return hexCode;
+    }
+
+    // This isnt use right now, maybe fix it up for later?
+
+    /*
+        let r1:number, r2:number, rOut:string, g1:number, g2:number, gOut:string, b1:number, b2:number, bOut:string, cymk1, cymk2, cymk3;
         let hexCodeOut:string;
         // Convert the decimal number to hex strings
         let hexCode1:string = color1.toString(16);
@@ -28,6 +91,25 @@ export default class ColorMixer{
         b1 = parseInt(hexCode1.substr(4,2),16);
         b2 = parseInt(hexCode2.substr(4,2),16);
 
+        // Convert the rbg values to cymk
+
+        cymk1 = this.rgb2cmyk(r1, g1, b1);
+        console.log(cymk1);
+        cymk2 = this.rgb2cmyk(r2, g2, b2);
+        console.log(cymk2);
+        cymk3 = {
+            c: (cymk1.c + cymk2.c) / 2,
+            y: (cymk1.y + cymk2.y) / 2,
+            m: (cymk1.m + cymk2.m) / 2,
+            k: (cymk1.k + cymk2.k) / 2
+        }
+
+        console.log(cymk3);
+
+        let rbg = this.cmyk2rgb(cymk3.c, cymk3.y, cymk3.m, cymk3.k);
+        
+        console.log(rbg);
+
         //console.log(r1,g1,b1);
 
         // Average the R, G and B values for each color 
@@ -44,12 +126,5 @@ export default class ColorMixer{
         //console.log("hexCodeOut",parseInt(hexCodeOut,16));
 
         return parseInt(hexCodeOut,16);
-    }
-
-    static addZeroes(hexCode:string, desiredLength:number):string{
-        for(let i:number = hexCode.length; i < desiredLength; i++){
-            hexCode = '0' + hexCode;
-        }
-        return hexCode;
-    }
+        */
 }

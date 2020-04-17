@@ -1,5 +1,7 @@
 import ExampleObject from '../objects/exampleObject';
 import Player from '../objects/player';
+import ColorMixer from '../objects/colorMixer';
+import { Color } from '../objects/color';
 
 export default class MainScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
@@ -55,6 +57,9 @@ export default class MainScene extends Phaser.Scene {
         }
       })
     });
+
+    // Testing color mixing
+    console.log(ColorMixer.mixColors(Color.BLUE, Color.YELLOW));
   }
   
   changeColor(){
