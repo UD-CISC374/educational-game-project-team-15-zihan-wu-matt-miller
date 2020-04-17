@@ -5,6 +5,6 @@ export enum Color {
     WHITE = 0xFFFFFF,
     BLACK = 0x000000,
     PURPLE = 0x800080,
-    YELLOW = 0xFFFF00
-
+    YELLOW = 0xFFFF00,
+    ORANGE = 0xFFA500
 }

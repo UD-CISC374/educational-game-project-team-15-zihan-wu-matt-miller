@@ -22,6 +22,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
         this.setVelocity(0,0);
         //this.anims.stop(); 
         //better to have an idle, stops on blurry frames sometimes
+        let framesPerDirection:number = 3;
 
         if(cursor.up.isDown){
             this.setVelocityY(-this.velocityY);
