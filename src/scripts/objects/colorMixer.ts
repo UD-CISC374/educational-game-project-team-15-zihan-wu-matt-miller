@@ -16,7 +16,7 @@ export default class ColorMixer{
             return Color.PURPLE;
         else if((color1 == Color.BLUE && color2 == Color.YELLOW) || (color2 == Color.BLUE && color1 == Color.YELLOW) )
             return Color.GREEN;
-        else if((color1 == Color.YELLOW && color2 == Color.RED) || (color2 == Color.BLUE && color1 == Color.YELLOW) )
+        else if((color1 == Color.YELLOW && color2 == Color.RED) || (color2 == Color.YELLOW && color1 == Color.RED) )
             return Color.ORANGE;
 
             // Return -1 if no matches were found
