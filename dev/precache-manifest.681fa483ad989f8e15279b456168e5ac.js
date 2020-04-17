@@ -4,10 +4,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/camocaper.json"
   },
   {
-    "revision": "e3ded070cc7059e41d2a48a52bfd993a",
-    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/camocaper.tmx"
-  },
-  {
     "revision": "cd016ddf1954a11d06ddcd8f1ae6e616",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/camotiles.png"
   },
