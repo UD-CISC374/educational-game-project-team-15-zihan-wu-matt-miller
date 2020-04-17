@@ -6,6 +6,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
     velocityX:number = 100;
     velocityY:number = 100;
     color:Color = Color.WHITE;
+    prevDir:number = 0;
 
     constructor(scene: Phaser.Scene, x:number, y:number){
         super(scene, x, y, 'player');
@@ -27,15 +28,23 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
         if(cursor.up.isDown){
             this.setVelocityY(-this.velocityY);
             this.play("player_up",true);
+            this.prevDir = 3;
         }else if(cursor.down.isDown){
             this.setVelocityY(this.velocityY);
             this.play("player_down",true);
+            this.prevDir = 0;
         }else if(cursor.left.isDown){
             this.setVelocityX(-this.velocityX);
             this.play("player_left",true);
+            this.prevDir = 1;
         }else if(cursor.right.isDown){
             this.setVelocityX(this.velocityX);
             this.play("player_right",true);
+            this.prevDir = 2;
+        }else{
+            this.setVelocity(0,0);
+            this.anims.stop(); 
+            this.setFrame(1 + (this.prevDir * framesPerDirection));
         }
     }
     

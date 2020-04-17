@@ -77,16 +77,23 @@ export default class MainScene extends Phaser.Scene {
     //one-red, two-blue, three-yellow, four-clear, space-mix must be handled in game
 
     if(Phaser.Input.Keyboard.JustDown(this.otherKeys.four)){
+        console.log("4");
         this.palette.clearColors();
     }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.one)){
+        console.log("1");
         this.palette.setColor(Color.RED);
     }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.two)){
+        console.log("2");
         this.palette.setColor(Color.BLUE);
     }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.three)){
+        console.log("3");
         this.palette.setColor(Color.YELLOW);
     }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.space)){
+        console.log("space");
         this.player.color = this.palette.outputMix();
+        console.log("color",this.player.color);
     }
+
   
     this.player.tint = this.player.color;
 

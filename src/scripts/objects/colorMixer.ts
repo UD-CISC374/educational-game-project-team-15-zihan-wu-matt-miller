@@ -7,11 +7,15 @@ export default class ColorMixer{
 
     static mixColors(color1:Color, color2:Color):Color{
 
+        // If the colors are the same, return one of the colors
+        if(color1 == color2)
+            return color1;
+
         // For now, we only have the mixing of the primary colors
         if((color1 == Color.RED && color2 == Color.BLUE) || (color2 == Color.RED && color1 == Color.BLUE))
             return Color.PURPLE;
         else if((color1 == Color.BLUE && color2 == Color.YELLOW) || (color2 == Color.YELLOW && color1 == Color.BLUE))
-            return Color.PURPLE;
+            return Color.GREEN;
         else if((color1 == Color.YELLOW && color2 == Color.RED) || (color2 == Color.RED && color1 == Color.YELLOW))
             return Color.ORANGE;
 
