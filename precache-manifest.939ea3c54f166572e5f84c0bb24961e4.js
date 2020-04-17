@@ -1,10 +1,18 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
+    "revision": "c367097bf3106f2fdf01aa4b29c6fcb0",
+    "url": "assets/camocaper.json"
+  },
+  {
+    "revision": "cd016ddf1954a11d06ddcd8f1ae6e616",
+    "url": "assets/camotiles.png"
+  },
+  {
     "revision": "fba88d26c7328028e97d39f9ad947696",
     "url": "assets/catchara.png"
   },
   {
-    "revision": "b85ee1a762cd505965167871f12359fb",
+    "revision": "fffa354d085b09a98547217770c87b87",
     "url": "assets/citations.md"
   },
   {
@@ -48,12 +56,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "favicon.ico"
   },
   {
-    "revision": "6c1301d78862d39fcaeb0a831a80991d",
+    "revision": "2fe13012fc51d5c06d4ac8380bf60e96",
     "url": "index.html"
   },
   {
-    "revision": "d57d2a19b9d8831f600c",
-    "url": "main.a1df5f6d3e4af4fb7fd2.bundle.js"
+    "revision": "b7dc26d9acbbdce10bf2",
+    "url": "main.b046b4ace875f7333208.bundle.js"
   },
   {
     "revision": "e3a72ed08fea663494fd70b7b7e9beff",
@@ -64,7 +72,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "sw.js"
   },
   {
-    "revision": "5e69403aa42e950fedff",
-    "url": "vendors.0805bb80903235d40eaf.bundle.js"
+    "revision": "ed4e65c0ef1d262f0ba2",
+    "url": "vendors.24a045468bbd44191099.bundle.js"
   }
 ]);
