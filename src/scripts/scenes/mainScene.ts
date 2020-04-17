@@ -26,13 +26,14 @@ export default class MainScene extends Phaser.Scene {
     this.otherKeys = this.input.keyboard.addKeys({space:Phaser.Input.Keyboard.KeyCodes.SPACE, one:Phaser.Input.Keyboard.KeyCodes.ONE, two:Phaser.Input.Keyboard.KeyCodes.TWO, three:Phaser.Input.Keyboard.KeyCodes.THREE, four:Phaser.Input.Keyboard.KeyCodes.FOUR});
 
     this.map = this.make.tilemap({ key: "map" });
-    this.tileset = this.map.addTilesetImage("pkmn", "tiles");
+    this.tileset = this.map.addTilesetImage("camotiles", "tiles");
     
     // Parameters: layer name (or index) from Tiled, tileset, x, y
     this.belowLayer = this.map.createStaticLayer("Below Player", this.tileset, 0, 0).setDepth(-1);
     this.worldLayer = this.map.createStaticLayer("World", this.tileset, 0, 0);
     this.aboveLayer = this.map.createStaticLayer("Above Player", this.tileset, 0, 0).setDepth(1);
     this.worldLayer.setCollisionByProperty({ collides: true });
+    this.belowLayer.setCollisionByProperty({ collides: true });
 
     const debugGraphics = this.add.graphics().setAlpha(0.75);
     this.worldLayer.renderDebug(debugGraphics, {
@@ -41,11 +42,11 @@ export default class MainScene extends Phaser.Scene {
       faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
     });
 
-    this.player = new Player(this, 20, 20);
+    this.player = new Player(this, 100, 64);
     this.physics.add.collider(this.player, this.worldLayer); 
     this.physics.add.collider(this.player, this.belowLayer); // add collider but don't set collision for overlap callback
     
-    this.add.text(450, 50, '2 color slots\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix').setBackgroundColor("0x000");
+    this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
 
 
     //testing below this, ignore
