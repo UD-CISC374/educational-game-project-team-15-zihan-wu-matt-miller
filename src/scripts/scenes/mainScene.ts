@@ -15,9 +15,16 @@ export default class MainScene extends Phaser.Scene {
   worldLayer:Phaser.Tilemaps.StaticTilemapLayer;
   aboveLayer:Phaser.Tilemaps.StaticTilemapLayer;
   palette: ColorPalette; 
+  suspicion: number;
+  suspicionText;
+  tileColor : Color = Color.NULL; //tile player is standing on, want to move this later so we don't have to set up again for each scene
+  clock: number;
 
   constructor() {
     super({ key: 'MainScene' });
+    this.clock = 0;
+    this.suspicion = 0;
+    this.tileColor = Color.NULL; 
   }
 
   create() {
@@ -47,31 +54,58 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.belowLayer); // add collider but don't set collision for overlap callback
     
     this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
+    this.suspicionText = this.add.text(900,500, "Suspicion: "+this.suspicion,{font: "32px"}).setColor("0x000");
+
+  //tile index is ONE MORE than the id in tiled!
+    this.belowLayer.setTileIndexCallback(112, ()=>{
+      this.tileColor = Color.NULL;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+1), ()=>{
+      this.tileColor = Color.YELLOW;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+17), ()=>{
+      this.tileColor = Color.BLUE;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+33), ()=>{
+      this.tileColor = Color.RED;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+49), ()=>{
+      this.tileColor = Color.GREEN;
+    }, this);
+    this.belowLayer.setTileIndexCallback([105,106,107,108], ()=>{ //grass
+      this.tileColor = Color.GREEN;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+65), ()=>{
+      this.tileColor = Color.ORANGE;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+81), ()=>{
+      this.tileColor = Color.PURPLE;
+    }, this);
 
 
     //testing below this, ignore
-    this.belowLayer.setTileIndexCallback([30,31,32,33], ()=>{
-      //this.player.color = 0xff0000;
-    }, this);
-
-    this.belowLayer.setTileIndexCallback([125,126,150,151], ()=>{
-      //this.player.color = 0xff00ff;
-    }, this);
-
     this.belowLayer.tilemap.layer.data.forEach( i =>{
       i.forEach(j =>{
         if(j.index == 32){
-
         }
       })
     });
 
     // Testing color mixing
     console.log(ColorMixer.mixColors(Color.BLUE, Color.YELLOW));
+
   }
   
 
   update() {
+    this.clock++;
+
     this.player.move(this.cursorKeys);
 
     //one,two,three,four, and space currently
@@ -97,6 +131,13 @@ export default class MainScene extends Phaser.Scene {
 
   
     this.player.tint = this.player.color;
+    if(this.clock % 50 == 0){
+      if(this.player.color != this.tileColor){
+        this.suspicion += 1;
+      }
+      this.suspicionText.setText("Suspicion: " + this.suspicion);
+    }
+
 
   } 
 

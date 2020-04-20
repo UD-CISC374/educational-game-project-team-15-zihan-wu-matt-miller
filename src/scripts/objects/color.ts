@@ -6,5 +6,6 @@ export enum Color {
     BLACK = 0x000000,
     PURPLE = 0x800080,
     YELLOW = 0xFFFF00,
-    ORANGE = 0xFFA500
+    ORANGE = 0xFFA500,
+    NULL = 0xFFFFFF //null separate so we can use white as a mxing condition later
 }
