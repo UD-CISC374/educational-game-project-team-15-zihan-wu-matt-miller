@@ -15,9 +15,9 @@ export default class MainScene extends Phaser.Scene {
   worldLayer:Phaser.Tilemaps.StaticTilemapLayer;
   aboveLayer:Phaser.Tilemaps.StaticTilemapLayer;
   palette: ColorPalette; 
-  suspicion: number;
+  suspicion: number = 0;
   suspicionText;
-  tileColor : Color; //tile player is standing on, want to move this later so we don't have to set up again for each scene
+  tileColor : Color = Color.NULL; //tile player is standing on, want to move this later so we don't have to set up again for each scene
 
   constructor() {
     super({ key: 'MainScene' });
@@ -50,10 +50,13 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.belowLayer); // add collider but don't set collision for overlap callback
     
     this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
-    this.suspicion = 0;
     this.suspicionText = this.add.text(900,500, "Suspicion: "+this.suspicion,{font: "32px"}).setColor("0x000");
 
-    //testing below this, ignore
+  
+    this.belowLayer.setTileIndexCallback(111, ()=>{
+      this.tileColor = Color.NULL;
+    }, this);
+
     this.belowLayer.setTileIndexCallback(Array.from(Array(15).keys()), ()=>{
       this.tileColor = Color.YELLOW;
     }, this);
@@ -81,10 +84,11 @@ export default class MainScene extends Phaser.Scene {
       this.tileColor = Color.PURPLE;
     }, this);
 
+
+    //testing below this, ignore
     this.belowLayer.tilemap.layer.data.forEach( i =>{
       i.forEach(j =>{
         if(j.index == 32){
-
         }
       })
     });
