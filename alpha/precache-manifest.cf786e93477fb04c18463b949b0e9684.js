@@ -52,15 +52,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/alphafavicon.ico"
   },
   {
-    "revision": "351383963360f206940e",
-    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/alphagen.main.a9b5ce63da39a7385069.bundle.js"
+    "revision": "6e8371b936772e74424b",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/alphagen.main.249a6dd9bdf46d244e05.bundle.js"
   },
   {
     "revision": "ed4e65c0ef1d262f0ba2",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/alphagen.vendors.24a045468bbd44191099.bundle.js"
   },
   {
-    "revision": "c9cfdf73d250c98fa823f91c4f60308e",
+    "revision": "645080f8f7f653ffc8e3940015eb937f",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/alphaindex.html"
   },
   {
