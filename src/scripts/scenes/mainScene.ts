@@ -15,9 +15,16 @@ export default class MainScene extends Phaser.Scene {
   worldLayer:Phaser.Tilemaps.StaticTilemapLayer;
   aboveLayer:Phaser.Tilemaps.StaticTilemapLayer;
   palette: ColorPalette; 
+  suspicion: number;
+  suspicionText;
+  tileColor : Color = Color.NULL; //tile player is standing on, want to move this later so we don't have to set up again for each scene
+  clock: number;
 
   constructor() {
     super({ key: 'MainScene' });
+    this.clock = 0;
+    this.suspicion = 0;
+    this.tileColor = Color.NULL; 
   }
 
   create() {
@@ -26,13 +33,14 @@ export default class MainScene extends Phaser.Scene {
     this.otherKeys = this.input.keyboard.addKeys({space:Phaser.Input.Keyboard.KeyCodes.SPACE, one:Phaser.Input.Keyboard.KeyCodes.ONE, two:Phaser.Input.Keyboard.KeyCodes.TWO, three:Phaser.Input.Keyboard.KeyCodes.THREE, four:Phaser.Input.Keyboard.KeyCodes.FOUR});
 
     this.map = this.make.tilemap({ key: "map" });
-    this.tileset = this.map.addTilesetImage("pkmn", "tiles");
+    this.tileset = this.map.addTilesetImage("camotiles", "tiles");
     
     // Parameters: layer name (or index) from Tiled, tileset, x, y
     this.belowLayer = this.map.createStaticLayer("Below Player", this.tileset, 0, 0).setDepth(-1);
     this.worldLayer = this.map.createStaticLayer("World", this.tileset, 0, 0);
     this.aboveLayer = this.map.createStaticLayer("Above Player", this.tileset, 0, 0).setDepth(1);
     this.worldLayer.setCollisionByProperty({ collides: true });
+    this.belowLayer.setCollisionByProperty({ collides: true });
 
     const debugGraphics = this.add.graphics().setAlpha(0.75);
     this.worldLayer.renderDebug(debugGraphics, {
@@ -41,36 +49,63 @@ export default class MainScene extends Phaser.Scene {
       faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
     });
 
-    this.player = new Player(this, 20, 20);
+    this.player = new Player(this, 100, 64);
     this.physics.add.collider(this.player, this.worldLayer); 
     this.physics.add.collider(this.player, this.belowLayer); // add collider but don't set collision for overlap callback
     
-    this.add.text(450, 50, '2 color slots\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix').setBackgroundColor("0x000");
+    this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
+    this.suspicionText = this.add.text(900,500, "Suspicion: "+this.suspicion,{font: "32px"}).setColor("0x000");
+
+  //tile index is ONE MORE than the id in tiled!
+    this.belowLayer.setTileIndexCallback(112, ()=>{
+      this.tileColor = Color.NULL;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+1), ()=>{
+      this.tileColor = Color.YELLOW;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+17), ()=>{
+      this.tileColor = Color.BLUE;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+33), ()=>{
+      this.tileColor = Color.RED;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+49), ()=>{
+      this.tileColor = Color.GREEN;
+    }, this);
+    this.belowLayer.setTileIndexCallback([105,106,107,108], ()=>{ //grass
+      this.tileColor = Color.GREEN;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+65), ()=>{
+      this.tileColor = Color.ORANGE;
+    }, this);
+
+    this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+81), ()=>{
+      this.tileColor = Color.PURPLE;
+    }, this);
 
 
     //testing below this, ignore
-    this.belowLayer.setTileIndexCallback([30,31,32,33], ()=>{
-      //this.player.color = 0xff0000;
-    }, this);
-
-    this.belowLayer.setTileIndexCallback([125,126,150,151], ()=>{
-      //this.player.color = 0xff00ff;
-    }, this);
-
     this.belowLayer.tilemap.layer.data.forEach( i =>{
       i.forEach(j =>{
         if(j.index == 32){
-
         }
       })
     });
 
     // Testing color mixing
     console.log(ColorMixer.mixColors(Color.BLUE, Color.YELLOW));
+
   }
   
 
   update() {
+    this.clock++;
+
     this.player.move(this.cursorKeys);
 
     //one,two,three,four, and space currently
@@ -96,6 +131,13 @@ export default class MainScene extends Phaser.Scene {
 
   
     this.player.tint = this.player.color;
+    if(this.clock % 50 == 0){
+      if(this.player.color != this.tileColor){
+        this.suspicion += 1;
+      }
+      this.suspicionText.setText("Suspicion: " + this.suspicion);
+    }
+
 
   } 
 

@@ -5,8 +5,8 @@ export default class PreloadScene extends Phaser.Scene {
 
   preload() {
     //this.load.image("mario-tiles", "../assets/tutorial/super-mario-tiles.png");
-    this.load.image("tiles", "../assets/tutorial/pkmn.png");
-    this.load.tilemapTiledJSON("map", "../assets/tutorial/tiledemo.json");
+    this.load.image("tiles", "../assets/camotiles.png");
+    this.load.tilemapTiledJSON("map", "../assets/camocaper.json");
     this.load.spritesheet("player", "assets/catchara.png",{frameWidth: 32, frameHeight: 32});
   }
 

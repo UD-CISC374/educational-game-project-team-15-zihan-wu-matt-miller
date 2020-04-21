@@ -12,13 +12,19 @@ export default class ColorMixer{
             return color1;
 
         // For now, we only have the mixing of the primary colors
-        if((color1 == Color.RED && color2 == Color.BLUE) || (color2 == Color.RED && color1 == Color.BLUE))
+        if(color1 == Color.NULL && color2 != Color.NULL){
+            return color2;
+        }else if(color2 == Color.NULL && color1 != Color.NULL){
+            return color1;
+        }else if(color1 == Color.NULL && color2 == Color.NULL) {
+            return Color.NULL;
+        }else if((color1 == Color.RED && color2 == Color.BLUE) || (color2 == Color.RED && color1 == Color.BLUE)){
             return Color.PURPLE;
-        else if((color1 == Color.BLUE && color2 == Color.YELLOW) || (color2 == Color.YELLOW && color1 == Color.BLUE))
+        }else if((color1 == Color.BLUE && color2 == Color.YELLOW) || (color2 == Color.BLUE && color1 == Color.YELLOW) ){
             return Color.GREEN;
-        else if((color1 == Color.YELLOW && color2 == Color.RED) || (color2 == Color.RED && color1 == Color.YELLOW))
+        }else if((color1 == Color.YELLOW && color2 == Color.RED) || (color2 == Color.YELLOW && color1 == Color.RED) ){
             return Color.ORANGE;
-
+        }
             // Return -1 if no matches were found
         return -1;
     }
