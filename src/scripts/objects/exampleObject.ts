@@ -4,4 +4,5 @@ export default class ExampleObject extends Phaser.GameObjects.Sprite {
         super(scene, x, y, 'example-object');
         scene.add.existing(this);
     }
+    
 }

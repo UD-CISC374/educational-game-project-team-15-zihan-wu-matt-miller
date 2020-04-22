@@ -3,6 +3,7 @@ import Player from '../objects/player';
 import ColorPalette from '../objects/colorPalette';
 import ColorMixer from '../objects/colorMixer';
 import { Color } from '../objects/color';
+import Inventory from '../objects/inventory';
 
 export default class MainScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
@@ -16,19 +17,30 @@ export default class MainScene extends Phaser.Scene {
   aboveLayer:Phaser.Tilemaps.StaticTilemapLayer;
   palette: ColorPalette; 
   suspicion: number;
-  suspicionText;
+  suspicionText: Phaser.GameObjects.Text;
   tileColor : Color = Color.NULL; //tile player is standing on, want to move this later so we don't have to set up again for each scene
   clock: number;
+  inventory: Inventory;
+
+  sceneWidth: number;
+  sceneHeight: number;
+
+  rec;
 
   constructor() {
     super({ key: 'MainScene' });
     this.clock = 0;
     this.suspicion = 0;
-    this.tileColor = Color.NULL; 
+    this.tileColor = Color.NULL;     
+  }
+
+  init(){
+    this.sceneWidth = this.cameras.main.width;
+    this.sceneHeight = this.cameras.main.height;
   }
 
   create() {
-    this.palette = new ColorPalette();
+    this.palette = new ColorPalette(this, 650, 540);
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.otherKeys = this.input.keyboard.addKeys({space:Phaser.Input.Keyboard.KeyCodes.SPACE, one:Phaser.Input.Keyboard.KeyCodes.ONE, two:Phaser.Input.Keyboard.KeyCodes.TWO, three:Phaser.Input.Keyboard.KeyCodes.THREE, four:Phaser.Input.Keyboard.KeyCodes.FOUR});
 
@@ -55,6 +67,7 @@ export default class MainScene extends Phaser.Scene {
     
     this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
     this.suspicionText = this.add.text(900,500, "Suspicion: "+this.suspicion,{font: "32px"}).setColor("0x000");
+    //this.rec = this.add.rectangle(900,500,30,30).setFillStyle(Color.BLACK, 0.5);
 
   //tile index is ONE MORE than the id in tiled!
     this.belowLayer.setTileIndexCallback(112, ()=>{
@@ -100,9 +113,15 @@ export default class MainScene extends Phaser.Scene {
     // Testing color mixing
     console.log(ColorMixer.mixColors(Color.BLUE, Color.YELLOW));
 
+    this.inventory = new Inventory(this, 100, this.sceneHeight - 50);
+
+    // Set these colors by default, then update the inventory to display
+    this.inventory.color[0] = Color.RED;
+    this.inventory.color[1] = Color.BLUE;
+    this.inventory.color[2] = Color.YELLOW;
+    this.inventory.updateInventory(); // This updates the rectangle color on the screen
   }
   
-
   update() {
     this.clock++;
 
@@ -137,8 +156,5 @@ export default class MainScene extends Phaser.Scene {
       }
       this.suspicionText.setText("Suspicion: " + this.suspicion);
     }
-
-
   } 
-
 }
