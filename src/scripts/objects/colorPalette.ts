@@ -34,6 +34,7 @@ export default class ColorPalette{
 
     /*puts specfied color in first avaible slot, if both slots are full do nothing*/
     setColor(color:Color){
+
         if(this.slot1 == Color.NULL){
             this.slot1 = color;
             this.rect1.fillColor = color;
@@ -42,11 +43,22 @@ export default class ColorPalette{
             this.slot2 = color;
             this.rect2.fillColor = color;
             this.rect3.fillColor = nullColor;
+        } else {
+            // Both are null if it gets here
+            this.clearColors();
+            this.slot1 = color
+            this.rect1.fillColor = color;
         }
     }
     
     /*if both slots are full output mix, if one slot full output one, if both empty output white*/
     outputMix():Color{
+        //check if only 1 color was inputted
+        if(this.slot1 != Color.NULL && this.slot2 == Color.NULL)
+            this.setColor(this.slot1);
+        if(this.slot2 != Color.NULL && this.slot1 == Color.NULL)
+            this.setColor(this.slot2);
+
         let retColor : Color = ColorMixer.mixColors(this.slot1,this.slot2);
         if(retColor != Color.NULL){
             this.rect3.fillColor = retColor;
