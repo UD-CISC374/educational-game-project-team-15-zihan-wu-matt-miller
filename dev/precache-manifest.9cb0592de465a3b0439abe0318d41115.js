@@ -1,10 +1,22 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
+    "revision": "c367097bf3106f2fdf01aa4b29c6fcb0",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/camocaper.json"
+  },
+  {
+    "revision": "e3ded070cc7059e41d2a48a52bfd993a",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/camocaper.tmx"
+  },
+  {
+    "revision": "cd016ddf1954a11d06ddcd8f1ae6e616",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/camotiles.png"
+  },
+  {
     "revision": "fba88d26c7328028e97d39f9ad947696",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/catchara.png"
   },
   {
-    "revision": "b85ee1a762cd505965167871f12359fb",
+    "revision": "5250d91a60f768b52fb79ab2591efcaa",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/citations.md"
   },
   {
@@ -32,31 +44,23 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/tutorial/pkmn.png"
   },
   {
-    "revision": "9d84502cdfc9e9338c72eaee7eb4fb4d",
-    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/tutorial/super-mario-tiles.png"
-  },
-  {
     "revision": "f3a8b37f3ded924719d6a3acdb5d1a5e",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/tutorial/tiledemo.json"
-  },
-  {
-    "revision": "89689cb1492c7902be93302f5803c816",
-    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/tutorial/tiledemo.tmx"
   },
   {
     "revision": "53cefca2a0f75654486b180949686165",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devfavicon.ico"
   },
   {
-    "revision": "2214a538a9a175b76301",
-    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.main.2c20cfe66ee047381597.bundle.js"
+    "revision": "8c522e15b4102b86a890",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.main.8b8409f822ae43480cdf.bundle.js"
   },
   {
-    "revision": "ed4e65c0ef1d262f0ba2",
-    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.vendors.24a045468bbd44191099.bundle.js"
+    "revision": "1676f0a8897e92292fe1",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.vendors.c7144c3c9b5e10a51c13.bundle.js"
   },
   {
-    "revision": "920ca9a2bfb62a1d77edf09ff6118ac9",
+    "revision": "7cc2671461a4255925e257398657936d",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devindex.html"
   },
   {
