@@ -40,7 +40,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    this.palette = new ColorPalette();
+    this.palette = new ColorPalette(this, 650, 540);
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.otherKeys = this.input.keyboard.addKeys({space:Phaser.Input.Keyboard.KeyCodes.SPACE, one:Phaser.Input.Keyboard.KeyCodes.ONE, two:Phaser.Input.Keyboard.KeyCodes.TWO, three:Phaser.Input.Keyboard.KeyCodes.THREE, four:Phaser.Input.Keyboard.KeyCodes.FOUR});
 
