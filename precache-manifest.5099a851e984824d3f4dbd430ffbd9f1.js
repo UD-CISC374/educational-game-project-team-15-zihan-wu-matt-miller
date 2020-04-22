@@ -1,18 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c367097bf3106f2fdf01aa4b29c6fcb0",
-    "url": "assets/camocaper.json"
-  },
-  {
-    "revision": "cd016ddf1954a11d06ddcd8f1ae6e616",
-    "url": "assets/camotiles.png"
-  },
-  {
     "revision": "fba88d26c7328028e97d39f9ad947696",
     "url": "assets/catchara.png"
   },
   {
-    "revision": "fffa354d085b09a98547217770c87b87",
+    "revision": "b85ee1a762cd505965167871f12359fb",
     "url": "assets/citations.md"
   },
   {
@@ -56,12 +48,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "favicon.ico"
   },
   {
-    "revision": "2fe13012fc51d5c06d4ac8380bf60e96",
+    "revision": "c32420e931a6962ff0be129c889ee1e8",
     "url": "index.html"
   },
   {
-    "revision": "b7dc26d9acbbdce10bf2",
-    "url": "main.b046b4ace875f7333208.bundle.js"
+    "revision": "f9b6b4f563455366ee25",
+    "url": "main.078085566db19a321ac6.bundle.js"
   },
   {
     "revision": "e3a72ed08fea663494fd70b7b7e9beff",

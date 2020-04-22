@@ -1,11 +1,10 @@
 ---
 waltz:
-  title: Camo Caper's Educational Game Design Document
+  title: Educational Game Design Document Template
 meta:
   version: 0.0.2
   gdd authors:
-    - Matt Miller
-    - Zihan Wu
+    - Your name goes here
   template authors:
     - Austin Cory Bart <acbart@udel.edu>
     - Mark Sheriff
@@ -13,170 +12,172 @@ meta:
     - Benjamin Stanley
 ---
 
-
 # Overview
+
+*Notes written in italics must be deleted in the final version.*
 
 ## Elevator Pitch
 
-*Top-down color mixing stealth game where you play as a chameleon and you must match the color of the background to not get caught on your heist for treasure.*
+*A one sentence pitch for your game. Pretend that your were pitching your game to a executive going to the elevator. You have less than 60 Seconds. Check [this resource](http://www.gameacademy.com/perfecting-indie-games-elevator-pitch/) for more information.*
 
 ## Influences (Brief)
 
 - *Influence #1*:
-  - Medium: *Real life*
-  - Explanation: *Chameleons blend into their backgrounds to hide and matching the background matches well with color mixing.*
+  - Medium: *(Television, Games, Literature, Movies, etc.)*
+  - Explanation: *In one paragraph or less, explain why this is an influence.*
 - *Influence #2*:
-  - Medium: *Maze games and adventure games*
-  - Explanation: *Influenced by having a character navigate a world and have to do certain things to unlock / avoiding certain areas to get to a goal.*
+  - Medium: *(Television, Games, Literature, Movies, etc.)*
+  - Explanation: *In one paragraph or less, explain why this is an influence.*
 - *Influence #3*:
-  - Medium: *Phantom thieves, Persona 5*
-  - Explanation: *Just the aesthetics and idea of a fantastical phantom thiefs.*
+  - Medium: *(Television, Games, Literature, Movies, etc.)*
+  - Explanation: *In one paragraph or less, explain why this is an influence.*
 
 ## Core Gameplay Mechanics (Brief)
 
-- *Use arrow keys (OR WASD) to move*
-- *Use number pad to mix colors*
-- *Suspicion meter rises and falls depending on how visible the player is*
-- *The player loses if the suspicion meter reaches 100%*
+*Give a very high-level description of any core gameplay mechanics*
+
+- *Gameplay Mechanic #1*
+- *Gameplay Mechanic #2*
+- *Gameplay Mechanic #3*
+- *Gameplay Mechanic #4*
 
 # Learning Aspects
 
 ## Learning Domains
 
-*Art and color theory.*
+*Briefly list any and all of the disciplines and learning domains for this subject.*
 
 ## Target Audiences
 
-*Mid-late elementary school kids.*
+*Who are your learners?*
 
 ## Target Contexts
 
-*Computer labs during free time for kids of appropriate age.*
+*Describe what kinds of formal and informal learning contexts this will be used in (e.g., courses, k-12 computer labs during free time).*
 
 ## Learning Objectives
 
-- *Color mixing*: *By the end of this lesson, students should be able to mix specified primary colors into secondary colors*
-- *Primary/secondary color identification*: *By the end of this lesson, students should be able to identify primary and secondary colors*
+*Remember, Learning Objectives are NOT simply topics. They are statements of observable behavior that a learner can do after the learning experience. You cannot observe someone "understanding" or "knowing" something.*
+
+- *Formal Learning Objective #1*
+- *Formal Learning Objective #2*
+- *Formal Learning Objective #3*
 
 ## Prerequisite Knowledge
 
-- *Prior to the game, students should be able to identify colors and read color names*
+*What do they need to know prior to trying this game?*
+
+- *Prerequisite Learning Objective #1*
+- *Prerequisite Learning Objective #2*
 
 ## Assessment Measures
 
-*We could use a pre and post free response quiz. Some example of possible questions are:*
+*Describe how the learning will be assessed, e.g., pre/post multiple-choice test, or SAT, or some other instrument.*
 
-- *Is red a primary color?*
-- *What primary color makes up the color green?*
-- *List the 3 secondary colors.*
+*If proposing a new instrument, briefly and concisely list some example assessment questions.*
 
 # What sets this project apart?
 
-- *The concept of using color matching for steatlh as a main game-play aspect is unique*
-- *Color theory is not a commonly taught discipline*
-- *Game has a quirky theme of having phantom thief chameleon main character*
+- *Reason #1*
+- *Reason #2*
+- *Reason #3*
+- *Reason #4*
+- *etc.*
 
 # Player Interaction Patterns and Modes
 
 ## Player Interaction Pattern
 
-*There is one player that plays at a time. They move around on a grid of paths, trying to match their color with the color of the path to navigate to a goal.*
+*How many players / how it works / etc.*
 
 ## Player Modes
 
-- *Single player: You advance your way through different levels, during each of which you try to navigate your way to the goal.*
+- *Player mode #1*: *Description*
+- *Player mode #2*: *Description*
+- *etc.*
 
 # Gameplay Objectives
 
-- *Primary Objective #1*:
-  - Description: *Reach the goal while not being seen*
-  - Alignment: *In order to not be seen, you need to match your color to the floor/background*
+- *Primary Objective #1*: *Description*
+- *Primary Objective #2*: *Description*
+- *etc.*
 
 # Procedures/Actions
 
-*Use the arrow keys to move around and the num pad to mix colors to change the chameleons colors.*
+*Describe the control scheme and what actions a user can take in the game.*
 
 # Rules
 
-- *If the player is a different color than the floor, then the suspicion meter increases*
-- *If the suspicion meter becomes full, then you fail that level*
-- *If the player is the same color as the floor, the suspicion meter goes down over time*
-- *Once the player reaches the goal of the current level, the player moves on to the next pre-set level*
-- *Over time, the levels become more complicated*
-- *Players can pick up colors from the ground to use to blend into the background in the current level, picking up colors allows you to create more color combinations to blend in with*
+*What resources are available to the player that they make use of?  How does this affect gameplay?*
 
 # Objects/Entities
 
-- *Would need to design tiles for the level*
-- *Goalpoint/startpoint for each level*
-- *Walls so the player doesnt pass through them*
-- *Guiding text when the player encounters new things*
-- *Colors on the ground that you can pick up*
-- *Color palette sidebar used to change the color of the chameleon*
-- *Color inventory*
-- *Suspicion bar*
-- *Each level / scene would have different arrangement of tiles*
+*What other things are in the world that you need to design?*
 
 ## Core Gameplay Mechanics (Detailed)
 
-- *Use arrow keys (OR WASD) to move*: *W/up-arrow moves the player up, A/left-arrow moves the player to the left, S/down-arrow moves the player down and D/righ-arrow moves the player to the right. The player can only move on floor tiles and can not move through walls. If a player attempts to move in a direction there is a wall blocking them, they will not move.*
-- *Use number pad to mix colors*: *The player has colors in their color inventory. There are three total spots in the inventory corresponding to the three different primary colors. Each of these spots has an associated key, Press 1 to add the first color to the palatte, 2 for the second and 3 for the third. 0 clears the palette and ENTER submits the color change of the chameleon.*
-- *Suspicion meter rises and falls depending on how visible the player is*: *While the player is standing on a tile that is a different color than they are, the suspicion meter will gradually increase. Alternatively, while the player is on a tile that is the same color, the suspicion meter will gradually decrease.*
-- *The player loses if the suspicion meter reaches 100%*: *If the suspicion meter reaches 100%, then the player is spotted and shown a screen that they are caught and are prompted to restart the level*
-  
+  - *Core Gameplay Mechanic #1*
+    - Details: *Describe in 2 paragraphs or less*
+    - How it works: *Describe in 2 paragraphs or less*
+  - *Core Gameplay Mechanic #2*
+    - Details: *Describe in 2 paragraphs or less*
+    - How it works: *Describe in 2 paragraphs or less*
+  - *Core Gameplay Mechanic #3*
+    - Details: *Describe in 2 paragraphs or less*
+    - How it works: *Describe in 2 paragraphs or less*
+  - *Core Gameplay Mechanic #4*
+    - Details: *Describe in 2 paragraphs or less*
+    - How it works: *Describe in 2 paragraphs or less*
+    
 ## Feedback
 
-- *The suspicion meter changes colors as your suspicion increases. Suspicion is green when low, yellow when medium, and red when high*
-- *The music gets more dramatic when your suspicion increases, and is more calm when your suspicion is low*
-- *You are shown some animation when you complete a level, showing the character moving onto the next level*
-- *When your suspicion meter reaches 100%, a trap falls on you and you can't move, followed by another animation/scene*
-- *Animation plays when you finish the final level*
+*Explicitly describe what visual/audio/etc. indicators there that give players feedback on their progress towards their gameplay objectives (and ideally the learning objectives).*
 
 # Story and Gameplay
 
-## Presentation of Rules
-
-*The player will run through a small tutorial level that will have visual cues (arrows, highlights, instruction pop ups) to guide the player to learn the mechanics. When new mechanics pop up, small boxes of text will guide their use.*
-
-## Presentation of Content
-
-*The player will learn the core material by experimenting with mixing colors and creating various color combinations while playing the game.*
-
 ## Story (Brief)
 
-*You are a phantom thief chameleon going on a series of heists, but need to sneak past the guards/security in each case to grab your target.*
+*The Summary or TL;DR version of below*
 
-## Storyboarding
+## Story (Detailed)
 
-![Story Board](storyboard.png)
+*Go into as much detail as needs be. Spare no detail. Use Mind Mapping software to get your point across*
+
+## Gameplay (Brief)
+
+*The Summary version of below*
+
+## Gameplay (Detailed)
+
+*Go into as much detail as needs be. Spare no detail. Combine this with the game mechanics section above*
 
 # Assets Needed
-
-## Aethestics
-
-*The aesthetics should be dramatic and fantastical. The story as well as the visuals that accompany should be fantasy-esque. The player should feel encouraged to keep trying if they fail to try to fix their mistake next time.*
 
 ## Graphical
 
 - Characters List
-  - *Chameleon main character*
-  - *Possible guards*
+  - *Characters 1*
+  - *Characters 2*
+  - *...*
 - Textures:
-  - *Loot*
-  - *Palette*
-  - *Color inventory*
+  - *Texture 1*
+  - *Texture 2*
+  - *...*
 - Environment Art/Textures:
-  - *Floor(various colors)*
-  - *Wall*
-  - *Door*
+  - *Environment Texture 1*
+  - *Environment Texture 2*
+  - *...*
 
 ## Audio
 
+*Game region/phase/time are ways of designating a particularly important place in the game.*
+
 - Music List (Ambient sound)
-  - *General background music / when suspicion meter is low*: *Example 1* [Sneaky music 1](https://www.youtube.com/watch?v=HNjuMNYtXJ0), *Example 2* [Sneaky music 2](https://www.youtube.com/watch?v=XZBp0VvuUhQ)
-  - *Dramatic music / when suspicion meter is high*: *Example 1* [Dramatic music 1](https://www.youtube.com/watch?v=t8WEIKBUSAw), *Example 2* [Dramatic music 2](https://www.youtube.com/watch?v=Jaa4qxeFdZQ)
+  - *Game region/phase/time*: *Example 1*, *Example 2*
+  - *Game region/phase/time*: *Example 3*, *Example 4*
   
+*Game Interactions are things that trigger SFX, like character movement, hitting a spiky enemy, collecting a coin.*
+
 - Sound List (SFX)
-  - *Getting caught sound effect*: *Alarm sound*, *Siron sound*
-  - *Completing level*: *Triumphant music* [Triumphant music](https://www.youtube.com/watch?v=tJW9anm540M)
-  - *Sound effect for picking up object*: *Pick up object* [Pick up](https://freesound.org/people/LittleRobotSoundFactory/sounds/270337/)
+  - *Game Interaction*: *Example 1*, *Example 2*
+  - *Game Interaction*: *Example 3*, *Example 4*
