@@ -4,6 +4,7 @@ import ColorPalette from '../objects/colorPalette';
 import ColorMixer from '../objects/colorMixer';
 import { Color } from '../objects/color';
 import Inventory from '../objects/inventory';
+import Suspicionbar from '../objects/suspicionbar';
 
 export default class MainScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
@@ -20,12 +21,12 @@ export default class MainScene extends Phaser.Scene {
   suspicionText: Phaser.GameObjects.Text;
   tileColor : Color = Color.NULL; //tile player is standing on, want to move this later so we don't have to set up again for each scene
   clock: number;
+
   inventory: Inventory;
+  suspicionBar: Suspicionbar;
 
   sceneWidth: number;
   sceneHeight: number;
-
-  rec;
 
   constructor() {
     super({ key: 'MainScene' });
@@ -67,7 +68,6 @@ export default class MainScene extends Phaser.Scene {
     
     this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
     this.suspicionText = this.add.text(900,500, "Suspicion: "+this.suspicion,{font: "32px"}).setColor("0x000");
-    //this.rec = this.add.rectangle(900,500,30,30).setFillStyle(Color.BLACK, 0.5);
 
   //tile index is ONE MORE than the id in tiled!
     this.belowLayer.setTileIndexCallback(112, ()=>{
@@ -110,10 +110,10 @@ export default class MainScene extends Phaser.Scene {
       })
     });
 
-    // Testing color mixing
-    console.log(ColorMixer.mixColors(Color.BLUE, Color.YELLOW));
-
+    // Initialize the inventory and the suspicionbar
     this.inventory = new Inventory(this, 100, this.sceneHeight - 50);
+    this.suspicionBar = new Suspicionbar(this,this.sceneWidth, 25);
+
 
     // Set these colors by default, then update the inventory to display
     this.inventory.color[0] = Color.RED;
@@ -148,13 +148,30 @@ export default class MainScene extends Phaser.Scene {
         console.log("color",this.player.color);
     }
 
-  
+    // Set the players tint to the color of the player that was just calculated
     this.player.tint = this.player.color;
-    if(this.clock % 50 == 0){
+
+    // The rate that the suspicion meter will increase(lower is faster)
+    let rate:number = 5;
+    // The rate that the suspicion meter will decrease(lower is faster)
+    let dec_rate:number = 25;
+
+    let MAX_SUS = 100;
+
+    // Increase suspicion if user isn't matching floor
+    if(this.clock % rate == 0){
+      // If the color isn't standing on the correct color tile
       if(this.player.color != this.tileColor){
-        this.suspicion += 1;
+        this.suspicion = Math.min(MAX_SUS, this.suspicion+1);
+      } else {
+          // Check if decreasing the suspicion
+          if(this.clock % dec_rate == 0)
+            this.suspicion = Math.max(0,this.suspicion-1);
       }
       this.suspicionText.setText("Suspicion: " + this.suspicion);
     }
+
+    // After updating the suspicion amount, update the suspicion bar
+    this.suspicionBar.colorBar(this, this.suspicion);
   } 
 }
