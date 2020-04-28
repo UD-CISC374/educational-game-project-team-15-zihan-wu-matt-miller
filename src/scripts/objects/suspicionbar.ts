@@ -7,7 +7,7 @@ export default class Suspicionbar extends Phaser.GameObjects.Rectangle{
 
     bar_squares: Phaser.GameObjects.Rectangle[];
     MAX_SUS: number = 100;
-    NUM_SQUARES: number = 10;
+    NUM_SQUARES: number = 24;
 
     few:boolean = true;
 
@@ -25,7 +25,7 @@ export default class Suspicionbar extends Phaser.GameObjects.Rectangle{
             for(let i:number = 0; i < this.bar_squares.length; i++){
                 this.bar_squares[i] = scene.add.rectangle(this.x, y + (i*height_per_square), this.width, height_per_square);
                 // Set them as transparent to start
-                this.bar_squares[i].setFillStyle(Color.GREEN, 0.0);
+                this.bar_squares[i].setFillStyle(Color.BLACK, 0.0);
                 // Outline each box with a 1px black line
                 this.bar_squares[i].setStrokeStyle(1,Color.WHITE);
             }   
@@ -35,7 +35,7 @@ export default class Suspicionbar extends Phaser.GameObjects.Rectangle{
             for(let i:number = 0; i < this.bar_squares.length; i++){
                 this.bar_squares[i] = scene.add.rectangle(this.x, y + (i*height_per_square), this.width, height_per_square);
                 // Set them as transparent to start
-                this.bar_squares[i].setFillStyle(Color.GREEN, 0.0);
+                this.bar_squares[i].setFillStyle(Color.BLACK, 0.0);
                 // Outline each box with a 1px black line
                 this.bar_squares[i].setStrokeStyle(1,Color.WHITE);
                 this.setOrigin(0,0);
