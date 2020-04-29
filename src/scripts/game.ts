@@ -1,11 +1,13 @@
 import 'phaser';
 import MainScene from './scenes/mainScene';
 import PreloadScene from './scenes/preloadScene';
+import StartScene from './scenes/startScene';
 import GameConfig = Phaser.Types.Core.GameConfig;
 
-const DEFAULT_WIDTH = 1280;
-const DEFAULT_HEIGHT = 600;
+const DEFAULT_WIDTH = 1280;//1280
+const DEFAULT_HEIGHT = 600;//600
 
+// mode Phaser.Scale.FIT
 
 const config: GameConfig = {
     backgroundColor: '#ffffff',
@@ -16,7 +18,7 @@ const config: GameConfig = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT
     },
-    scene: [PreloadScene, MainScene],
+    scene: [PreloadScene, StartScene, MainScene],
     physics: {
         default: 'arcade',
         arcade: {
@@ -29,5 +31,3 @@ const config: GameConfig = {
 window.addEventListener('load', () => {
     window['game'] = new Phaser.Game(config);
 });
-
-//
