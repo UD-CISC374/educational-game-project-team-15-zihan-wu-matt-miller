@@ -154,7 +154,7 @@ export default class MainScene extends Phaser.Scene {
     // The rate that the suspicion meter will increase(lower is faster)
     let rate:number = 5;
     // The rate that the suspicion meter will decrease(lower is faster)
-    let dec_rate:number = 25;
+    let dec_rate:number = 20; //25 before
 
     let MAX_SUS = 100;
 
