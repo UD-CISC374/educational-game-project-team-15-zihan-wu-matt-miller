@@ -179,12 +179,63 @@ export default class MainScene extends Phaser.Scene {
   } 
 
   // Suspicion has reached 100 and youve been caught!
-  // Reset the current scene
+  // Play animation and reset the current screen
   caught(){
-    console.log("You've been caught!");
-    // Clear the suspicion first or the bar stays where it is
-    this.suspicion = 0;
-    this.scene.restart();
+    let timeout:number = 200; // in ms
 
+    // Turn the player to face forward
+    this.player.setFrame(1);
+
+    // Flash red a few times
+    this.sleep(timeout).then(() => { 
+      this.player.setTint(Color.RED); 
+      this.sleep(timeout).then(() => { 
+        this.player.setTint(Color.NULL); 
+        this.sleep(timeout).then(() => { 
+          this.player.setTint(Color.RED); 
+          this.sleep(timeout).then(() => { 
+            this.player.setTint(Color.NULL); 
+            this.sleep(timeout).then(() => { 
+              this.player.setTint(Color.RED); 
+              this.sleep(timeout).then(() => { 
+                this.player.setTint(Color.NULL); 
+                this.sleep(timeout).then(() => { 
+                  this.player.setTint(Color.RED); 
+                  this.sleep(timeout).then(() => { 
+                    this.player.setTint(Color.NULL); 
+                    this.sleep(timeout).then(() => { 
+                      this.player.setTint(Color.RED); 
+                      this.sleep(timeout).then(() => { 
+                        this.player.setTint(Color.NULL); 
+                        this.sleep(timeout).then(() => { 
+                          this.player.setTint(Color.RED); 
+                          // After done flashing, restart the scene after another delay
+                          this.sleep(timeout).then(() => { 
+                            // Set suspicion to zero and restart the scene after a little delay after the last flash
+                            this.suspicion = 0;
+                            this.scene.restart();
+                          });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+
+    // Needed b/c sleep is async so the code will keep running otherwise
+    this.scene.pause();
+
+    //this.suspicion = 0;
+    //this.scene.restart();
   }
+
+  sleep(ms:number){
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
 }
