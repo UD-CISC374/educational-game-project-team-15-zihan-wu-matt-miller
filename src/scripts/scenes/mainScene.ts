@@ -182,7 +182,7 @@ export default class MainScene extends Phaser.Scene {
   // Reset the current scene
   caught(){
     console.log("You've been caught!");
-    // Clear the suspicion
+    // Clear the suspicion first or the bar stays where it is
     this.suspicion = 0;
     this.scene.restart();
 
