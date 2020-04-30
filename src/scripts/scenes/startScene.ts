@@ -4,6 +4,7 @@ export default class StartScene extends Phaser.Scene{
     centerY:number;
 
     background: Phaser.GameObjects.Image;
+    title: Phaser.GameObjects.Image;
     play_button: Phaser.GameObjects.Image;
     controls_button: Phaser.GameObjects.Image;
 
@@ -18,8 +19,8 @@ export default class StartScene extends Phaser.Scene{
 
     preload(){
         this.load.image("start-bkg","assets/start-bkg-reg.jpg");
-        //this.load.image("play-bttn-dwn","assets/play-bttn-dwn.png");
-        //this.load.image("play-bttn-up","assets/play-bttn-up.png");
+        
+        this.load.image('title','assets/title.png');
 
         this.load.image("play-bttn-dwn","assets/play-3-dwn.png");
         this.load.image("play-bttn-up","assets/play-3-up.png");
@@ -30,6 +31,8 @@ export default class StartScene extends Phaser.Scene{
 
     create(){
         this.background = this.add.image(-200,-480,'start-bkg').setOrigin(0,0);
+
+        this.title = this.add.image(this.centerX, 80, 'title').setOrigin(0.5,0);
 
         this.play_button = this.add.image(this.centerX, this.centerY, 'play-bttn-up');
         // Make this button interactivable
