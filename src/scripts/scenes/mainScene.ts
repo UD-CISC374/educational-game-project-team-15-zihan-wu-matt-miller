@@ -173,5 +173,18 @@ export default class MainScene extends Phaser.Scene {
 
     // After updating the suspicion amount, update the suspicion bar
     this.suspicionBar.colorBar(this, this.suspicion);
+
+    if(this.suspicion == MAX_SUS)
+      this.caught();
   } 
+
+  // Suspicion has reached 100 and youve been caught!
+  // Reset the current scene
+  caught(){
+    console.log("You've been caught!");
+    // Clear the suspicion
+    this.suspicion = 0;
+    this.scene.restart();
+
+  }
 }
