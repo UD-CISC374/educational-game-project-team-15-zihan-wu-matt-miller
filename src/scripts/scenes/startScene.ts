@@ -11,8 +11,6 @@ export default class StartScene extends Phaser.Scene{
         super({key: 'StartScene'});
     }
 
-    
-
     init(){
         this.centerX = this.cameras.main.centerX;
         this.centerY = this.cameras.main.centerY;
@@ -69,6 +67,7 @@ export default class StartScene extends Phaser.Scene{
         this.controls_button.on('pointerup',(event) => {
             // Jump to another scene...
             // Play clicking sound???
+            this.scene.start('Controls');
         });
     }
 
