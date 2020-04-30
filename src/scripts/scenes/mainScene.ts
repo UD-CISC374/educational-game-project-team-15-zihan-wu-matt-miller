@@ -28,6 +28,8 @@ export default class MainScene extends Phaser.Scene {
   sceneWidth: number;
   sceneHeight: number;
 
+  MAX_SUS:number = 100;
+
   constructor() {
     super({ key: 'MainScene' });
     this.clock = 0;
@@ -151,18 +153,26 @@ export default class MainScene extends Phaser.Scene {
     // Set the players tint to the color of the player that was just calculated
     this.player.tint = this.player.color;
 
+    // Handles suspicion
+    this.handleSuspicion();
+    
+  } 
+
+  /**
+   * Handles whether the suspicion should increase or decrease
+   * Triggers effect if MAX_SUS is reached
+   */
+  handleSuspicion(){
     // The rate that the suspicion meter will increase(lower is faster)
     let rate:number = 5;
     // The rate that the suspicion meter will decrease(lower is faster)
     let dec_rate:number = 20; //25 before
 
-    let MAX_SUS = 100;
-
     // Increase suspicion if user isn't matching floor
     if(this.clock % rate == 0){
       // If the color isn't standing on the correct color tile
       if(this.player.color != this.tileColor){
-        this.suspicion = Math.min(MAX_SUS, this.suspicion+1);
+        this.suspicion = Math.min(this.MAX_SUS, this.suspicion+1);
       } else {
           // Check if decreasing the suspicion
           if(this.clock % dec_rate == 0)
@@ -174,9 +184,9 @@ export default class MainScene extends Phaser.Scene {
     // After updating the suspicion amount, update the suspicion bar
     this.suspicionBar.colorBar(this, this.suspicion);
 
-    if(this.suspicion == MAX_SUS)
+    if(this.suspicion == this.MAX_SUS)
       this.caught();
-  } 
+  }
 
   // Suspicion has reached 100 and youve been caught!
   // Play animation and reset the current screen
@@ -229,12 +239,11 @@ export default class MainScene extends Phaser.Scene {
 
     // Needed b/c sleep is async so the code will keep running otherwise
     this.scene.pause();
-
-    //this.suspicion = 0;
-    //this.scene.restart();
   }
 
-  sleep(ms:number){
+  // Returns promise with setTimeout to simulate sleeping
+  // must use '.then()' after call to this 
+  async sleep(ms:number){
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
