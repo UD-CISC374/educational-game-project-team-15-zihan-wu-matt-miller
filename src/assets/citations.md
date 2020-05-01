@@ -16,3 +16,7 @@ start screen background
 
 arrow key images
 <https://thenounproject.com/term/arrow-keys/>
+
+gems:
+<https://sorceressgamelab.itch.io/animated-rpg-items>
+<https://opengameart.org/content/rotating-crystal-animation-8-step>
