@@ -8,6 +8,8 @@ export default class StartScene extends Phaser.Scene{
     play_button: Phaser.GameObjects.Image;
     controls_button: Phaser.GameObjects.Image;
 
+    first_level_key:string = 'Level1Scene';
+
     constructor(){
         super({key: 'StartScene'});
     }
@@ -49,7 +51,7 @@ export default class StartScene extends Phaser.Scene{
             // play sound???
         });
         this.play_button.on('pointerup',(event) => {
-            this.scene.start('MainScene');
+            this.scene.start(this.first_level_key);
             // Play clicking sound???
         });
 

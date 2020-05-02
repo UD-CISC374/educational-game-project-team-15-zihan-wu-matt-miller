@@ -1,4 +1,8 @@
 export default class PreloadScene extends Phaser.Scene {
+
+  // The scene to jump to once initialization is complete
+  startScenceKey:string = 'StartScene';
+
   constructor() {
     super({ key: 'PreloadScene' });
   }
@@ -6,10 +10,13 @@ export default class PreloadScene extends Phaser.Scene {
   preload() {
     //this.load.image("mario-tiles", "../assets/tutorial/super-mario-tiles.png");
     this.load.image("tiles", "../assets/camotiles.png");
-    this.load.tilemapTiledJSON("map", "../assets/camocaper.json");
     this.load.spritesheet("player", "assets/catchara.png",{frameWidth: 32, frameHeight: 32});
     this.load.spritesheet("keys", "assets/keys.png",{frameWidth: 32, frameHeight: 32});
     this.load.spritesheet("gem", "assets/gem.png",{frameWidth: 16, frameHeight: 16});
+
+    this.load.tilemapTiledJSON("map", "../assets/camocaper.json");
+    this.load.tilemapTiledJSON("level1", "../assets/level-1.json");
+    this.load.tilemapTiledJSON("level2", "../assets/camocaper.json");
   }
 
   create() {
@@ -59,7 +66,6 @@ export default class PreloadScene extends Phaser.Scene {
     });
 
 
-    //this.scene.start('MainScene');
-    this.scene.start('StartScene');
+    this.scene.start(this.startScenceKey);
   }
 }
