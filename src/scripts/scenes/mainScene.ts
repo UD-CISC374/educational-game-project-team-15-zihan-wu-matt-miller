@@ -31,6 +31,8 @@ export default class MainScene extends Phaser.Scene {
   sceneWidth: number;
   sceneHeight: number;
 
+  MAX_SUS:number = 100;
+
   constructor() {
     super({ key: 'MainScene' });
     this.clock = 0;
@@ -38,10 +40,13 @@ export default class MainScene extends Phaser.Scene {
     this.tileColor = Color.NULL;     
   }
 
+  // Initializes some variables
   init(){
     this.sceneWidth = this.cameras.main.width;
     this.sceneHeight = this.cameras.main.height;
   }
+
+  // no preload needed
 
   create() {
     this.palette = new ColorPalette(this, 650, 540);
@@ -163,18 +168,26 @@ export default class MainScene extends Phaser.Scene {
     // Set the players tint to the color of the player that was just calculated
     this.player.tint = this.player.color;
 
+    // Handles suspicion
+    this.handleSuspicion();
+    
+  } 
+
+  /**
+   * Handles whether the suspicion should increase or decrease
+   * Triggers effect if MAX_SUS is reached
+   */
+  handleSuspicion(){
     // The rate that the suspicion meter will increase(lower is faster)
     let rate:number = 5;
     // The rate that the suspicion meter will decrease(lower is faster)
     let dec_rate:number = 20; //25 before
 
-    let MAX_SUS = 100;
-
     // Increase suspicion if user isn't matching floor
     if(this.clock % rate == 0){
       // If the color isn't standing on the correct color tile
       if(this.player.color != this.tileColor){
-        this.suspicion = Math.min(MAX_SUS, this.suspicion+1);
+        this.suspicion = Math.min(this.MAX_SUS, this.suspicion+1);
       } else {
           // Check if decreasing the suspicion
           if(this.clock % dec_rate == 0)
@@ -186,25 +199,75 @@ export default class MainScene extends Phaser.Scene {
     // After updating the suspicion amount, update the suspicion bar
     this.suspicionBar.colorBar(this, this.suspicion);
 
-    if(this.suspicion == MAX_SUS)
+    if(this.suspicion == this.MAX_SUS)
       this.caught();
-    } 
+  }
 
 
   // Suspicion has reached 100 and youve been caught!
-  // Reset the current scene
+  // Play animation and reset the current screen
   caught(){
-    console.log("You've been caught!");
-    // Clear the suspicion first or the bar stays where it is
-    this.suspicion = 0;
-    this.scene.restart();
-  }
+    let timeout:number = 200; // in ms
 
+    // Turn the player to face forward
+    this.player.setFrame(1);
+
+    // Flash red a few times
+    this.sleep(timeout).then(() => { 
+      this.player.setTint(Color.RED); 
+      this.sleep(timeout).then(() => { 
+        this.player.setTint(Color.NULL); 
+        this.sleep(timeout).then(() => { 
+          this.player.setTint(Color.RED); 
+          this.sleep(timeout).then(() => { 
+            this.player.setTint(Color.NULL); 
+            this.sleep(timeout).then(() => { 
+              this.player.setTint(Color.RED); 
+              this.sleep(timeout).then(() => { 
+                this.player.setTint(Color.NULL); 
+                this.sleep(timeout).then(() => { 
+                  this.player.setTint(Color.RED); 
+                  this.sleep(timeout).then(() => { 
+                    this.player.setTint(Color.NULL); 
+                    this.sleep(timeout).then(() => { 
+                      this.player.setTint(Color.RED); 
+                      this.sleep(timeout).then(() => { 
+                        this.player.setTint(Color.NULL); 
+                        this.sleep(timeout).then(() => { 
+                          this.player.setTint(Color.RED); 
+                          // After done flashing, restart the scene after another delay
+                          this.sleep(timeout).then(() => { 
+                            // Set suspicion to zero and restart the scene after a little delay after the last flash
+                            this.suspicion = 0;
+                            this.scene.restart();
+                          });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+
+    // Needed b/c sleep is async so the code will keep running otherwise
+    this.scene.pause();
+  }
+  
   reachedGoal(){
     console.log("Reached end");
     //placeholder for now, just move on to next scene here
     this.suspicion = 0;
     this.scene.restart();
-    
   }
+
+  // Returns promise with setTimeout to simulate sleeping
+  // must use '.then()' after call to this 
+  async sleep(ms:number){
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
 }
