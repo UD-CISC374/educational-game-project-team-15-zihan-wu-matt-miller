@@ -25,7 +25,7 @@ export default class Controls extends Phaser.Scene{
     }
 
     create(){
-        this.background = this.add.image(-200,-480,'start-bkg').setOrigin(0,0);
+        this.background = this.add.image(-180,-480,'start-bkg').setOrigin(0,0);
         this.info = this.add.image(this.centerX, this.centerY,'info');
 
         this.back_button = this.add.image(25,25, 'back-bttn-up').setOrigin(0,0);
