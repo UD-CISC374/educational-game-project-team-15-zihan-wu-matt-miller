@@ -21,7 +21,10 @@ export default class MainScene extends Phaser.Scene {
   suspicionText: Phaser.GameObjects.Text;
   tileColor : Color = Color.NULL; //tile player is standing on, want to move this later so we don't have to set up again for each scene
   clock: number;
-
+  startpt;
+  endpt;
+  gem;
+  
   inventory: Inventory;
   suspicionBar: Suspicionbar;
 
@@ -67,10 +70,19 @@ export default class MainScene extends Phaser.Scene {
       faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
     });
 
-    this.player = new Player(this, 100, 64);
+    //finds start and end points from tilemap and use accordingly
+    this.startpt = this.map.findObject("Objects", obj => obj.name === "start");
+    this.player = new Player(this, this.startpt.x, this.startpt.y);
     this.physics.add.collider(this.player, this.worldLayer); 
     this.physics.add.collider(this.player, this.belowLayer); // add collider but don't set collision for overlap callback
     
+    this.endpt = this.map.findObject("Objects", obj => obj.name === "end");
+    this.gem = this.add.sprite(this.endpt.x, this.endpt.y, "gem");
+    this.gem.play("gem_rotate");
+    this.gem.setScale(2,2);
+    this.physics.add.existing(this.gem, true); //true for static; gem doesn't move
+    this.physics.add.overlap(this.gem,this.player,this.reachedGoal, function(){}, this); //calls caught function on overlap
+
     this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
     this.suspicionText = this.add.text(900,500, "Suspicion: "+this.suspicion,{font: "32px"}).setColor("0x000");
 
@@ -107,7 +119,7 @@ export default class MainScene extends Phaser.Scene {
     }, this);
 
 
-    //testing below this, ignore
+    //testing below, ignore
     this.belowLayer.tilemap.layer.data.forEach( i =>{
       i.forEach(j =>{
         if(j.index == 32){
@@ -191,6 +203,7 @@ export default class MainScene extends Phaser.Scene {
       this.caught();
   }
 
+
   // Suspicion has reached 100 and youve been caught!
   // Play animation and reset the current screen
   caught(){
@@ -242,6 +255,13 @@ export default class MainScene extends Phaser.Scene {
 
     // Needed b/c sleep is async so the code will keep running otherwise
     this.scene.pause();
+  }
+  
+  reachedGoal(){
+    console.log("Reached end");
+    //placeholder for now, just move on to next scene here
+    this.suspicion = 0;
+    this.scene.restart();
   }
 
   // Returns promise with setTimeout to simulate sleeping

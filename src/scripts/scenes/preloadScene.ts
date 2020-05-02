@@ -8,6 +8,8 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("tiles", "../assets/camotiles.png");
     this.load.tilemapTiledJSON("map", "../assets/camocaper.json");
     this.load.spritesheet("player", "assets/catchara.png",{frameWidth: 32, frameHeight: 32});
+    this.load.spritesheet("keys", "assets/keys.png",{frameWidth: 32, frameHeight: 32});
+    this.load.spritesheet("gem", "assets/gem.png",{frameWidth: 16, frameHeight: 16});
   }
 
   create() {
@@ -37,6 +39,21 @@ export default class PreloadScene extends Phaser.Scene {
     this.anims.create({
       key: "player_up",
       frames: this.anims.generateFrameNumbers("player",{start: 9, end: 11}),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "player_up",
+      frames: this.anims.generateFrameNumbers("player",{start: 9, end: 11}),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    
+    this.anims.create({
+      key: "gem_rotate",
+      frames: this.anims.generateFrameNumbers("gem",{}),
       frameRate: 10,
       repeat: -1
     });
