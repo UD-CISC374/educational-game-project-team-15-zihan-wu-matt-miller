@@ -5,7 +5,7 @@ import StartScene from './scenes/startScene';
 import Controls from './scenes/controls';
 import GameConfig = Phaser.Types.Core.GameConfig;
 
-const DEFAULT_WIDTH = 1280;//1280
+const DEFAULT_WIDTH = 1300;//1280
 const DEFAULT_HEIGHT = 600;//600
 
 // mode Phaser.Scale.FIT

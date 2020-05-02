@@ -30,7 +30,7 @@ export default class StartScene extends Phaser.Scene{
     }
 
     create(){
-        this.background = this.add.image(-200,-480,'start-bkg').setOrigin(0,0);
+        this.background = this.add.image(-180,-480,'start-bkg').setOrigin(0,0);
 
         this.title = this.add.image(this.centerX, 80, 'title').setOrigin(0.5,0);
 
