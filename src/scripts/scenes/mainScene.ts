@@ -37,10 +37,13 @@ export default class MainScene extends Phaser.Scene {
     this.tileColor = Color.NULL;     
   }
 
+  // Initializes some variables
   init(){
     this.sceneWidth = this.cameras.main.width;
     this.sceneHeight = this.cameras.main.height;
   }
+
+  // no preload needed
 
   create() {
     this.palette = new ColorPalette(this, 650, 540);
