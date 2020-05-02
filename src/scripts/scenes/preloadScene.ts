@@ -14,9 +14,14 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.spritesheet("keys", "assets/keys.png",{frameWidth: 32, frameHeight: 32});
     this.load.spritesheet("gem", "assets/gem.png",{frameWidth: 16, frameHeight: 16});
 
-    this.load.tilemapTiledJSON("map", "../assets/camocaper.json");
-    this.load.tilemapTiledJSON("level1", "../assets/level-1.json");
-    this.load.tilemapTiledJSON("level2", "../assets/camocaper.json");
+    // Load images
+    this.load.image('mv-tut-blck','assets/move-tutorial-black-1.png');
+    this.load.image('mv-tut-wht','assets/move-tutorial-white-1.png');
+
+    // Load levels
+    this.load.tilemapTiledJSON("map", "assets/camocaper.json");
+    this.load.tilemapTiledJSON("level1", "assets/level-1.json");
+    this.load.tilemapTiledJSON("level2", "assets/camocaper.json");
   }
 
   create() {
@@ -56,7 +61,6 @@ export default class PreloadScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1
     });
-
     
     this.anims.create({
       key: "gem_rotate",
