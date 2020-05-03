@@ -38,6 +38,9 @@ export default class Level extends Phaser.Scene{
     tilesetKey:string = 'tiles';
     nextsceneKey:string;
 
+    restartButton; 
+    inputEnabled:boolean = true; 
+
     // Constructor takes in sceneKey, mapKey, tilesetName, tilesetKey
     constructor(sceneKey:string, mapKey:string, nextsceneKey:string){
         super({key: sceneKey});
@@ -56,6 +59,11 @@ export default class Level extends Phaser.Scene{
     init(){
         this.sceneWidth = this.cameras.main.width;
         this.sceneHeight = this.cameras.main.height;
+    }
+
+    preload(){
+        this.load.image("play-bttn-dwn","assets/play-3-dwn.png");
+        this.load.image("play-bttn-up","assets/play-3-up.png");
     }
 
     create(){
@@ -143,39 +151,43 @@ export default class Level extends Phaser.Scene{
         this.inventory.color[1] = Color.BLUE;
         this.inventory.color[2] = Color.YELLOW;
         this.inventory.updateInventory(); // This updates the rectangle color on the screen
+
+
     }
 
     update(){
         this.clock++;
 
-        this.player.move(this.cursorKeys);
+        if(this.inputEnabled == true){
+            this.player.move(this.cursorKeys);
 
-        //one,two,three,four, and space currently
-        //one-red, two-blue, three-yellow, four-clear, space-mix must be handled in game
+            //one,two,three,four, and space currently
+            //one-red, two-blue, three-yellow, four-clear, space-mix must be handled in game
 
-        if(Phaser.Input.Keyboard.JustDown(this.otherKeys.four)){
-            //console.log("4");
-            this.palette.clearColors();
-        }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.one)){
-            //console.log("1");
-            this.palette.setColor(Color.RED);
-        }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.two)){
-            //console.log("2");
-            this.palette.setColor(Color.BLUE);
-        }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.three)){
-            //console.log("3");
-            this.palette.setColor(Color.YELLOW);
-        }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.space)){
-            //console.log("space");
-            this.player.color = this.palette.outputMix();
-            //console.log("color",this.player.color);
+            if(Phaser.Input.Keyboard.JustDown(this.otherKeys.four)){
+                //console.log("4");
+                this.palette.clearColors();
+            }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.one)){
+                //console.log("1");
+                this.palette.setColor(Color.RED);
+            }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.two)){
+                //console.log("2");
+                this.palette.setColor(Color.BLUE);
+            }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.three)){
+                //console.log("3");
+                this.palette.setColor(Color.YELLOW);
+            }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.space)){
+                //console.log("space");
+                this.player.color = this.palette.outputMix();
+                //console.log("color",this.player.color);
+            }
+
+            // Set the players tint to the color of the player that was just calculated
+            this.player.tint = this.player.color;
+
+            // Handles suspicion
+            this.handleSuspicion();
         }
-
-        // Set the players tint to the color of the player that was just calculated
-        this.player.tint = this.player.color;
-
-        // Handles suspicion
-        this.handleSuspicion();
     }
 
     /**
@@ -215,6 +227,10 @@ export default class Level extends Phaser.Scene{
     // Suspicion has reached 100 and youve been caught!
     // Play animation and reset the current screen
     caught(){
+        this.player.setVelocity(0,0);
+        this.player.anims.stop();
+        this.inputEnabled = false;
+
         let timeout:number = 200; // in ms
 
         // Turn the player to face forward
@@ -222,6 +238,7 @@ export default class Level extends Phaser.Scene{
 
         Tutorial.handleMix(this);
 
+        
         // Flash red a few times
         this.sleep(timeout).then(() => { 
             this.player.setTint(Color.RED); 
@@ -248,13 +265,31 @@ export default class Level extends Phaser.Scene{
                                                     // After done flashing, restart the scene after another delay
                                                     this.sleep(timeout).then(() => { 
                                                         // Set suspicion to zero and restart the scene after a little delay after the last flash
+                                                        /*
                                                         this.suspicion = 0;
-                                                        this.sleep(3000).then(() => {
+                                                        this.sleep(6000).then(() => {
                                                             this.scene.restart();
                                                         });
-                                                        
+                                                        */
+                                                        this.restartButton = this.add.image(100, 100, 'play-bttn-up');
+                                                        this.restartButton.setInteractive();
+
+                                                        this.restartButton.on('pointerover', (event) => {
+                                                            this.restartButton.setTexture('play-bttn-dwn');
+                                                            this.restartButton.setScale(1.1);
+                                                        });
+                                                        this.restartButton.on('pointerout', (event) => {
+                                                            this.restartButton.setTexture('play-bttn-up');
+                                                            this.restartButton.setScale(1);
+                                                        });
+                                                        this.restartButton.on('pointerup', (event) => {
+                                                            this.restart();
+                                                        });
+
                                                     });
+                                                    
                                                 });
+                                                
                                             });
                                         });
                                     });
@@ -267,7 +302,7 @@ export default class Level extends Phaser.Scene{
         });
 
         // Needed b/c sleep is async so the code will keep running otherwise
-        this.scene.pause();
+        //this.scene.pause();
     }
 
     reachedGoal(){
@@ -281,6 +316,12 @@ export default class Level extends Phaser.Scene{
             this.scene.start(this.nextsceneKey);
         else
             this.scene.restart();
+    }
+
+    restart(){
+        this.suspicion = 0;
+        this.inputEnabled = true;
+        this.scene.restart();
     }
 
     // Returns promise with setTimeout to simulate sleeping
