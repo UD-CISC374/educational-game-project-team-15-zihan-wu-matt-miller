@@ -5,7 +5,7 @@ export default class Inventory extends Phaser.GameObjects.Rectangle{
     WIDTH:number = 300;
     HEIGHT:number = 50;
 
-    REC_SIZE:number = 30;
+    REC_SIZE:number = 45;
     SPACE:number = 10;
 
     // The array that holds the inventory
@@ -23,7 +23,7 @@ export default class Inventory extends Phaser.GameObjects.Rectangle{
 
         for(let i:number = 0; i < this.slots.length; i++){
             this.slots[i] = scene.add.rectangle(this.x + (i * (this.REC_SIZE + this.SPACE)) + this.REC_SIZE, this.y, this.REC_SIZE, this.REC_SIZE);
-            scene.add.text(-6 + this.x + (i * (this.REC_SIZE + this.SPACE)) + this.REC_SIZE, this.y+(this.REC_SIZE/2),(i+1).toString(), {font:"15px"}).setColor("0x000000");
+            scene.add.text(-6 + this.x + (i * (this.REC_SIZE + this.SPACE)) + this.REC_SIZE, this.y+(this.REC_SIZE/2),(i+1).toString(), {font:"15px"}).setColor("white");
         }
         
         this.updateInventory();
@@ -34,7 +34,7 @@ export default class Inventory extends Phaser.GameObjects.Rectangle{
             if(this.color[i] != undefined) // Fill it with the color
                 this.slots[i].setFillStyle(this.color[i], 1.0);
             else // Fill it with the default color
-                this.slots[i].setFillStyle(Color.BLACK, 0.25);
+                this.slots[i].setFillStyle(Color.WHITE, 0.25);
         }
     }
 

@@ -8,6 +8,8 @@ export default class StartScene extends Phaser.Scene{
     play_button: Phaser.GameObjects.Image;
     controls_button: Phaser.GameObjects.Image;
 
+    first_level_key:string = 'Level1Scene';// Level1Scene MainScene
+
     constructor(){
         super({key: 'StartScene'});
     }
@@ -15,18 +17,6 @@ export default class StartScene extends Phaser.Scene{
     init(){
         this.centerX = this.cameras.main.centerX;
         this.centerY = this.cameras.main.centerY;
-    }
-
-    preload(){
-        this.load.image("start-bkg","assets/start-bkg-reg.jpg");
-        
-        this.load.image('title','assets/title.png');
-
-        this.load.image("play-bttn-dwn","assets/play-3-dwn.png");
-        this.load.image("play-bttn-up","assets/play-3-up.png");
-
-        this.load.image("ctrl-bttn-dwn","assets/controls-3-dwn.png");
-        this.load.image("ctrl-bttn-up","assets/controls-3-up.png");
     }
 
     create(){
@@ -49,7 +39,7 @@ export default class StartScene extends Phaser.Scene{
             // play sound???
         });
         this.play_button.on('pointerup',(event) => {
-            this.scene.start('MainScene');
+            this.scene.start(this.first_level_key);
             // Play clicking sound???
         });
 
