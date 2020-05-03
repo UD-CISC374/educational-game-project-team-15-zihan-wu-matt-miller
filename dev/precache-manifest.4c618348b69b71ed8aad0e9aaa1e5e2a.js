@@ -100,6 +100,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/level-1.json"
   },
   {
+    "revision": "21048413a6e69b2202b027ea7644870a",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/level-2.json"
+  },
+  {
+    "revision": "08e98aef08f724ccb7784da614369ba8",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/level-3.json"
+  },
+  {
     "revision": "05001735150d9f7d214701ea2df32f9a",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/move-tutorial-black-1.png"
   },
@@ -184,15 +192,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devfavicon.ico"
   },
   {
-    "revision": "eba7dafb75c7c863513b",
-    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.main.ec2f6150cb051c2c3d8c.bundle.js"
+    "revision": "d40208a5d6d78b8d1824",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.main.81cf6d819a4dff43813e.bundle.js"
   },
   {
-    "revision": "c14707d752748b438b85",
-    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.vendors.5e32a959b6acf3f4faae.bundle.js"
+    "revision": "a5db9487b03595b04940",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.vendors.7a966c368cb1a1bd41f1.bundle.js"
   },
   {
-    "revision": "29edaaf43957ce5f6ad454aa34848349",
+    "revision": "caaa781c62876c05ff761ab4a779bb19",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devindex.html"
   },
   {
