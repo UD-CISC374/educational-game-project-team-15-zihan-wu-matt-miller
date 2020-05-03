@@ -13,10 +13,15 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.spritesheet("player", "assets/catchara.png",{frameWidth: 32, frameHeight: 32});
     this.load.spritesheet("keys", "assets/keys.png",{frameWidth: 32, frameHeight: 32});
     this.load.spritesheet("gem", "assets/gem.png",{frameWidth: 16, frameHeight: 16});
-    this.load.image("jail", "../assets/jail.png");
-    // Load images
+
+    /* LOAD ALL IMAGES */
+    // Load movement tutorial images
     this.load.image('mv-tut-blck','assets/move-tutorial-black-1.png');
     this.load.image('mv-tut-wht','assets/move-tutorial-white-1.png');
+    // Load arrow for tutorial
+    this.load.image('arrow-black','assets/arrow_black.png');
+    this.load.image('arrow-white','assets/arrow_white.png');
+    this.load.image("jail", "../assets/jail.png");
 
     // Load levels
     this.load.tilemapTiledJSON("map", "assets/camocaper.json");
