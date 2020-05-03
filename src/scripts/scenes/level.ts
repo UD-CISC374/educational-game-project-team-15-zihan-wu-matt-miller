@@ -40,6 +40,9 @@ export default class Level extends Phaser.Scene{
     tilesetKey:string = 'tiles';
     nextsceneKey:string;
 
+    restartButton; 
+    inputEnabled:boolean = true; 
+
     // Constructor takes in sceneKey, mapKey, tilesetName, tilesetKey
     constructor(sceneKey:string, mapKey:string, nextsceneKey:string){
         super({key: sceneKey});
@@ -60,6 +63,7 @@ export default class Level extends Phaser.Scene{
         this.sceneHeight = this.cameras.main.height;
     }
 
+
     create(){
         this.sceneWidth = this.cameras.main.width;
         this.sceneHeight = this.cameras.main.height;
@@ -78,13 +82,15 @@ export default class Level extends Phaser.Scene{
         this.worldLayer.setCollisionByProperty({ collides: true });
         this.belowLayer.setCollisionByProperty({ collides: true });
 
-        // Adds boxes around objects you can't move through
+        /*
+        // Adds boxes around objects you can't move through debug
         const debugGraphics = this.add.graphics().setAlpha(0.75);
         this.worldLayer.renderDebug(debugGraphics, {
         tileColor: null, // Color of non-colliding tiles
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         });
+        */
 
         //finds start and end points from tilemap and use accordingly
         this.startpt = this.map.findObject("Objects", obj => obj.name === "start");
@@ -99,7 +105,7 @@ export default class Level extends Phaser.Scene{
         this.physics.add.existing(this.gem, true); //true for static; gem doesn't move
         this.physics.add.overlap(this.gem,this.player,this.reachedGoal, function(){}, this); //calls caught function on overlap
 
-        this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
+        //this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
         this.suspicionText = this.add.text(900,500, "Suspicion: "+this.suspicion,{font: "32px"}).setColor("0x000");
         
         //tile index is ONE MORE than the id in tiled!
@@ -145,39 +151,43 @@ export default class Level extends Phaser.Scene{
         this.inventory.color[1] = Color.BLUE;
         this.inventory.color[2] = Color.YELLOW;
         this.inventory.updateInventory(); // This updates the rectangle color on the screen
+
+
     }
 
     update(){
         this.clock++;
 
-        this.player.move(this.cursorKeys);
+        if(this.inputEnabled == true){
+            this.player.move(this.cursorKeys);
 
-        //one,two,three,four, and space currently
-        //one-red, two-blue, three-yellow, four-clear, space-mix must be handled in game
+            //one,two,three,four, and space currently
+            //one-red, two-blue, three-yellow, four-clear, space-mix must be handled in game
 
-        if(Phaser.Input.Keyboard.JustDown(this.otherKeys.four)){
-            //console.log("4");
-            this.palette.clearColors();
-        }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.one)){
-            //console.log("1");
-            this.palette.setColor(Color.RED);
-        }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.two)){
-            //console.log("2");
-            this.palette.setColor(Color.BLUE);
-        }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.three)){
-            //console.log("3");
-            this.palette.setColor(Color.YELLOW);
-        }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.space)){
-            //console.log("space");
-            this.player.color = this.palette.outputMix();
-            //console.log("color",this.player.color);
+            if(Phaser.Input.Keyboard.JustDown(this.otherKeys.four)){
+                //console.log("4");
+                this.palette.clearColors();
+            }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.one)){
+                //console.log("1");
+                this.palette.setColor(Color.RED);
+            }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.two)){
+                //console.log("2");
+                this.palette.setColor(Color.BLUE);
+            }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.three)){
+                //console.log("3");
+                this.palette.setColor(Color.YELLOW);
+            }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.space)){
+                //console.log("space");
+                this.player.color = this.palette.outputMix();
+                //console.log("color",this.player.color);
+            }
+
+            // Set the players tint to the color of the player that was just calculated
+            this.player.tint = this.player.color;
+
+            // Handles suspicion
+            this.handleSuspicion();
         }
-
-        // Set the players tint to the color of the player that was just calculated
-        this.player.tint = this.player.color;
-
-        // Handles suspicion
-        this.handleSuspicion();
     }
 
     /**
@@ -220,6 +230,10 @@ export default class Level extends Phaser.Scene{
     // Suspicion has reached 100 and youve been caught!
     // Play animation and reset the current screen
     caught(){
+        this.player.setVelocity(0,0);
+        this.player.anims.stop();
+        this.inputEnabled = false;
+
         let timeout:number = 200; // in ms
 
         // Turn the player to face forward
@@ -227,6 +241,7 @@ export default class Level extends Phaser.Scene{
 
         Tutorial.handleMix(this);
 
+        
         // Flash red a few times
         this.sleep(timeout).then(() => { 
             this.player.setTint(Color.RED); 
@@ -251,15 +266,71 @@ export default class Level extends Phaser.Scene{
                                                 this.sleep(timeout).then(() => { 
                                                     this.player.setTint(Color.RED); 
                                                     // After done flashing, restart the scene after another delay
+                                                    
+
                                                     this.sleep(timeout).then(() => { 
                                                         // Set suspicion to zero and restart the scene after a little delay after the last flash
+                                                        /*
                                                         this.suspicion = 0;
-                                                        this.sleep(3000).then(() => {
+                                                        this.sleep(6000).then(() => {
                                                             this.scene.restart();
                                                         });
-                                                        
+                                                        */
+                                                        let black = this.add.rectangle( this.sceneWidth/2, this.sceneHeight/2, this.sceneWidth, this.sceneHeight, 0x000).setDepth(99);
+                                                        this.tweens.add({
+                                                            targets     : black,
+                                                            alpha       : {from: 0, to: 1},
+                                                            ease        : 'Linear',
+                                                            duration    : 1800,
+                                                        });
+
+                                                        var jail = this.add.image(420, -300, 'jail').setDepth(99);
+                                                        this.tweens.add({
+                                                            targets     : jail,
+                                                            x           : 430,
+                                                            y           : 300,
+                                                            ease        : 'Bounce.easeOut',
+                                                            duration    : 2000,
+                                                        });
+
+                                                        this.sleep(2000).then(()=>{ //wait until jail finishes animating to add restart
+                                                            //let caughttext = this.add.text(this.sceneWidth/2, 64 + this.sceneHeight/2, "You were spotted! \nRestart?",{font: "64px"}).setColor("0xFFFFFF").setDepth(99);
+
+                                                            var tconfig = {
+                                                                x: (this.sceneWidth/2) - 190,
+                                                                y: (this.sceneHeight/2) - 200,
+                                                                text: 'You were spotted! \nRestart?',
+                                                                style: {
+                                                                  fontSize: '48px',
+                                                                  fontFamily: 'Arial',
+                                                                  color: '#ffffff',
+                                                                  align: 'center',
+                                                                  lineSpacing: 24,
+                                                                }
+                                                              };
+                                                              let caughttext = this.make.text(tconfig).setDepth(99);
+
+                                                            this.restartButton = this.add.image(this.sceneWidth/2, this.sceneHeight/2, 'play-bttn-up').setDepth(99);
+                                                            this.restartButton.setInteractive();
+
+                                                            this.restartButton.on('pointerover', () => {
+                                                                this.restartButton.setTexture('play-bttn-dwn');
+                                                                this.restartButton.setScale(1.1);
+                                                            });
+                                                            this.restartButton.on('pointerout', () => {
+                                                                this.restartButton.setTexture('play-bttn-up');
+                                                                this.restartButton.setScale(1);
+                                                            });
+                                                            this.restartButton.on('pointerup', () => {
+                                                                this.restart();
+                                                            });
+                                                        });
+
+
                                                     });
+                                                    
                                                 });
+                                                
                                             });
                                         });
                                     });
@@ -272,7 +343,7 @@ export default class Level extends Phaser.Scene{
         });
 
         // Needed b/c sleep is async so the code will keep running otherwise
-        this.scene.pause();
+        //this.scene.pause();
     }
 
     reachedGoal(){
@@ -286,6 +357,12 @@ export default class Level extends Phaser.Scene{
             this.scene.start(this.nextsceneKey);
         else
             this.scene.restart();
+    }
+
+    restart(){
+        this.suspicion = 0;
+        this.inputEnabled = true;
+        this.scene.restart();
     }
 
     // Returns promise with setTimeout to simulate sleeping

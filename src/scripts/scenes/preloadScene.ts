@@ -21,11 +21,24 @@ export default class PreloadScene extends Phaser.Scene {
     // Load arrow for tutorial
     this.load.image('arrow-black','assets/arrow_black.png');
     this.load.image('arrow-white','assets/arrow_white.png');
+    this.load.image("jail", "../assets/jail.png");
 
     // Load levels
     this.load.tilemapTiledJSON("map", "assets/camocaper.json");
     this.load.tilemapTiledJSON("level1", "assets/level-1.json");
-    this.load.tilemapTiledJSON("level2", "assets/camocaper.json");
+    this.load.tilemapTiledJSON("level2", "assets/level-2.json");
+    this.load.tilemapTiledJSON("level3", "assets/level-3.json");
+
+    //start and button assets
+    this.load.image("start-bkg","assets/start-bkg-reg.jpg");
+    this.load.image('title','assets/title.png');
+
+    this.load.image("play-bttn-dwn","assets/play-3-dwn.png");
+    this.load.image("play-bttn-up","assets/play-3-up.png");
+
+    this.load.image("ctrl-bttn-dwn","assets/controls-3-dwn.png");
+    this.load.image("ctrl-bttn-up","assets/controls-3-up.png");
+
   }
 
   create() {

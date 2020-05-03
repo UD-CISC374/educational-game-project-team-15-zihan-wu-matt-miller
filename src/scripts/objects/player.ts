@@ -29,12 +29,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
         //this.anims.stop(); 
         //better to have an idle, stops on blurry frames sometimes
         let framesPerDirection:number = 3;
-        
+      
         // If movement pause is set, dont do anything, just return
         if(this.pauseMovement){
             return;
         }
-
 
         if(cursor.up.isDown){
             this.setVelocityY(-this.velocityY);
