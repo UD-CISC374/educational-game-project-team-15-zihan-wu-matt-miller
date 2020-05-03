@@ -8,6 +8,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/arrow-keys-single.png"
   },
   {
+    "revision": "8860206ce7c4c9e6bedec10a7bd7b61c",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/arrow_black.png"
+  },
+  {
+    "revision": "49a1af1a7f205d83066535b4a1f71fa1",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/arrow_white.png"
+  },
+  {
     "revision": "521882646056092e2a90cee445c49d1f",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/back-down.png"
   },
@@ -44,7 +52,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/catchara.png"
   },
   {
-    "revision": "800096c055837f103d79dd0d0039224e",
+    "revision": "2657eb773ae8de18e6c47619d6df83e6",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devassets/citations.md"
   },
   {
@@ -192,15 +200,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devfavicon.ico"
   },
   {
-    "revision": "d40208a5d6d78b8d1824",
-    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.main.81cf6d819a4dff43813e.bundle.js"
+    "revision": "019072aab2d0e6758cc2",
+    "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.main.29000a1be8877caa9be6.bundle.js"
   },
   {
     "revision": "a5db9487b03595b04940",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devgen.vendors.7a966c368cb1a1bd41f1.bundle.js"
   },
   {
-    "revision": "caaa781c62876c05ff761ab4a779bb19",
+    "revision": "ab6ec87673ac2d2895c419e265816697",
     "url": "/educational-game-project-team-15-zihan-wu-matt-miller/devindex.html"
   },
   {
