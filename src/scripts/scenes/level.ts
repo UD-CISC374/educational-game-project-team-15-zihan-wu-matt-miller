@@ -271,7 +271,7 @@ export default class Level extends Phaser.Scene{
                                                             this.scene.restart();
                                                         });
                                                         */
-                                                        var black = this.add.rectangle( this.sceneWidth/2, this.sceneHeight/2, this.sceneWidth, this.sceneHeight, 0x000).setDepth(99);
+                                                        let black = this.add.rectangle( this.sceneWidth/2, this.sceneHeight/2, this.sceneWidth, this.sceneHeight, 0x000).setDepth(99);
                                                         this.tweens.add({
                                                             targets     : black,
                                                             alpha       : {from: 0, to: 1},
@@ -289,6 +289,22 @@ export default class Level extends Phaser.Scene{
                                                         });
 
                                                         this.sleep(2000).then(()=>{ //wait until jail finishes animating to add restart
+                                                            //let caughttext = this.add.text(this.sceneWidth/2, 64 + this.sceneHeight/2, "You were spotted! \nRestart?",{font: "64px"}).setColor("0xFFFFFF").setDepth(99);
+
+                                                            var tconfig = {
+                                                                x: (this.sceneWidth/2) - 190,
+                                                                y: (this.sceneHeight/2) - 200,
+                                                                text: 'You were spotted! \nRestart?',
+                                                                style: {
+                                                                  fontSize: '48px',
+                                                                  fontFamily: 'Arial',
+                                                                  color: '#ffffff',
+                                                                  align: 'center',
+                                                                  lineSpacing: 24,
+                                                                }
+                                                              };
+                                                              let caughttext = this.make.text(tconfig).setDepth(99);
+
                                                             this.restartButton = this.add.image(this.sceneWidth/2, this.sceneHeight/2, 'play-bttn-up').setDepth(99);
                                                             this.restartButton.setInteractive();
 
