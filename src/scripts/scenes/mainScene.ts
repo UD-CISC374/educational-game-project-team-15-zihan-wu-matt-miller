@@ -84,7 +84,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.overlap(this.gem,this.player,this.reachedGoal, function(){}, this); //calls caught function on overlap
 
     this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
-    this.suspicionText = this.add.text(900,500, "Suspicion: "+this.suspicion,{font: "32px"}).setColor("0x000");
+    this.suspicionText = this.add.text(900,500, "Suspicion: "+this.suspicion,{font: "32px"}).setColor("white");
 
   //tile index is ONE MORE than the id in tiled!
     this.belowLayer.setTileIndexCallback(112, ()=>{

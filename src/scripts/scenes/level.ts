@@ -59,6 +59,9 @@ export default class Level extends Phaser.Scene{
     }
 
     create(){
+        this.sceneWidth = this.cameras.main.width;
+        this.sceneHeight = this.cameras.main.height;
+
         this.palette = new ColorPalette(this, 650, 540);
         this.cursorKeys = this.input.keyboard.createCursorKeys();
         this.otherKeys = this.input.keyboard.addKeys({space:Phaser.Input.Keyboard.KeyCodes.SPACE, one:Phaser.Input.Keyboard.KeyCodes.ONE, two:Phaser.Input.Keyboard.KeyCodes.TWO, three:Phaser.Input.Keyboard.KeyCodes.THREE, four:Phaser.Input.Keyboard.KeyCodes.FOUR});
@@ -140,7 +143,6 @@ export default class Level extends Phaser.Scene{
         this.inventory.color[1] = Color.BLUE;
         this.inventory.color[2] = Color.YELLOW;
         this.inventory.updateInventory(); // This updates the rectangle color on the screen
-    
     }
 
     update(){
@@ -152,21 +154,21 @@ export default class Level extends Phaser.Scene{
         //one-red, two-blue, three-yellow, four-clear, space-mix must be handled in game
 
         if(Phaser.Input.Keyboard.JustDown(this.otherKeys.four)){
-            console.log("4");
+            //console.log("4");
             this.palette.clearColors();
         }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.one)){
-            console.log("1");
+            //console.log("1");
             this.palette.setColor(Color.RED);
         }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.two)){
-            console.log("2");
+            //console.log("2");
             this.palette.setColor(Color.BLUE);
         }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.three)){
-            console.log("3");
+            //console.log("3");
             this.palette.setColor(Color.YELLOW);
         }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.space)){
-            console.log("space");
+            //console.log("space");
             this.player.color = this.palette.outputMix();
-            console.log("color",this.player.color);
+            //console.log("color",this.player.color);
         }
 
         // Set the players tint to the color of the player that was just calculated
@@ -218,6 +220,8 @@ export default class Level extends Phaser.Scene{
         // Turn the player to face forward
         this.player.setFrame(1);
 
+        Tutorial.handleMix(this);
+
         // Flash red a few times
         this.sleep(timeout).then(() => { 
             this.player.setTint(Color.RED); 
@@ -245,7 +249,10 @@ export default class Level extends Phaser.Scene{
                                                     this.sleep(timeout).then(() => { 
                                                         // Set suspicion to zero and restart the scene after a little delay after the last flash
                                                         this.suspicion = 0;
-                                                        this.scene.restart();
+                                                        this.sleep(3000).then(() => {
+                                                            this.scene.restart();
+                                                        });
+                                                        
                                                     });
                                                 });
                                             });
@@ -264,12 +271,11 @@ export default class Level extends Phaser.Scene{
     }
 
     reachedGoal(){
-        console.log("Reached end");
+        //console.log("Reached end");
         //placeholder for now, just move on to next scene here
         this.suspicion = 0;
         // Stop the current scene first
         this.scene.stop();
-        console.log(this.nextsceneKey);
         // Then start the next scene
         if(this.nextsceneKey != '')
             this.scene.start(this.nextsceneKey);

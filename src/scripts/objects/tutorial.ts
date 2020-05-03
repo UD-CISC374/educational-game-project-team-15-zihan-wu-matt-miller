@@ -89,14 +89,19 @@ export default class Tutorial {
                 text.destroy();
             Tutorial.suspicionLoop(initcolor, scene, text);
         });
-    }   
+    }    
 
+    // Get here if when the player gets caught for the first time
     static handleMix(scene: Level){
         // If this has already been triggered then just return
         if(Tutorial.mix)
             return;
         // Otherwise
         Tutorial.mix = true;
+        let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
+        let text:Phaser.GameObjects.Text = scene.add.text(mainCamera.centerX - mainCamera.centerX/2, 100, 
+            "Match the color of the floor to\nkeep your suspicion low", {font: "32px", fontWeight: "bold"}).setColor('white');
+        //Tutorial.sleep(3000).then(() => {text.destroy(); console.log('remove text');});
     }
 
     // Set all the flags back to false
