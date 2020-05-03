@@ -7,7 +7,7 @@ export default class Suspicionbar extends Phaser.GameObjects.Rectangle{
 
     bar_squares: Phaser.GameObjects.Rectangle[];
     MAX_SUS: number = 100;
-    NUM_SQUARES: number = 24;
+    NUM_SQUARES: number = 24;// was 24
 
     few:boolean = true;
 

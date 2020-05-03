@@ -7,12 +7,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
     velocityY:number = 100;
     color:Color = Color.WHITE;
     prevDir:number = 0;
+    pauseMovement: boolean = false;
 
     constructor(scene: Phaser.Scene, x:number, y:number){
         super(scene, x, y, 'player');
         scene.add.existing(this);
         scene.physics.world.enableBody(this);
         this.play("player_down");
+    }
+
+    pause(){
+
     }
 
 
@@ -25,6 +30,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
         //better to have an idle, stops on blurry frames sometimes
         let framesPerDirection:number = 3;
         
+        // If movement pause is set, dont do anything, just return
+        if(this.pauseMovement){
+            return;
+        }
 
 
         if(cursor.up.isDown){

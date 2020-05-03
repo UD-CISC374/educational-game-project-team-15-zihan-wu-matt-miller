@@ -23,6 +23,8 @@ export default class Level extends Phaser.Scene{
     startpt;
     endpt;
     gem;
+
+    pauseSus: boolean = false;
   
     inventory: Inventory;
     suspicionBar: Suspicionbar;
@@ -184,12 +186,12 @@ export default class Level extends Phaser.Scene{
    */
     handleSuspicion(){
         // The rate that the suspicion meter will increase(lower is faster)
-        let rate:number = 5;
+        let rate:number = 10; // Was 5 before
         // The rate that the suspicion meter will decrease(lower is faster)
-        let dec_rate:number = 20; //25 before
-
+        let dec_rate:number = 15; //25 before
+        console.log(this.pauseSus);
         // Increase suspicion if user isn't matching floor
-        if(this.clock % rate == 0){
+        if(this.clock % rate == 0 && !this.pauseSus){
             // If the color isn't standing on the correct color tile
             if(this.player.color != this.tileColor){
                 this.suspicion = Math.min(this.MAX_SUS, this.suspicion+1);
@@ -210,6 +212,9 @@ export default class Level extends Phaser.Scene{
         // If suspicion is greater than 0, handle the suspicion tutorial
         if(this.suspicion > 0)
             Tutorial.handleSuspicion(this);
+        
+        if(this.suspicion > 5)
+            Tutorial.handleFloor(this);
     }
 
     // Suspicion has reached 100 and youve been caught!

@@ -20,3 +20,6 @@ arrow key images
 gems:
 <https://sorceressgamelab.itch.io/animated-rpg-items>
 <https://opengameart.org/content/rotating-crystal-animation-8-step>
+
+arrow:
+https://www.clipartmax.com/download/m2H7N4A0A0b1Z5m2_free-png-download-sketch-drawn-arrow-png-images-background-transparent-white-arrow/
