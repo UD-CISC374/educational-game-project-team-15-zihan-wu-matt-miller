@@ -61,10 +61,6 @@ export default class Level extends Phaser.Scene{
         this.sceneHeight = this.cameras.main.height;
     }
 
-    preload(){
-        this.load.image("play-bttn-dwn","assets/play-3-dwn.png");
-        this.load.image("play-bttn-up","assets/play-3-up.png");
-    }
 
     create(){
         this.sceneWidth = this.cameras.main.width;
@@ -84,13 +80,15 @@ export default class Level extends Phaser.Scene{
         this.worldLayer.setCollisionByProperty({ collides: true });
         this.belowLayer.setCollisionByProperty({ collides: true });
 
-        // Adds boxes around objects you can't move through
+        /*
+        // Adds boxes around objects you can't move through debug
         const debugGraphics = this.add.graphics().setAlpha(0.75);
         this.worldLayer.renderDebug(debugGraphics, {
         tileColor: null, // Color of non-colliding tiles
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         });
+        */
 
         //finds start and end points from tilemap and use accordingly
         this.startpt = this.map.findObject("Objects", obj => obj.name === "start");
@@ -105,7 +103,7 @@ export default class Level extends Phaser.Scene{
         this.physics.add.existing(this.gem, true); //true for static; gem doesn't move
         this.physics.add.overlap(this.gem,this.player,this.reachedGoal, function(){}, this); //calls caught function on overlap
 
-        this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
+        //this.add.text(170, 0, '2 color slots in palette, no graphical display for palette yet\none-red, two-blue, three-yellow, \nfour clears palette\npress space to mix / change player color').setBackgroundColor("0x000");
         this.suspicionText = this.add.text(900,500, "Suspicion: "+this.suspicion,{font: "32px"}).setColor("0x000");
         
         //tile index is ONE MORE than the id in tiled!
@@ -263,6 +261,8 @@ export default class Level extends Phaser.Scene{
                                                 this.sleep(timeout).then(() => { 
                                                     this.player.setTint(Color.RED); 
                                                     // After done flashing, restart the scene after another delay
+                                                    
+
                                                     this.sleep(timeout).then(() => { 
                                                         // Set suspicion to zero and restart the scene after a little delay after the last flash
                                                         /*
@@ -271,20 +271,40 @@ export default class Level extends Phaser.Scene{
                                                             this.scene.restart();
                                                         });
                                                         */
-                                                        this.restartButton = this.add.image(100, 100, 'play-bttn-up');
-                                                        this.restartButton.setInteractive();
+                                                        var black = this.add.rectangle( this.sceneWidth/2, this.sceneHeight/2, this.sceneWidth, this.sceneHeight, 0x000).setDepth(99);
+                                                        this.tweens.add({
+                                                            targets     : black,
+                                                            alpha       : {from: 0, to: 1},
+                                                            ease        : 'Linear',
+                                                            duration    : 1800,
+                                                        });
 
-                                                        this.restartButton.on('pointerover', (event) => {
-                                                            this.restartButton.setTexture('play-bttn-dwn');
-                                                            this.restartButton.setScale(1.1);
+                                                        var jail = this.add.image(420, -300, 'jail').setDepth(99);
+                                                        this.tweens.add({
+                                                            targets     : jail,
+                                                            x           : 430,
+                                                            y           : 300,
+                                                            ease        : 'Bounce.easeOut',
+                                                            duration    : 2000,
                                                         });
-                                                        this.restartButton.on('pointerout', (event) => {
-                                                            this.restartButton.setTexture('play-bttn-up');
-                                                            this.restartButton.setScale(1);
+
+                                                        this.sleep(2000).then(()=>{ //wait until jail finishes animating to add restart
+                                                            this.restartButton = this.add.image(this.sceneWidth/2, this.sceneHeight/2, 'play-bttn-up').setDepth(99);
+                                                            this.restartButton.setInteractive();
+
+                                                            this.restartButton.on('pointerover', () => {
+                                                                this.restartButton.setTexture('play-bttn-dwn');
+                                                                this.restartButton.setScale(1.1);
+                                                            });
+                                                            this.restartButton.on('pointerout', () => {
+                                                                this.restartButton.setTexture('play-bttn-up');
+                                                                this.restartButton.setScale(1);
+                                                            });
+                                                            this.restartButton.on('pointerup', () => {
+                                                                this.restart();
+                                                            });
                                                         });
-                                                        this.restartButton.on('pointerup', (event) => {
-                                                            this.restart();
-                                                        });
+
 
                                                     });
                                                     

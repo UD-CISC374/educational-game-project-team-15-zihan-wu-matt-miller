@@ -13,7 +13,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.spritesheet("player", "assets/catchara.png",{frameWidth: 32, frameHeight: 32});
     this.load.spritesheet("keys", "assets/keys.png",{frameWidth: 32, frameHeight: 32});
     this.load.spritesheet("gem", "assets/gem.png",{frameWidth: 16, frameHeight: 16});
-
+    this.load.image("jail", "../assets/jail.png");
     // Load images
     this.load.image('mv-tut-blck','assets/move-tutorial-black-1.png');
     this.load.image('mv-tut-wht','assets/move-tutorial-white-1.png');
@@ -21,7 +21,19 @@ export default class PreloadScene extends Phaser.Scene {
     // Load levels
     this.load.tilemapTiledJSON("map", "assets/camocaper.json");
     this.load.tilemapTiledJSON("level1", "assets/level-1.json");
-    this.load.tilemapTiledJSON("level2", "assets/camocaper.json");
+    this.load.tilemapTiledJSON("level2", "assets/level-2.json");
+    this.load.tilemapTiledJSON("level3", "assets/level-3.json");
+
+    //start and button assets
+    this.load.image("start-bkg","assets/start-bkg-reg.jpg");
+    this.load.image('title','assets/title.png');
+
+    this.load.image("play-bttn-dwn","assets/play-3-dwn.png");
+    this.load.image("play-bttn-up","assets/play-3-up.png");
+
+    this.load.image("ctrl-bttn-dwn","assets/controls-3-dwn.png");
+    this.load.image("ctrl-bttn-up","assets/controls-3-up.png");
+
   }
 
   create() {

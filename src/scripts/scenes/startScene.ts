@@ -19,18 +19,6 @@ export default class StartScene extends Phaser.Scene{
         this.centerY = this.cameras.main.centerY;
     }
 
-    preload(){
-        this.load.image("start-bkg","assets/start-bkg-reg.jpg");
-        
-        this.load.image('title','assets/title.png');
-
-        this.load.image("play-bttn-dwn","assets/play-3-dwn.png");
-        this.load.image("play-bttn-up","assets/play-3-up.png");
-
-        this.load.image("ctrl-bttn-dwn","assets/controls-3-dwn.png");
-        this.load.image("ctrl-bttn-up","assets/controls-3-up.png");
-    }
-
     create(){
         this.background = this.add.image(-180,-480,'start-bkg').setOrigin(0,0);
 
