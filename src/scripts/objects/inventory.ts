@@ -23,7 +23,7 @@ export default class Inventory extends Phaser.GameObjects.Rectangle{
 
         for(let i:number = 0; i < this.slots.length; i++){
             this.slots[i] = scene.add.rectangle(this.x + (i * (this.REC_SIZE + this.SPACE)) + this.REC_SIZE, this.y, this.REC_SIZE, this.REC_SIZE);
-            scene.add.text(-6 + this.x + (i * (this.REC_SIZE + this.SPACE)) + this.REC_SIZE, this.y+(this.REC_SIZE/2),(i+1).toString(), {font:"15px"}).setColor("0x000000");
+            scene.add.text(-6 + this.x + (i * (this.REC_SIZE + this.SPACE)) + this.REC_SIZE, this.y+(this.REC_SIZE/2),(i+1).toString(), {font:"15px"}).setColor("0xFFFFFF");
         }
         
         this.updateInventory();

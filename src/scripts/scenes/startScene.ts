@@ -8,7 +8,7 @@ export default class StartScene extends Phaser.Scene{
     play_button: Phaser.GameObjects.Image;
     controls_button: Phaser.GameObjects.Image;
 
-    first_level_key:string = 'Level1Scene';
+    first_level_key:string = 'MainScene';// Level1Scene
 
     constructor(){
         super({key: 'StartScene'});

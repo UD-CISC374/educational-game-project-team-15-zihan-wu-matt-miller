@@ -3,6 +3,7 @@ import ColorPalette from '../objects/colorPalette';
 import { Color } from '../objects/color';
 import Inventory from '../objects/inventory';
 import Suspicionbar from '../objects/suspicionbar';
+import Tutorial from '../objects/tutorial';
 
 export default class Level extends Phaser.Scene{
 
@@ -203,6 +204,10 @@ export default class Level extends Phaser.Scene{
 
         if(this.suspicion == this.MAX_SUS)
             this.caught();
+        
+        // If suspicion is greater than 0, handle the suspicion tutorial
+        if(this.suspicion > 0)
+            Tutorial.handleSuspicion(this);
     }
 
     // Suspicion has reached 100 and youve been caught!

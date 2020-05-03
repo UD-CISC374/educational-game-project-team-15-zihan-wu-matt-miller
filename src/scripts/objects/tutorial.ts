@@ -1,3 +1,5 @@
+import Level from "../scenes/level";
+
 export default class Tutorial {
 
     static movement:boolean = false;
@@ -12,7 +14,7 @@ export default class Tutorial {
     // Handle the various conditions
 
     // No condition has to be met for this to activate
-    static handleMovement(scene: Phaser.Scene){
+    static handleMovement(scene: Level){
         // If this has already been triggered then just return
         if(Tutorial.movement)
             return;
@@ -36,15 +38,13 @@ export default class Tutorial {
     }
 
     static movementLoop(image:Phaser.GameObjects.Image, count:number){
-        let timeout:number = 500;
-
         // Remove the image if the player has moved
         if (Tutorial.movement_flag){
             image.destroy();
             return;
         }
 
-        Tutorial.sleep(timeout).then(() => {
+        Tutorial.sleep(500).then(() => {
             if(count % 2 == 0)
                 image.setTexture('mv-tut-blck');
             else
@@ -54,7 +54,7 @@ export default class Tutorial {
         });
     }
 
-    static handleGem(scene: Phaser.Scene){
+    static handleGem(scene: Level){
         // If this has already been triggered then just return
         if(Tutorial.gem)
             return;
@@ -62,15 +62,36 @@ export default class Tutorial {
         Tutorial.gem = true;
     }
 
-    static handleSuspicion(scene: Phaser.Scene){
+    // FUCKEDDDD
+    static handleSuspicion(scene: Level){
+        let timeout:number = 4000;
         // If this has already been triggered then just return
         if(Tutorial.suspicion)
             return;
         // Otherwise
         Tutorial.suspicion = true;
+
+        //Tutorial.sleep(timeout).then(() => {});
+        let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
+        let text:Phaser.GameObjects.Text = scene.add.text(mainCamera.centerX-mainCamera.centerX/2, mainCamera.centerY-mainCamera.centerY/2, 
+            "Press 1 twice, then space\nto change to red", {font: "32px"}).setColor('white');
+
+        let initColor:number = scene.player.color;
+        /*while(scene.player.color == initColor){
+            // Keep 
+        }*/
+        Tutorial.suspicionLoop(initColor, scene, text);
     }
 
-    static handleMix(scene: Phaser.Scene){
+    static suspicionLoop(initcolor:number, scene:Level, text:Phaser.GameObjects.Text){
+        Tutorial.sleep(10).then(() => {
+            if(scene.player.color != initcolor)
+                text.destroy();
+            Tutorial.suspicionLoop(initcolor, scene, text);
+        });
+    }   
+
+    static handleMix(scene: Level){
         // If this has already been triggered then just return
         if(Tutorial.mix)
             return;
