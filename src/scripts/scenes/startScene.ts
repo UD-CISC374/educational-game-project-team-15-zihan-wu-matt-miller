@@ -1,3 +1,5 @@
+import Tutorial from '../objects/tutorial';
+
 export default class StartScene extends Phaser.Scene{
 
     centerX:number;
@@ -17,6 +19,8 @@ export default class StartScene extends Phaser.Scene{
     init(){
         this.centerX = this.cameras.main.centerX;
         this.centerY = this.cameras.main.centerY;
+        // Make tutorial flags reset from startScrene
+        Tutorial.resetFlags();
     }
 
     create(){

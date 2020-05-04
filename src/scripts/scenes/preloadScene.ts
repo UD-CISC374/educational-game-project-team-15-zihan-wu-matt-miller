@@ -9,7 +9,7 @@ export default class PreloadScene extends Phaser.Scene {
 
   preload() {
     //this.load.image("mario-tiles", "../assets/tutorial/super-mario-tiles.png");
-    this.load.image("tiles", "../assets/camotiles.png");
+    this.load.image("tiles", "assets/camotiles.png");
     this.load.spritesheet("player", "assets/catchara.png",{frameWidth: 32, frameHeight: 32});
     this.load.spritesheet("keys", "assets/keys.png",{frameWidth: 32, frameHeight: 32});
     this.load.spritesheet("gem", "assets/gem.png",{frameWidth: 16, frameHeight: 16});
@@ -21,7 +21,7 @@ export default class PreloadScene extends Phaser.Scene {
     // Load arrow for tutorial
     this.load.image('arrow-black','assets/arrow_black.png');
     this.load.image('arrow-white','assets/arrow_white.png');
-    this.load.image("jail", "../assets/jail.png");
+    this.load.image("jail", "assets/jail.png");
 
     // Load levels
     this.load.tilemapTiledJSON("map", "assets/camocaper.json");
