@@ -143,9 +143,11 @@ export default class Tutorial {
     // Set all the flags back to false
     static resetFlags(){
         Tutorial.movement = false;
+        Tutorial.movement_flag = false;
         Tutorial.gem = false;
         Tutorial.suspicion = false;
         Tutorial.mix = false;
+        Tutorial.floor = false;
     }
 
     // Returns promise with setTimeout to simulate sleeping
