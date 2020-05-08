@@ -155,8 +155,16 @@ export default class Level extends Phaser.Scene{
 
     }
 
+
+    /**
+     * Called by phaser at regular intervals
+     */
     update(){
         this.clock++;
+        
+        if(this.checkStandingSecondary())
+            Tutorial.handleCreateColor(this);
+            
 
         if(this.inputEnabled == true){
             this.player.move(this.cursorKeys);
@@ -188,6 +196,20 @@ export default class Level extends Phaser.Scene{
             // Handles suspicion
             this.handleSuspicion();
         }
+    }
+
+    /**
+     * If the player is currently standing on a secondary color, return true, otherwise false
+     *  */ 
+    checkStandingSecondary():boolean{
+        if(this.tileColor != Color.GRAY   && 
+            this.tileColor != Color.RED   && 
+            this.tileColor != Color.BLUE  &&
+            this.tileColor != Color.YELLOW&&
+            this.tileColor != Color.NULL)
+            return true;
+        else
+            return false;
     }
 
     /**
@@ -227,8 +249,10 @@ export default class Level extends Phaser.Scene{
             Tutorial.handleFloor(this);
     }
 
-    // Suspicion has reached 100 and youve been caught!
-    // Play animation and reset the current screen
+    /**
+     * Suspicion has reached 100 and youve been caught! 
+     * Play animation and reset the current screen
+     *  */ 
     caught(){
         this.player.setVelocity(0,0);
         this.player.anims.stop();

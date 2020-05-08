@@ -1,4 +1,5 @@
 import Level from "../scenes/level";
+import { Color } from "./color";
 
 export default class Tutorial {
 
@@ -8,6 +9,7 @@ export default class Tutorial {
     static suspicion:boolean = false;
     static mix:boolean = false;
     static floor:boolean = false;
+    static createColor:boolean = false;
 
     // Private constructor so no one can make an instance of it
     private constructor(){ }
@@ -21,7 +23,6 @@ export default class Tutorial {
             return;
         // Otherwise
         Tutorial.movement = true;
-        console.log('handleMovement');
 
         let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
         let helpingImage: Phaser.GameObjects.Image = scene.add.image(mainCamera.centerX, mainCamera.centerY, 'mv-tut-wht');
@@ -63,6 +64,46 @@ export default class Tutorial {
         Tutorial.gem = true;
     }
 
+    static handleCreateColor(scene: Level){
+        if(Tutorial.createColor)
+            return;
+        Tutorial.createColor = true;
+        Tutorial.pauseGame(scene);
+
+        let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
+        let text:Phaser.GameObjects.Text = scene.add.text(mainCamera.centerX-mainCamera.centerX/2, mainCamera.centerY-mainCamera.centerY/2, 
+            "Create new colors by putting in two different\ncolors, then mix with spacebar");
+        // Set settings for the text
+        text.setColor('white');
+        text.setFont('Arial Black');
+        text.setFontStyle('bold');
+        text.setFontSize(40);
+        text.setBackgroundColor('black');
+
+        // Get the color of the player
+        let playerColor:Color = scene.player.color;
+
+        Tutorial.loopColor(scene, text, playerColor);
+    }
+
+    static loopColor(scene:Level, text:Phaser.GameObjects.Text, initColor:Color){
+        Tutorial.sleep(10).then(() => {
+            // Player changed color
+            if(scene.player.color != initColor){
+                // If they changed to the wrong color
+                if(scene.player.color != scene.tileColor){
+                    text.setText("Way to change colors! Try to change\nto the color on the floor.");
+                } else { // They changed to the right color
+                    text.destroy();
+                    scene.pauseSus = false;
+                    scene.player.pauseMovement = false;
+                }
+            } else { // Rerun the loop 
+                Tutorial.loopColor(scene, text, initColor);
+            } 
+        });
+    }
+
     static handleSuspicion(scene: Level){
         let timeout:number = 4000;
         // If this has already been triggered then just return
@@ -73,8 +114,14 @@ export default class Tutorial {
 
         let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
         let text:Phaser.GameObjects.Text = scene.add.text(mainCamera.centerX-mainCamera.centerX/2, mainCamera.centerY-mainCamera.centerY/2, 
-            "Press 1 twice, then space\nto change to red", {font: "32px", fontWeight: "bold"}).setColor('white');
-        let initColor:number = scene.player.color;
+            "Press 1 to select red, then space\nto mix and create red");
+        // Set settings for the text
+        text.setColor('white');
+        text.setFont('Arial Black');
+        text.setFontStyle('bold');
+        text.setFontSize(40);
+        text.setBackgroundColor('black');
+        let initColor:Color = scene.player.color;
 
         // 'Pauses' the game before waiting for user to figure out command
         Tutorial.pauseGame(scene);
@@ -115,7 +162,6 @@ export default class Tutorial {
     static floorLoop(scene: Level, txt:Phaser.GameObjects.Text){
         Tutorial.sleep(10).then(() => {
             if(scene.player.color == scene.tileColor){
-                console.log('MATCHED');
                 txt.destroy();
                 return;
             }
@@ -137,7 +183,6 @@ export default class Tutorial {
         let text:Phaser.GameObjects.Text = scene.add.text(x, y, 
             "Match the color of the floor to\nkeep your suspicion low", {font: "32px", fontWeight: "bold"}).setColor('white');
         let arrow:Phaser.GameObjects.Image = scene.add.image(x + 500, y + 200, 'arrow-white');
-            //Tutorial.sleep(3000).then(() => {text.destroy(); console.log('remove text');});
     }
 
     // Set all the flags back to false
