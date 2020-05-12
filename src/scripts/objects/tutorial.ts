@@ -14,6 +14,19 @@ export default class Tutorial {
     // Private constructor so no one can make an instance of it
     private constructor(){ }
 
+    // Some helpful functions used by all
+    /*static pauseGame(scene: Level){
+        console.log('pause game');
+        scene.pauseSus = true;
+        scene.player.pauseMovement = true;
+        scene.player.anims.stop();
+    }
+    static resumeGame(scene: Level){
+        console.log('restart game');
+        scene.pauseSus = false;
+        scene.player.pauseMovement = false;
+    }*/
+
     // Handle the various conditions
 
     // No condition has to be met for this to activate
@@ -36,12 +49,14 @@ export default class Tutorial {
                 Tutorial.movement_flag = true;
         });
 
-        Tutorial.movementLoop(helpingImage, 0);
+        Tutorial.movementLoop(scene, helpingImage, 0);
     }
 
-    static movementLoop(image:Phaser.GameObjects.Image, count:number){
+    // The loop waiting for the player to move the character
+    static movementLoop(scene:Level, image:Phaser.GameObjects.Image, count:number){
         // Remove the image if the player has moved
         if (Tutorial.movement_flag){
+            scene.successSFX.play();
             image.destroy();
             return;
         }
@@ -52,7 +67,7 @@ export default class Tutorial {
             else
                 image.setTexture('mv-tut-wht');
 
-            this.movementLoop(image, count+1);
+            this.movementLoop(scene, image, count+1);
         });
     }
 
@@ -68,7 +83,7 @@ export default class Tutorial {
         if(Tutorial.createColor)
             return;
         Tutorial.createColor = true;
-        Tutorial.pauseGame(scene);
+        scene.pauseGame();
 
         let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
         let text:Phaser.GameObjects.Text = scene.add.text(mainCamera.centerX-mainCamera.centerX/2, mainCamera.centerY-mainCamera.centerY/2, 
@@ -86,6 +101,7 @@ export default class Tutorial {
         Tutorial.loopColor(scene, text, playerColor);
     }
 
+    // Loop waiting for the player to mix the correct color
     static loopColor(scene:Level, text:Phaser.GameObjects.Text, initColor:Color){
         Tutorial.sleep(10).then(() => {
             // Player changed color
@@ -94,9 +110,9 @@ export default class Tutorial {
                 if(scene.player.color != scene.tileColor){
                     text.setText("Way to change colors! Try to change\nto the color on the floor.");
                 } else { // They changed to the right color
+                    scene.successSFX.play();
                     text.destroy();
-                    scene.pauseSus = false;
-                    scene.player.pauseMovement = false;
+                    scene.resumeGame();
                 }
             } else { // Rerun the loop 
                 Tutorial.loopColor(scene, text, initColor);
@@ -105,7 +121,6 @@ export default class Tutorial {
     }
 
     static handleSuspicion(scene: Level){
-        let timeout:number = 4000;
         // If this has already been triggered then just return
         if(Tutorial.suspicion)
             return;
@@ -120,29 +135,23 @@ export default class Tutorial {
         text.setFont('Arial Black');
         text.setFontStyle('bold');
         text.setFontSize(40);
-        text.setBackgroundColor('black');
         let initColor:Color = scene.player.color;
 
         // 'Pauses' the game before waiting for user to figure out command
-        Tutorial.pauseGame(scene);
+        scene.pauseGame();
         scene.suspicion = 0;
         
         Tutorial.suspicionLoop(initColor, scene, text);
     }
 
-    static pauseGame(scene: Level){
-        scene.pauseSus = true;
-        scene.player.pauseMovement = true;
-        scene.player.anims.stop();
-    }
-
+    // Wait for the player to correctly create red
     static suspicionLoop(initcolor:number, scene:Level, text:Phaser.GameObjects.Text){
         Tutorial.sleep(10).then(() => {
             if(scene.player.color != initcolor){
+                scene.successSFX.play();
                 text.destroy();
-                scene.pauseSus = false;
-                scene.player.pauseMovement = false;
-                //scene.player.anims.play();
+                scene.resumeGame();
+                return;
             }
             Tutorial.suspicionLoop(initcolor, scene, text);
         });
@@ -154,19 +163,54 @@ export default class Tutorial {
         Tutorial.floor = true;
         let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
         let text:Phaser.GameObjects.Text = scene.add.text(mainCamera.centerX-mainCamera.centerX/2, mainCamera.centerY-mainCamera.centerY/2, 
-            "Change your color to\nthe color of the floor", {font: "32px", fontWeight: "bold"}).setColor('white');
+            "Change your color to\nthe color of the floor\nto stop your suspicion from\ngoing up", {font: "32px", fontWeight: "bold"});
+        text.setColor('white');
+        text.setFont('Arial Black');
+        text.setFontStyle('bold');
+        text.setFontSize(40);
+        let arrow:Phaser.GameObjects.Image = scene.add.image(text.x + (text.width * 1.25), text.y, 'arrow-white').setOrigin(0,0);;
+        scene.pauseGame();
 
-        Tutorial.floorLoop(scene, text);
+        Tutorial.floorLoop(scene, text, arrow,0);
     }
 
-    static floorLoop(scene: Level, txt:Phaser.GameObjects.Text){
-        Tutorial.sleep(10).then(() => {
+    static floorLoop(scene: Level, txt:Phaser.GameObjects.Text, arrw:Phaser.GameObjects.Image, i:number){
+        Tutorial.sleep(500).then(() => {
+            // The player completed the condition, so exit the loop
             if(scene.player.color == scene.tileColor){
+                scene.successSFX.play();
                 txt.destroy();
+                arrw.destroy();
+                scene.resumeGame();
+                let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
+                Tutorial.displayTextTimed(scene, scene.add.text(mainCamera.centerX-mainCamera.centerX/2, mainCamera.centerY-mainCamera.centerY/2,
+                "If the suspicion bar reaches\nthe top you'll be caught!"), 3000);
                 return;
-            }
+            } else if(i % 2 == 0)
+                arrw.setTexture('arrow-black');
+            else
+                arrw.setTexture('arrow-white');
 
-            Tutorial.floorLoop(scene, txt);
+            Tutorial.floorLoop(scene, txt, arrw, i+1);
+        });
+    }
+
+    /**
+     * Display text for a given duration(in ms).
+     * Pauses the game for the duration of showing the text.
+     * */ 
+    static displayTextTimed(scene:Level, text:Phaser.GameObjects.Text, duration:number){
+        // Properly format the text
+        text.setColor('white');
+        text.setFont('Arial Black');
+        text.setFontStyle('bold');
+        text.setFontSize(40);
+        // Pause the game
+        scene.pauseGame();
+        // Wait until desired time has passed, then remove the text and restart the game
+        Tutorial.sleep(duration).then(() => {
+            text.destroy();
+            scene.resumeGame();
         });
     }
 
@@ -176,13 +220,14 @@ export default class Tutorial {
         /*if(Tutorial.mix)
             return;*/
         // Otherwise
-        Tutorial.mix = true;
+        
+        /*Tutorial.mix = true;
         let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
         let x = mainCamera.centerX - mainCamera.centerX/2;
         let y = 100;
         let text:Phaser.GameObjects.Text = scene.add.text(x, y, 
             "Match the color of the floor to\nkeep your suspicion low", {font: "32px", fontWeight: "bold"}).setColor('white');
-        let arrow:Phaser.GameObjects.Image = scene.add.image(x + 500, y + 200, 'arrow-white');
+        let arrow:Phaser.GameObjects.Image = scene.add.image(x + 500, y + 200, 'arrow-white');*/
     }
 
     // Set all the flags back to false

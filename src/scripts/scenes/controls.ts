@@ -1,5 +1,6 @@
 export default class Controls extends Phaser.Scene{
-
+    // Sound variables
+    clickSFX:Phaser.Sound.BaseSound;
 
     centerX:number;
     centerY:number;
@@ -25,6 +26,9 @@ export default class Controls extends Phaser.Scene{
     }
 
     create(){
+        // Load clicking sound
+        this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
+
         this.background = this.add.image(-180,-480,'start-bkg').setOrigin(0,0);
         this.info = this.add.image(this.centerX, this.centerY,'info');
 
@@ -39,6 +43,7 @@ export default class Controls extends Phaser.Scene{
             this.back_button.setScale(1);
         });
         this.back_button.on('pointerup',(event) => {
+            this.clickSFX.play();
             this.scene.start('StartScene');
         });
     }
