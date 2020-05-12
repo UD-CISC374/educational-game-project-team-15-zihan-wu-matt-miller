@@ -40,9 +40,9 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("ctrl-bttn-up","assets/controls-3-up.png");
 
     // Load sounds
-    this.load.audio('click-1','assets/click-1.ogg');
-    this.load.audio('success-1','assets/pluck-success-1.ogg');
-    this.load.audio('diamond-1','assets/diamond-1.ogg');
+    this.load.audio('click-1','assets/sounds/click-1.ogg');
+    this.load.audio('success-1','assets/sounds/pluck-success-1.ogg');
+    this.load.audio('diamond-1','assets/sounds/diamond-1.ogg');
   }
 
   create() {
