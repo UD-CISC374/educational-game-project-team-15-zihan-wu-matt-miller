@@ -24,6 +24,10 @@ export default class Level extends Phaser.Scene{
     endpt;
     gem;
 
+    // Audio variables
+    successSFX: Phaser.Sound.BaseSound;
+    diamondSFX: Phaser.Sound.BaseSound;
+
     pauseSus: boolean = false;
   
     inventory: Inventory;
@@ -39,6 +43,7 @@ export default class Level extends Phaser.Scene{
     tilesetName:string = 'camotiles';
     tilesetKey:string = 'tiles';
     nextsceneKey:string;
+    sceneKey:string;
 
     restartButton; 
     inputEnabled:boolean = true; 
@@ -46,7 +51,7 @@ export default class Level extends Phaser.Scene{
     // Constructor takes in sceneKey, mapKey, tilesetName, tilesetKey
     constructor(sceneKey:string, mapKey:string, nextsceneKey:string){
         super({key: sceneKey});
-
+        this.sceneKey = sceneKey;
         this.mapKey = mapKey;
         this.nextsceneKey = nextsceneKey;
 
@@ -63,10 +68,21 @@ export default class Level extends Phaser.Scene{
         this.sceneHeight = this.cameras.main.height;
     }
 
+    /**
+     * Adds all the required sounds to the scene and makes them available to be used
+     */
+    addSounds(){
+        this.successSFX = this.sound.add('success-1', { loop: false });
+        this.diamondSFX = this.sound.add('diamond-1', { loop: false });
+    }
+
 
     create(){
         this.sceneWidth = this.cameras.main.width;
         this.sceneHeight = this.cameras.main.height;
+
+        // Add sounds
+        this.addSounds();
 
         this.palette = new ColorPalette(this, 650, 540);
         this.cursorKeys = this.input.keyboard.createCursorKeys();
@@ -155,8 +171,16 @@ export default class Level extends Phaser.Scene{
 
     }
 
+
+    /**
+     * Called by phaser at regular intervals
+     */
     update(){
         this.clock++;
+        
+        if(this.checkStandingSecondary())
+            Tutorial.handleCreateColor(this);
+            
 
         if(this.inputEnabled == true){
             this.player.move(this.cursorKeys);
@@ -165,21 +189,15 @@ export default class Level extends Phaser.Scene{
             //one-red, two-blue, three-yellow, four-clear, space-mix must be handled in game
 
             if(Phaser.Input.Keyboard.JustDown(this.otherKeys.four)){
-                //console.log("4");
                 this.palette.clearColors();
             }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.one)){
-                //console.log("1");
                 this.palette.setColor(Color.RED);
             }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.two)){
-                //console.log("2");
                 this.palette.setColor(Color.BLUE);
             }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.three)){
-                //console.log("3");
                 this.palette.setColor(Color.YELLOW);
             }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.space)){
-                //console.log("space");
                 this.player.color = this.palette.outputMix();
-                //console.log("color",this.player.color);
             }
 
             // Set the players tint to the color of the player that was just calculated
@@ -191,6 +209,20 @@ export default class Level extends Phaser.Scene{
     }
 
     /**
+     * If the player is currently standing on a secondary color, return true, otherwise false
+     *  */ 
+    checkStandingSecondary():boolean{
+        if(this.tileColor != Color.GRAY   && 
+            this.tileColor != Color.RED   && 
+            this.tileColor != Color.BLUE  &&
+            this.tileColor != Color.YELLOW&&
+            this.tileColor != Color.NULL)
+            return true;
+        else
+            return false;
+    }
+
+    /**
    * Handles whether the suspicion should increase or decrease
    * Triggers effect if MAX_SUS is reached
    */
@@ -199,7 +231,7 @@ export default class Level extends Phaser.Scene{
         let rate:number = 10; // Was 5 before
         // The rate that the suspicion meter will decrease(lower is faster)
         let dec_rate:number = 15; //25 before
-        console.log(this.pauseSus);
+
         // Increase suspicion if user isn't matching floor
         if(this.clock % rate == 0 && !this.pauseSus){
             // If the color isn't standing on the correct color tile
@@ -227,8 +259,10 @@ export default class Level extends Phaser.Scene{
             Tutorial.handleFloor(this);
     }
 
-    // Suspicion has reached 100 and youve been caught!
-    // Play animation and reset the current screen
+    /**
+     * Suspicion has reached 100 and youve been caught! 
+     * Play animation and reset the current screen
+     *  */ 
     caught(){
         this.player.setVelocity(0,0);
         this.player.anims.stop();
@@ -346,17 +380,47 @@ export default class Level extends Phaser.Scene{
         //this.scene.pause();
     }
 
+    /**
+     * Called when the player runs into the diamond
+     */
     reachedGoal(){
-        //console.log("Reached end");
-        //placeholder for now, just move on to next scene here
-        this.suspicion = 0;
-        // Stop the current scene first
-        this.scene.stop();
-        // Then start the next scene
-        if(this.nextsceneKey != '')
-            this.scene.start(this.nextsceneKey);
-        else
-            this.scene.restart();
+        // Play the diamond getting sound
+        this.diamondSFX.play();
+        this.player.setFrame(1);
+        this.scene.pause(this.sceneKey);
+        // Pause the game
+        //this.pauseGame();
+        
+        // Wait a second for sound to play then move on
+        this.sleep(1000).then(()=>{
+             //placeholder for now, just move on to next scene here
+            this.suspicion = 0;
+            // Stop the current scene first
+            this.scene.stop();
+            // Then start the next scene
+            if(this.nextsceneKey != '')
+                this.scene.start(this.nextsceneKey);
+            else
+                this.scene.restart();
+        });
+       
+    }
+
+    /**
+     * Pauses the game when called
+     */
+    pauseGame(){
+        this.pauseSus = true;
+        this.player.pauseMovement = true;
+        this.player.anims.stop();
+    }
+
+    /**
+     * Resumes the game when called
+     */
+    resumeGame(){
+        this.pauseSus = false;
+        this.player.pauseMovement = false;
     }
 
     restart(){

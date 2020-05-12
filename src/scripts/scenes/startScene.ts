@@ -12,6 +12,9 @@ export default class StartScene extends Phaser.Scene{
 
     first_level_key:string = 'Level1Scene';// Level1Scene MainScene
 
+    // Sound variables
+    clickSFX:Phaser.Sound.BaseSound;
+
     constructor(){
         super({key: 'StartScene'});
     }
@@ -24,6 +27,9 @@ export default class StartScene extends Phaser.Scene{
     }
 
     create(){
+        // Load clicking sound
+        this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
+
         this.background = this.add.image(-180,-480,'start-bkg').setOrigin(0,0);
 
         this.title = this.add.image(this.centerX, 80, 'title').setOrigin(0.5,0);
@@ -43,8 +49,8 @@ export default class StartScene extends Phaser.Scene{
             // play sound???
         });
         this.play_button.on('pointerup',(event) => {
+            this.clickSFX.play();
             this.scene.start(this.first_level_key);
-            // Play clicking sound???
         });
 
         this.controls_button = this.add.image(this.centerX, this.centerY + (this.play_button.height * 1.5), 'ctrl-bttn-up');
@@ -63,12 +69,8 @@ export default class StartScene extends Phaser.Scene{
         });
         this.controls_button.on('pointerup',(event) => {
             // Jump to another scene...
-            // Play clicking sound???
+            this.clickSFX.play();
             this.scene.start('Controls');
         });
-    }
-
-    update(){
-
     }
 }
