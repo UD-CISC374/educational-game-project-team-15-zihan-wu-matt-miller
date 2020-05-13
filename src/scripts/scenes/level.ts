@@ -331,12 +331,13 @@ export default class Level extends Phaser.Scene{
                                                             //let caughttext = this.add.text(this.sceneWidth/2, 64 + this.sceneHeight/2, "You were spotted! \nRestart?",{font: "64px"}).setColor("0xFFFFFF").setDepth(99);
 
                                                             var tconfig = {
-                                                                x: (this.sceneWidth/2) - 190,
+                                                                x: (this.sceneWidth/2) - 225,
                                                                 y: (this.sceneHeight/2) - 200,
-                                                                text: 'You were spotted! \nRestart?',
+                                                                text: 'YOU WERE SPOTTED! \nRestart?',
                                                                 style: {
                                                                   fontSize: '48px',
-                                                                  fontFamily: 'Arial',
+                                                                  fontFamily: 'MS PGothic',
+                                                                  fontStyle: 'bold',
                                                                   color: '#ffffff',
                                                                   align: 'center',
                                                                   lineSpacing: 24,

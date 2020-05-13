@@ -47,6 +47,7 @@ export default class PreloadScene extends Phaser.Scene {
 
   create() {
     this.add.text(20,20,"LOADING GAME...");
+    
 
     this.anims.create({
       key: "player_down",

@@ -1,4 +1,5 @@
 import 'phaser';
+import EndScene from "./scenes/endScene";
 import MainScene from './scenes/mainScene';
 import PreloadScene from './scenes/preloadScene';
 import StartScene from './scenes/startScene';
@@ -22,13 +23,16 @@ const config: GameConfig = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT
     },
-    scene: [PreloadScene, StartScene, MainScene, Controls, Level1Scene, Level2Scene, Level3Scene],
+    scene: [PreloadScene, StartScene, MainScene, Controls, Level1Scene, Level2Scene, Level3Scene, EndScene],
     physics: {
         default: 'arcade',
         arcade: {
             debug: false,
             gravity: { y: 0 }
         }
+    },
+    render: {
+        pixelArt: true
     }
 };
 
