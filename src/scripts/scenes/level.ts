@@ -27,6 +27,7 @@ export default class Level extends Phaser.Scene{
     // Audio variables
     successSFX: Phaser.Sound.BaseSound;
     diamondSFX: Phaser.Sound.BaseSound;
+    clickSFX: Phaser.Sound.BaseSound;
 
     pauseSus: boolean = false;
   
@@ -72,6 +73,7 @@ export default class Level extends Phaser.Scene{
      * Adds all the required sounds to the scene and makes them available to be used
      */
     addSounds(){
+        this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
         this.successSFX = this.sound.add('success-1', { loop: false });
         this.diamondSFX = this.sound.add('diamond-1', { loop: false });
     }
@@ -357,6 +359,7 @@ export default class Level extends Phaser.Scene{
                                                                 this.restartButton.setScale(1);
                                                             });
                                                             this.restartButton.on('pointerup', () => {
+                                                                this.clickSFX.play();
                                                                 this.restart();
                                                             });
                                                         });
