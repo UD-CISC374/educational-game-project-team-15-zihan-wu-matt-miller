@@ -1,3 +1,5 @@
+import { Sleeping } from "matter";
+
 export default class EndScene extends Phaser.Scene {
     player;
     floor;
@@ -6,83 +8,77 @@ export default class EndScene extends Phaser.Scene {
     gem;
     clickSFX: Phaser.Sound.BaseSound;
     music: Phaser.Sound.BaseSound;
+    completetext: Phaser.GameObjects.Text;
+    button: Phaser.GameObjects.Image;
+    musicPlayedOnce = false;
 
     constructor(){
         super({key: 'EndScene'});
     }
 
+    preload(){
+        
+    }
     init(){
         this.sceneWidth = this.cameras.main.width;
         this.sceneHeight = this.cameras.main.height;
     }
 
     create(){
-        this.music = this.sound.add('victory',{ loop:true, volume:0.5 });
-        this.music.play();
+        this.completetext = this.add.text(-900, 250, "MISSION COMPLETE").setOrigin(0,0).setFontFamily('MS PGothic').setFontStyle('bold').setFontSize(90).setColor('#000').setStroke('#000', 4).setDepth(99);
+        //i don't know for the life of me why the sound is played more than once
+        if(this.musicPlayedOnce == false){
+            this.music = this.sound.add('victory',{ loop:false, volume:0.5 });
+            this.music.play();
+            this.musicPlayedOnce = true;
+        }
         this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
         this.floor = this.add.rectangle( 0, 200, this.sceneWidth, this.sceneHeight/3, 0xFFFFFF).setOrigin(0,0);
         this.gem = this.add.sprite(this.sceneWidth-290, 280, "gem");
         this.gem.setScale(8);
         this.gem.play("gem_rotate");
 
-        this.player = this.add.sprite(100, 250, "player");
+        this.player = this.add.sprite(-100, 250, "player");
         this.player.setScale(7);
         this.player.play("player_right");
 
-
-
         this.tweens.add({
             targets     : this.player,
-            x           : this.sceneWidth-410,
+            x           : this.sceneWidth-300,
             ease        : 'Linear',
             duration    : 3200,
         });
-
-        setTimeout(() => {
-            this.player.anims.stop();
-            this.player.setFrame(7);
-            setTimeout(() => {
-                this.player.play("player_right");
-                this.tweens.add({
-                    targets     : this.player,
-                    x           : this.sceneWidth-300,
-                    ease        : 'Linear',
-                    duration    : 200,
-                });
-        
-                setTimeout(() => {
+        this.sleep(3500).then(()=>{
+            this.sleep(900).then(()=>{
                     this.player.anims.stop();
                     this.player.setFrame(1);
                     
                     this.tweens.add({
                         targets     : this.gem,
                         y           : 80,
-                        alpha       : {from: 0, to: 1},
-                        ease        : 'Cubic',
-                        duration    : 1000,
+                        ease        : 'Exponential',
+                        duration    : 900,
                     });
-                    setTimeout(() => {
-                        let completetext = this.add.text(0, 250, "MISSION COMPLETE").setOrigin(0,0).setFontFamily('MS PGothic').setFontStyle('bold').setFontSize(90).setColor('#000').setStroke('#000', 4);
+                    this.sleep(1000).then(()=>{
                         this.tweens.add({
-                            targets     : completetext,
-                            x           : {from: 0, to: 35},
-                            alpha       : {from: 0, to: 1},
-                            ease        : 'Bounce.easeOut',
-                            duration    : 1000,
+                            targets     : this.completetext,
+                            x           : 35,
+                            ease        : 'Exponential',
+                            duration    : 200,
                         });
-                        let button = this.add.image(this.sceneWidth/2, 500, 'play-bttn-up').setDepth(99);
-                        button.setInteractive();
-                        //button.setScale(2,2);
 
-                        button.on('pointerover', () => {
-                            button.setTexture('play-bttn-dwn');
-                            button.setScale(1.1);
+                        this.button = this.add.image(this.sceneWidth/2, 500, 'play-bttn-up').setDepth(99);
+                        this.button.setInteractive();
+
+                        this.button.on('pointerover', () => {
+                            this.button.setTexture('play-bttn-dwn');
+                            this.button.setScale(1.1);
                         });
-                        button.on('pointerout', () => {
-                            button.setTexture('play-bttn-up');
-                            button.setScale(1);
+                        this.button.on('pointerout', () => {
+                            this.button.setTexture('play-bttn-up');
+                            this.button.setScale(1);
                         });
-                        button.on('pointerup', () => {
+                        this.button.on('pointerup', () => {
                             this.clickSFX.play();
                             let black = this.add.rectangle( 0, 0, this.sceneWidth, this.sceneHeight, 0x000000).setOrigin(0,0).setDepth(100);
                             this.tweens.add({
@@ -91,26 +87,22 @@ export default class EndScene extends Phaser.Scene {
                                 ease        : 'Exponential',
                                 duration    : 200,
                             });
-                            this.tweens.add({
-                                targets     : this.music,
-                                volume      : 0,
-                                ease        : 'Linear',
-                                duration    : 400,
-                            });
-                            setTimeout(() => {
+                            this.sleep(500).then(()=>{
                                 this.music.stop();
-                                this.scene.start("StartScene");
-                            }, 500 );
+                                this.musicPlayedOnce = false;
+                                this.scene.start('StartScene');
+                            });
                         });
-                    }, 350);
-                }, 450);
-
-            },800);
-    
-        }, 3200);
-
-
-        //this.player.setFrame(1);
+                    });
+                });
+            });
     }
 
+    update(){
+
+    }
+
+    async sleep(ms:number){
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 }

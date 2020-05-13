@@ -48,6 +48,7 @@ export default class Level extends Phaser.Scene{
 
     restartButton; 
     inputEnabled:boolean = true; 
+    touchedGem:boolean = false;
 
     // Constructor takes in sceneKey, mapKey, tilesetName, tilesetKey
     constructor(sceneKey:string, mapKey:string, nextsceneKey:string){
@@ -118,6 +119,7 @@ export default class Level extends Phaser.Scene{
     
         this.endpt = this.map.findObject("Objects", obj => obj.name === "end");
         this.gem = this.add.sprite(this.endpt.x, this.endpt.y, "gem");
+        //this.gem = this.add.sprite(100, 150, "gem");
         this.gem.play("gem_rotate");
         this.gem.setScale(2,2);
         this.physics.add.existing(this.gem, true); //true for static; gem doesn't move
@@ -334,18 +336,18 @@ export default class Level extends Phaser.Scene{
 
                                                             var tconfig = {
                                                                 x: (this.sceneWidth/2) - 225,
-                                                                y: (this.sceneHeight/2) - 200,
+                                                                y: (this.sceneHeight / 2) - 200,
                                                                 text: 'YOU WERE SPOTTED! \nRestart?',
                                                                 style: {
-                                                                  fontSize: '48px',
-                                                                  fontFamily: 'MS PGothic',
-                                                                  fontStyle: 'bold',
-                                                                  color: '#ffffff',
-                                                                  align: 'center',
-                                                                  lineSpacing: 24,
+                                                                    fontSize: '48px',
+                                                                    fontFamily: 'MS PGothic',
+                                                                    fontStyle: 'bold',
+                                                                    color: '#ffffff',
+                                                                    align: 'center',
+                                                                    lineSpacing: 24,
                                                                 }
-                                                              };
-                                                              let caughttext = this.make.text(tconfig).setDepth(99);
+                                                            };
+                                                            let caughttext = this.make.text(tconfig).setDepth(99);
 
                                                             this.restartButton = this.add.image(this.sceneWidth/2, this.sceneHeight/2, 'play-bttn-up').setDepth(99);
                                                             this.restartButton.setInteractive();
@@ -360,7 +362,7 @@ export default class Level extends Phaser.Scene{
                                                             });
                                                             this.restartButton.on('pointerup', () => {
                                                                 this.clickSFX.play();
-                                                                this.restart();
+                                                                this.restartScene();
                                                             });
                                                         });
 
@@ -388,26 +390,33 @@ export default class Level extends Phaser.Scene{
      * Called when the player runs into the diamond
      */
     reachedGoal(){
-        // Play the diamond getting sound
-        this.diamondSFX.play();
-        this.player.setFrame(1);
-        this.scene.pause(this.sceneKey);
-        // Pause the game
-        //this.pauseGame();
-        
-        // Wait a second for sound to play then move on
-        this.sleep(1000).then(()=>{
-             //placeholder for now, just move on to next scene here
-            this.suspicion = 0;
-            // Stop the current scene first
-            this.scene.stop();
-            // Then start the next scene
-            if(this.nextsceneKey != '')
-                this.scene.start(this.nextsceneKey);
-            else
-                this.scene.restart();
+        // Play the diamond getting sound once
+        if (this.touchedGem == false) {
+            this.diamondSFX.play();
+            this.player.setFrame(1);
+            this.tweens.add({
+                targets: this.gem,
+                alpha: 0,
+                y: this.gem.y - 20,
+                ease: 'linear',
+                duration: 300,
+            });
+        }
+        this.touchedGem = true;
+        this.sleep(300).then(()=>{  //wait till anim finishes
+                this.scene.pause(this.sceneKey);
+                //placeholder for now, just move on to next scene here
+                this.resetScene();
+                // Stop the current scene first
+                this.scene.stop();
+                // Then start the next scene
+                if (this.nextsceneKey != '')
+                    this.scene.start(this.nextsceneKey); 
+                else
+                    this.scene.restart();
         });
-       
+
+
     }
 
     /**
@@ -427,9 +436,15 @@ export default class Level extends Phaser.Scene{
         this.player.pauseMovement = false;
     }
 
-    restart(){
+    resetScene(){
         this.suspicion = 0;
         this.inputEnabled = true;
+        this.touchedGem = false;
+        
+    }
+
+    restartScene(){
+        this.resetScene();
         this.scene.restart();
     }
 
@@ -438,5 +453,7 @@ export default class Level extends Phaser.Scene{
     async sleep(ms:number){
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+
+    
     
 }
