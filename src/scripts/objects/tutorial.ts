@@ -10,6 +10,7 @@ export default class Tutorial {
     static mix:boolean = false;
     static floor:boolean = false;
     static createColor:boolean = false;
+    static fontfamily:string = '';
 
     // Private constructor so no one can make an instance of it
     private constructor(){ }
@@ -27,6 +28,19 @@ export default class Tutorial {
         scene.player.pauseMovement = false;
     }*/
 
+    //font style
+    static setFontStyle(text : Phaser.GameObjects.Text){
+        text.setColor('white');
+        text.setFontFamily('MS PGothic');
+        text.setFontStyle('bold');
+        text.setFontSize(40);
+        text.setBackgroundColor('#330066');
+        //text.setStroke('#330066', 20);
+        text.setWordWrapWidth(500); //textwrap
+        text.setFixedSize(550,0); //textbox size
+        text.setAlign('center');
+        text.setDepth(99);
+    }
     // Handle the various conditions
 
     // No condition has to be met for this to activate
@@ -87,13 +101,9 @@ export default class Tutorial {
 
         let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
         let text:Phaser.GameObjects.Text = scene.add.text(mainCamera.centerX-mainCamera.centerX/2, mainCamera.centerY-mainCamera.centerY/2, 
-            "Create new colors by putting in two different\ncolors, then mix with spacebar");
+            "Create new colors by putting in two different colors, then mix with spacebar");
         // Set settings for the text
-        text.setColor('white');
-        text.setFont('Arial Black');
-        text.setFontStyle('bold');
-        text.setFontSize(40);
-        text.setBackgroundColor('black');
+        Tutorial.setFontStyle(text);
 
         // Get the color of the player
         let playerColor:Color = scene.player.color;
@@ -108,7 +118,7 @@ export default class Tutorial {
             if(scene.player.color != initColor){
                 // If they changed to the wrong color
                 if(scene.player.color != scene.tileColor){
-                    text.setText("Way to change colors! Try to change\nto the color on the floor.");
+                    text.setText("Way to change colors! Try to change to the color on the floor.");
                 } else { // They changed to the right color
                     scene.successSFX.play();
                     text.destroy();
@@ -129,12 +139,9 @@ export default class Tutorial {
 
         let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
         let text:Phaser.GameObjects.Text = scene.add.text(mainCamera.centerX-mainCamera.centerX/2, mainCamera.centerY-mainCamera.centerY/2, 
-            "Press 1 to select red, then space\nto mix and create red");
+            "Press 1 to select red, then space to mix and create red");
         // Set settings for the text
-        text.setColor('white');
-        text.setFont('Arial Black');
-        text.setFontStyle('bold');
-        text.setFontSize(40);
+        Tutorial.setFontStyle(text);
         let initColor:Color = scene.player.color;
 
         // 'Pauses' the game before waiting for user to figure out command
@@ -163,12 +170,9 @@ export default class Tutorial {
         Tutorial.floor = true;
         let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
         let text:Phaser.GameObjects.Text = scene.add.text(mainCamera.centerX-mainCamera.centerX/2, mainCamera.centerY-mainCamera.centerY/2, 
-            "Change your color to\nthe color of the floor\nto stop your suspicion from\ngoing up", {font: "32px", fontWeight: "bold"});
-        text.setColor('white');
-        text.setFont('Arial Black');
-        text.setFontStyle('bold');
-        text.setFontSize(40);
-        let arrow:Phaser.GameObjects.Image = scene.add.image(text.x + (text.width * 1.25), text.y, 'arrow-white').setOrigin(0,0);;
+            "Change your color to the color of the floor to stop the suspicion bar");
+        Tutorial.setFontStyle(text);
+        let arrow:Phaser.GameObjects.Image = scene.add.image(mainCamera.width - 350, text.y, 'arrow-white').setOrigin(0,0);
         scene.pauseGame();
 
         Tutorial.floorLoop(scene, text, arrow,0);
@@ -184,7 +188,7 @@ export default class Tutorial {
                 scene.resumeGame();
                 let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
                 Tutorial.displayTextTimed(scene, scene.add.text(mainCamera.centerX-mainCamera.centerX/2, mainCamera.centerY-mainCamera.centerY/2,
-                "If the suspicion bar reaches\nthe top you'll be caught!"), 3000);
+                "If the suspicion bar reaches the top you'll be caught!"), 3000);
                 return;
             } else if(i % 2 == 0)
                 arrw.setTexture('arrow-black');
@@ -201,10 +205,7 @@ export default class Tutorial {
      * */ 
     static displayTextTimed(scene:Level, text:Phaser.GameObjects.Text, duration:number){
         // Properly format the text
-        text.setColor('white');
-        text.setFont('Arial Black');
-        text.setFontStyle('bold');
-        text.setFontSize(40);
+        Tutorial.setFontStyle(text);
         // Pause the game
         scene.pauseGame();
         // Wait until desired time has passed, then remove the text and restart the game
