@@ -27,6 +27,7 @@ export default class Level extends Phaser.Scene{
     // Audio variables
     successSFX: Phaser.Sound.BaseSound;
     diamondSFX: Phaser.Sound.BaseSound;
+    rewardSFX: Phaser.Sound.BaseSound;
 
     pauseSus: boolean = false;
   
@@ -74,6 +75,7 @@ export default class Level extends Phaser.Scene{
     addSounds(){
         this.successSFX = this.sound.add('success-1', { loop: false });
         this.diamondSFX = this.sound.add('diamond-1', { loop: false });
+        this.rewardSFX = this.sound.add('reward-1', { loop: false });
     }
 
 
@@ -197,7 +199,13 @@ export default class Level extends Phaser.Scene{
             }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.three)){
                 this.palette.setColor(Color.YELLOW);
             }else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.space)){
+                // Store color before the mix
+                let priorColor = this.player.color;
+                // Mix colors
                 this.player.color = this.palette.outputMix();
+                // Check if mix is correct and player wasnt same color before
+                if(this.player.color == this.tileColor && this.player.color != priorColor)
+                    this.successSFX.play();
             }
 
             // Set the players tint to the color of the player that was just calculated
