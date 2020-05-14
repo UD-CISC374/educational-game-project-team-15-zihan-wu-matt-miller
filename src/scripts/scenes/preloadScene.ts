@@ -45,10 +45,12 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.audio('diamond-1','assets/sounds/diamond-1.ogg');
     this.load.audio('reward-1','assets/sounds/reward-1.ogg');
     this.load.audio('wrong-1','assets/sounds/wrong-1.ogg');
+    this.load.audio('victory','assets/sounds/music/redeemed_victory.ogg');
   }
 
   create() {
     this.add.text(20,20,"LOADING GAME...");
+    
 
     this.anims.create({
       key: "player_down",
