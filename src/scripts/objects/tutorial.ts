@@ -120,13 +120,15 @@ export default class Tutorial {
                 if(scene.player.color != scene.tileColor){
                     text.setText("Way to change colors! Try to change to the color on the floor.");
                 } else { // They changed to the right color
-                    scene.successSFX.play();
+                    //scene.successSFX.play(); // not needed
                     text.destroy();
                     scene.resumeGame();
+                    return;
                 }
-            } else { // Rerun the loop 
-                Tutorial.loopColor(scene, text, initColor);
             } 
+            // Rerun the loop 
+            Tutorial.loopColor(scene, text, initColor);
+             
         });
     }
 
@@ -153,14 +155,18 @@ export default class Tutorial {
 
     // Wait for the player to correctly create red
     static suspicionLoop(initcolor:number, scene:Level, text:Phaser.GameObjects.Text){
-        Tutorial.sleep(10).then(() => {
-            if(scene.player.color != initcolor){
-                scene.successSFX.play();
+        Tutorial.sleep(500).then(() => {
+            if(scene.player.color == Color.RED){
+                //scene.successSFX.play(); // Not needed
                 text.destroy();
                 scene.resumeGame();
                 return;
+            } else if(scene.player.color != initcolor){
+                // managed to change color but just not change to right color
+                scene.wrongSFX.play();
+                
             }
-            Tutorial.suspicionLoop(initcolor, scene, text);
+            Tutorial.suspicionLoop(scene.player.color, scene, text);
         });
     }
     
@@ -182,7 +188,7 @@ export default class Tutorial {
         Tutorial.sleep(500).then(() => {
             // The player completed the condition, so exit the loop
             if(scene.player.color == scene.tileColor){
-                scene.successSFX.play();
+                //scene.successSFX.play(); // not needed
                 txt.destroy();
                 arrw.destroy();
                 scene.resumeGame();
