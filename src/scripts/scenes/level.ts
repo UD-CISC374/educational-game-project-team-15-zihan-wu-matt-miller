@@ -28,6 +28,7 @@ export default class Level extends Phaser.Scene{
     successSFX: Phaser.Sound.BaseSound;
     diamondSFX: Phaser.Sound.BaseSound;
     rewardSFX: Phaser.Sound.BaseSound;
+    wrongSFX: Phaser.Sound.BaseSound;
 
     pauseSus: boolean = false;
   
@@ -76,6 +77,7 @@ export default class Level extends Phaser.Scene{
         this.successSFX = this.sound.add('success-1', { loop: false });
         this.diamondSFX = this.sound.add('diamond-1', { loop: false });
         this.rewardSFX = this.sound.add('reward-1', { loop: false });
+        this.wrongSFX = this.sound.add('wrong-1', { loop: false });
     }
 
 
@@ -418,6 +420,7 @@ export default class Level extends Phaser.Scene{
      * Pauses the game when called
      */
     pauseGame(){
+        console.log('pauseGame');
         this.pauseSus = true;
         this.player.pauseMovement = true;
         this.player.anims.stop();
@@ -427,6 +430,7 @@ export default class Level extends Phaser.Scene{
      * Resumes the game when called
      */
     resumeGame(){
+        console.log('resumeGame');
         this.pauseSus = false;
         this.player.pauseMovement = false;
     }
