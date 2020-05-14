@@ -208,6 +208,8 @@ export default class Level extends Phaser.Scene{
                 // Check if mix is correct and player wasnt same color before
                 if(this.player.color == this.tileColor && this.player.color != priorColor)
                     this.successSFX.play();
+                else if(this.player.color != this.tileColor && this.player.color != priorColor)
+                    this.wrongSFX.play();
             }
 
             // Set the players tint to the color of the player that was just calculated
@@ -420,7 +422,6 @@ export default class Level extends Phaser.Scene{
      * Pauses the game when called
      */
     pauseGame(){
-        console.log('pauseGame');
         this.pauseSus = true;
         this.player.pauseMovement = true;
         this.player.anims.stop();
@@ -430,7 +431,6 @@ export default class Level extends Phaser.Scene{
      * Resumes the game when called
      */
     resumeGame(){
-        console.log('resumeGame');
         this.pauseSus = false;
         this.player.pauseMovement = false;
     }

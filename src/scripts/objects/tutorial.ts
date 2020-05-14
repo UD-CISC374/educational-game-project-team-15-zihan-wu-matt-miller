@@ -107,12 +107,10 @@ export default class Tutorial {
             // Player changed color
             if(scene.player.color != initColor){
                 // If they changed to the wrong color
-                console.log('changed a little...');
                 if(scene.player.color != scene.tileColor){
                     text.setText("Way to change colors! Try to change\nto the color on the floor.");
                 } else { // They changed to the right color
                     //scene.successSFX.play(); // not needed
-                    console.log('got it');
                     text.destroy();
                     scene.resumeGame();
                     return;
