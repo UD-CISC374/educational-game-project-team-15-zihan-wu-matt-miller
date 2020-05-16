@@ -30,6 +30,8 @@ export default class Level extends Phaser.Scene{
     rewardSFX: Phaser.Sound.BaseSound;
     wrongSFX: Phaser.Sound.BaseSound;
     clickSFX: Phaser.Sound.BaseSound;
+    alarmSFX: Phaser.Sound.BaseSound;
+    sirenSFX: Phaser.Sound.BaseSound;
 
     pauseSus: boolean = false;
   
@@ -81,6 +83,8 @@ export default class Level extends Phaser.Scene{
         this.diamondSFX = this.sound.add('diamond-1', { loop: false });
         this.rewardSFX = this.sound.add('reward-1', { loop: false });
         this.wrongSFX = this.sound.add('wrong-1', { loop: false });
+        this.alarmSFX = this.sound.add('alarm-1', { loop: false });
+        this.sirenSFX = this.sound.add('siren-1', { loop: false });
     }
 
 
@@ -280,6 +284,10 @@ export default class Level extends Phaser.Scene{
      * Play animation and reset the current screen
      *  */ 
     caught(){
+        console.log('caught');
+        // Play siren audio
+        this.alarmSFX.play();
+
         this.player.setVelocity(0,0);
         this.player.anims.stop();
         this.inputEnabled = false;
