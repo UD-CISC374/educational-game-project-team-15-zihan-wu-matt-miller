@@ -15,19 +15,6 @@ export default class Tutorial {
     // Private constructor so no one can make an instance of it
     private constructor(){ }
 
-    // Some helpful functions used by all
-    /*static pauseGame(scene: Level){
-        console.log('pause game');
-        scene.pauseSus = true;
-        scene.player.pauseMovement = true;
-        scene.player.anims.stop();
-    }
-    static resumeGame(scene: Level){
-        console.log('restart game');
-        scene.pauseSus = false;
-        scene.player.pauseMovement = false;
-    }*/
-
     //font style
     static setFontStyle(text : Phaser.GameObjects.Text){
         text.setColor('white');

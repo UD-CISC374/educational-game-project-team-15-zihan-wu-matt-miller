@@ -1,5 +1,6 @@
 import Level from './level';
 import Tutorial from '../objects/tutorial';
+import Timer from '../objects/timer';
 
 export default class Level1Scene extends Level{
 
@@ -10,8 +11,10 @@ export default class Level1Scene extends Level{
         super('Level1Scene', 'level1', 'Level2Scene');
     }
 
-    // Handle movement when level1scene starts
     init(){
+        // Initialize the timer
+        Timer.startTimer();
+        // Handle movement when level1scene starts
         Tutorial.handleMovement(this);
     }
 }

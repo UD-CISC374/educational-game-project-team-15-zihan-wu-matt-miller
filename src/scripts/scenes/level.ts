@@ -4,6 +4,7 @@ import { Color } from '../objects/color';
 import Inventory from '../objects/inventory';
 import Suspicionbar from '../objects/suspicionbar';
 import Tutorial from '../objects/tutorial';
+import Timer from '../objects/timer';
 
 export default class Level extends Phaser.Scene{
 
@@ -23,6 +24,10 @@ export default class Level extends Phaser.Scene{
     startpt;
     endpt;
     gem;
+
+    // Timer variable
+    timer:string
+    timerTXT:Phaser.GameObjects.Text;
 
     // Audio variables
     successSFX: Phaser.Sound.BaseSound;
@@ -78,7 +83,7 @@ export default class Level extends Phaser.Scene{
      * Adds all the required sounds to the scene and makes them available to be used
      */
     addSounds(){
-        this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
+        this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.6 });
         this.successSFX = this.sound.add('success-1', { loop: false });
         this.diamondSFX = this.sound.add('diamond-1', { loop: false });
         this.rewardSFX = this.sound.add('reward-1', { loop: false });
@@ -92,7 +97,7 @@ export default class Level extends Phaser.Scene{
         this.sceneWidth = this.cameras.main.width;
         this.sceneHeight = this.cameras.main.height;
 
-        // Add sounds
+        // Add all sounds
         this.addSounds();
 
         this.palette = new ColorPalette(this, 650, 540);
@@ -180,6 +185,11 @@ export default class Level extends Phaser.Scene{
         this.inventory.color[2] = Color.YELLOW;
         this.inventory.updateInventory(); // This updates the rectangle color on the screen
 
+        this.timerTXT = this.add.text(0,0,Timer.getFormattedTime());
+        this.timerTXT.setColor('white');
+        this.timerTXT.setFontFamily('MS PGothic');
+        this.timerTXT.setFontStyle('bold');
+        this.timerTXT.setFontSize(25);
 
     }
 
@@ -189,10 +199,13 @@ export default class Level extends Phaser.Scene{
      */
     update(){
         this.clock++;
+
         
         if(this.checkStandingSecondary())
             Tutorial.handleCreateColor(this);
-            
+
+        // Update timer text
+        this.timerTXT.setText(Timer.getFormattedTime());
 
         if(this.inputEnabled == true){
             this.player.move(this.cursorKeys);
