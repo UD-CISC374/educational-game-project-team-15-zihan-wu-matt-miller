@@ -1,16 +1,22 @@
 import { Sleeping } from "matter";
 
+import Timer from '../objects/timer';
+
 export default class EndScene extends Phaser.Scene {
-    player;
-    floor;
-    sceneWidth;
-    sceneHeight;
-    gem;
+    player: Phaser.GameObjects.Sprite;
+    floor: Phaser.GameObjects.Rectangle;
+    sceneWidth: number;
+    sceneHeight: number;
+    gem: Phaser.GameObjects.Sprite;
     clickSFX: Phaser.Sound.BaseSound;
     music: Phaser.Sound.BaseSound;
     completetext: Phaser.GameObjects.Text;
     button: Phaser.GameObjects.Image;
     musicPlayedOnce = false;
+
+    // Time variables
+    totalTime:string;
+    timerTXT:Phaser.GameObjects.Text;
 
     constructor(){
         super({key: 'EndScene'});
@@ -41,6 +47,20 @@ export default class EndScene extends Phaser.Scene {
         this.player = this.add.sprite(-100, 250, "player");
         this.player.setScale(7);
         this.player.play("player_right");
+
+        this.totalTime = Timer.getFormattedTime();
+        this.timerTXT = this.add.text(this.sceneWidth/2, this.sceneHeight/6, this.totalTime);
+        this.timerTXT.setX(this.sceneWidth/2 - (this.timerTXT.width/2));
+        this.timerTXT.setColor('white');
+        this.timerTXT.setFontFamily('MS PGothic');
+        this.timerTXT.setFontStyle('bold');
+        this.timerTXT.setFontSize(40);
+        this.tweens.add({
+            targets     : this.timerTXT,
+            x           : 35,
+            ease        : 'Exponential',
+            duration    : 200,
+        });
 
         this.tweens.add({
             targets     : this.player,
@@ -96,10 +116,6 @@ export default class EndScene extends Phaser.Scene {
                     });
                 });
             });
-    }
-
-    update(){
-
     }
 
     async sleep(ms:number){

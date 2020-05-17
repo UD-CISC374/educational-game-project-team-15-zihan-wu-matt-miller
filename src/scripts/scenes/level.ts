@@ -25,8 +25,16 @@ export default class Level extends Phaser.Scene{
     endpt;
     gem;
 
+    // Suspicion variables
+    // The rate that the suspicion meter will increase(lower is faster)
+    inc_rate:number = 15; // Was 5 before
+    // The rate that the suspicion meter will decrease(lower is faster)
+    dec_rate:number = 20; //25 before
+    MAX_SUS:number = 100;
+    prev_tileColor:Color;
+    inc:number = this.inc_rate;
+
     // Timer variable
-    timer:string
     timerTXT:Phaser.GameObjects.Text;
 
     // Audio variables
@@ -46,8 +54,6 @@ export default class Level extends Phaser.Scene{
     //scene: Phaser.Scene;
     sceneWidth: number;
     sceneHeight: number;
-
-    MAX_SUS:number = 100;
 
     mapKey:string;
     tilesetName:string = 'camotiles';
@@ -69,9 +75,6 @@ export default class Level extends Phaser.Scene{
         this.clock = 0;
         this.suspicion = 0;
         this.tileColor = Color.NULL;  
-
-        // Initialize some variables based on the scene
-        //this.init();
     }
 
     init(){
@@ -143,34 +146,42 @@ export default class Level extends Phaser.Scene{
         
         //tile index is ONE MORE than the id in tiled!
         this.belowLayer.setTileIndexCallback(112, ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.NULL;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+1), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.YELLOW;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+17), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.BLUE;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+33), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.RED;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+49), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.GREEN;
         }, this);
 
         this.belowLayer.setTileIndexCallback([105,106,107,108], ()=>{ //grass
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.GREEN;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+65), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.ORANGE;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+81), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.PURPLE;
         }, this);
     
@@ -231,7 +242,10 @@ export default class Level extends Phaser.Scene{
                     this.successSFX.play();
                 else if(this.player.color != this.tileColor && this.player.color != priorColor)
                     this.wrongSFX.play();
-            }
+            } /*else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.escape)){
+                this.scene.stop();
+                this.scene.start(this.nextsceneKey);
+            }*/
 
             // Set the players tint to the color of the player that was just calculated
             this.player.tint = this.player.color;
@@ -260,22 +274,27 @@ export default class Level extends Phaser.Scene{
    * Triggers effect if MAX_SUS is reached
    */
     handleSuspicion(){
-        // The rate that the suspicion meter will increase(lower is faster)
-        let rate:number = 10; // Was 5 before
-        // The rate that the suspicion meter will decrease(lower is faster)
-        let dec_rate:number = 15; //25 before
-
-        // Increase suspicion if user isn't matching floor
-        if(this.clock % rate == 0 && !this.pauseSus){
+        // inc, inc_rate, dec_rate
+        console.log('inc',this.inc);
+        //console.log(this.tileColor + " " + this.prev_tileColor);
+        if(this.clock % this.inc == 0 && !this.pauseSus){
             // If the color isn't standing on the correct color tile
             if(this.player.color != this.tileColor){
                 this.suspicion = Math.min(this.MAX_SUS, this.suspicion+1);
-            } else {
-                // Check if decreasing the suspicion
-                if(this.clock % dec_rate == 0)
+            } else { 
+                // Reset inc if they are the correct color
+                this.inc = this.inc_rate;
+                // Decrease the suspicion
+                if(this.clock % this.dec_rate == 0)
                     this.suspicion = Math.max(0,this.suspicion-1);
             }
             this.suspicionText.setText("Suspicion: " + this.suspicion);
+
+            // Check if player has stayed the wrong color
+            if(this.tileColor == this.prev_tileColor && this.tileColor != this.player.color && this.clock % (this.inc*2) == 0){
+                this.inc--;
+                this.inc = Math.max(1, this.inc); // Dont let inc fall below 1
+            }
         }
 
         // After updating the suspicion amount, update the suspicion bar
@@ -297,7 +316,6 @@ export default class Level extends Phaser.Scene{
      * Play animation and reset the current screen
      *  */ 
     caught(){
-        console.log('caught');
         // Play siren audio
         this.alarmSFX.play();
 

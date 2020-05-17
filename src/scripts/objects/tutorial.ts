@@ -200,11 +200,11 @@ export default class Tutorial {
         // Properly format the text
         Tutorial.setFontStyle(text);
         // Pause the game
-        scene.pauseGame();
+        //scene.pauseGame();
         // Wait until desired time has passed, then remove the text and restart the game
         Tutorial.sleep(duration).then(() => {
             text.destroy();
-            scene.resumeGame();
+            //scene.resumeGame();
         });
     }
 

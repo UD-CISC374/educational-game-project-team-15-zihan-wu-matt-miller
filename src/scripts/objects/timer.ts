@@ -30,7 +30,7 @@ export default class Timer{
     static getFormattedTime():string{
         // Get the number of seconds, in whole seconds
         let seconds:number = Math.floor((Date.now() - Timer.startTime) / 1000);
-        
+
         // Convert seconds to minutes and seconds
         let mins:string = Math.floor(seconds / 60).toFixed(0);
         let secs:string = (seconds % 60).toFixed(0);

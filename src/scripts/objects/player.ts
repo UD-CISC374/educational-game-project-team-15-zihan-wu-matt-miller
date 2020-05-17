@@ -3,8 +3,8 @@ import { Color } from "./color";
 export default class Player extends Phaser.Physics.Arcade.Sprite{
     body: Phaser.Physics.Arcade.Body;
 
-    velocityX:number = 100;
-    velocityY:number = 100;
+    velocityX:number = 125; // 100
+    velocityY:number = 125; // 100
     color:Color = Color.WHITE;
     prevDir:number = 0;
     pauseMovement: boolean = false;
