@@ -463,6 +463,7 @@ export default class Level extends Phaser.Scene{
         });
         this.menuButton.on('pointerup', () => {
             this.clickSFX.play();
+            this.resetScene();
             this.scene.start('StartScene');
         });
     }
