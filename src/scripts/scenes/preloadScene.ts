@@ -1,7 +1,7 @@
 export default class PreloadScene extends Phaser.Scene {
 
   // The scene to jump to once initialization is complete
-  startScenceKey:string = 'StartScene';
+  startScenceKey:string = 'StartScene'; // StartScene Options
 
   constructor() {
     super({ key: 'PreloadScene' });
@@ -41,6 +41,12 @@ export default class PreloadScene extends Phaser.Scene {
 
     this.load.image('menu-black','assets/menu-black.png');
     this.load.image('menu-white','assets/menu-white.png');
+
+    this.load.image('yes-black','assets/yes-black.png');
+    this.load.image('yes-white','assets/yes-white.png');
+
+    this.load.image('no-black','assets/no-black.png');
+    this.load.image('no-white','assets/no-white.png');
 
     // Load sounds
     this.load.audio('click-1','assets/sounds/click-1.ogg');

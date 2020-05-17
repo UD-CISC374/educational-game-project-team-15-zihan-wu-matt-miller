@@ -331,9 +331,6 @@ export default class Level extends Phaser.Scene{
 
         // Turn the player to face forward
         this.player.setFrame(1);
-
-        Tutorial.handleMix(this);
-
         
         // Flash red a few times
         this.sleep(timeout).then(() => { 

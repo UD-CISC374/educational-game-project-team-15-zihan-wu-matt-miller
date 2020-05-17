@@ -55,17 +55,17 @@ export default class EndScene extends Phaser.Scene {
         this.player.play("player_right");
 
         this.totalTime = Timer.getFormattedTime();
-        this.timerTXT = this.add.text(this.sceneWidth/2, this.sceneHeight/6, this.totalTime);
-        this.timerTXT.setX(this.sceneWidth/2 - (this.timerTXT.width/2));
+        this.timerTXT = this.add.text(0, this.sceneHeight/6, this.totalTime);
+        let timerX = this.sceneWidth/2 - (this.timerTXT.width/2);
         this.timerTXT.setColor('white');
         this.timerTXT.setFontFamily('MS PGothic');
         this.timerTXT.setFontStyle('bold');
         this.timerTXT.setFontSize(40);
         this.tweens.add({
             targets     : this.timerTXT,
-            x           : 35,
+            x           : timerX,
             ease        : 'Exponential',
-            duration    : 200,
+            duration    : 2000,
         });
 
         this.tweens.add({

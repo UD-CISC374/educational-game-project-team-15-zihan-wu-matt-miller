@@ -10,7 +10,7 @@ export default class StartScene extends Phaser.Scene{
     play_button: Phaser.GameObjects.Image;
     controls_button: Phaser.GameObjects.Image;
 
-    first_level_key:string = 'Level1Scene';// Level1Scene MainScene EndScene 
+    first_level_key:string = 'Options';// Level1Scene MainScene EndScene Options
 
     // Sound variables
     clickSFX:Phaser.Sound.BaseSound;
