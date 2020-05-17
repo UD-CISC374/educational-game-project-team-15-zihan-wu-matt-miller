@@ -29,7 +29,7 @@ export default class Level extends Phaser.Scene{
     // The rate that the suspicion meter will increase(lower is faster)
     inc_rate:number = 15; // Was 5 before
     // The rate that the suspicion meter will decrease(lower is faster)
-    dec_rate:number = 20; //25 before
+    dec_rate:number = 15; //25 before
     MAX_SUS:number = 100;
     prev_tileColor:Color;
     inc:number = this.inc_rate;
@@ -45,6 +45,7 @@ export default class Level extends Phaser.Scene{
     clickSFX: Phaser.Sound.BaseSound;
     alarmSFX: Phaser.Sound.BaseSound;
     sirenSFX: Phaser.Sound.BaseSound;
+    tickSFX: Phaser.Sound.BaseSound;
 
     pauseSus: boolean = false;
   
@@ -61,7 +62,10 @@ export default class Level extends Phaser.Scene{
     nextsceneKey:string;
     sceneKey:string;
 
-    restartButton; 
+    // Button variables for when player gets caught
+    restartButton: Phaser.GameObjects.Image; 
+    menuButton: Phaser.GameObjects.Image;
+
     inputEnabled:boolean = true; 
     touchedGem:boolean = false;
 
@@ -86,7 +90,8 @@ export default class Level extends Phaser.Scene{
      * Adds all the required sounds to the scene and makes them available to be used
      */
     addSounds(){
-        this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.6 });
+        this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
+        this.tickSFX = this.sound.add('tick',{ loop:false, volume:0.5 });
         this.successSFX = this.sound.add('success-1', { loop: false });
         this.diamondSFX = this.sound.add('diamond-1', { loop: false });
         this.rewardSFX = this.sound.add('reward-1', { loop: false });
@@ -275,8 +280,7 @@ export default class Level extends Phaser.Scene{
    */
     handleSuspicion(){
         // inc, inc_rate, dec_rate
-        console.log('inc',this.inc);
-        //console.log(this.tileColor + " " + this.prev_tileColor);
+
         if(this.clock % this.inc == 0 && !this.pauseSus){
             // If the color isn't standing on the correct color tile
             if(this.player.color != this.tileColor){
@@ -400,21 +404,8 @@ export default class Level extends Phaser.Scene{
                                                             };
                                                             let caughttext = this.make.text(tconfig).setDepth(99);
 
-                                                            this.restartButton = this.add.image(this.sceneWidth/2, this.sceneHeight/2, 'play-bttn-up').setDepth(99);
-                                                            this.restartButton.setInteractive();
-
-                                                            this.restartButton.on('pointerover', () => {
-                                                                this.restartButton.setTexture('play-bttn-dwn');
-                                                                this.restartButton.setScale(1.1);
-                                                            });
-                                                            this.restartButton.on('pointerout', () => {
-                                                                this.restartButton.setTexture('play-bttn-up');
-                                                                this.restartButton.setScale(1);
-                                                            });
-                                                            this.restartButton.on('pointerup', () => {
-                                                                this.clickSFX.play();
-                                                                this.restartScene();
-                                                            });
+                                                            // Declare buttons, and set their interaction
+                                                            this.setCaughtButtons();
                                                         });
 
 
@@ -435,6 +426,48 @@ export default class Level extends Phaser.Scene{
 
         // Needed b/c sleep is async so the code will keep running otherwise
         //this.scene.pause();
+    }
+
+    /**
+     * Sets all the variables for the two buttons when player gets caughts. Sets
+     */
+    setCaughtButtons():void{
+        // Create both buttons
+        this.restartButton = this.add.image(this.sceneWidth/2, this.sceneHeight/2, 'play-bttn-up').setDepth(99);
+        this.restartButton.setInteractive();
+        this.menuButton = this.add.image(this.sceneWidth/2, (this.sceneHeight*2.5)/4, 'menu-black').setDepth(99);
+        this.menuButton.setInteractive();
+
+        // restartButton
+        this.restartButton.on('pointerover', () => {
+            this.tickSFX.play();
+            this.restartButton.setTexture('play-bttn-dwn');
+            this.restartButton.setScale(1.1);
+        });
+        this.restartButton.on('pointerout', () => {
+            this.tickSFX.play();
+            this.restartButton.setTexture('play-bttn-up');
+            this.restartButton.setScale(1);
+        });
+        this.restartButton.on('pointerup', () => {
+            this.clickSFX.play();
+            this.restartScene();
+        });
+        // menuButton
+        this.menuButton.on('pointerover', () => {
+            this.tickSFX.play();
+            this.menuButton.setTexture('menu-white');
+            this.menuButton.setScale(1.1);
+        });
+        this.menuButton.on('pointerout', () => {
+            this.tickSFX.play();
+            this.menuButton.setTexture('menu-black');
+            this.menuButton.setScale(1);
+        });
+        this.menuButton.on('pointerup', () => {
+            this.clickSFX.play();
+            this.scene.start('StartScene');
+        });
     }
 
     /**

@@ -39,6 +39,9 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("ctrl-bttn-dwn","assets/controls-3-dwn.png");
     this.load.image("ctrl-bttn-up","assets/controls-3-up.png");
 
+    this.load.image('menu-black','assets/menu-black.png');
+    this.load.image('menu-white','assets/menu-white.png');
+
     // Load sounds
     this.load.audio('click-1','assets/sounds/click-1.ogg');
     this.load.audio('success-1','assets/sounds/pluck-success-1.ogg');
@@ -48,6 +51,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.audio('victory','assets/sounds/music/redeemed_victory.ogg');
     this.load.audio('alarm-1','assets/sounds/alarm-1.ogg');
     this.load.audio('siren-1','assets/sounds/siren-1-short.ogg');
+    this.load.audio('tick','assets/sounds/bttn-tick.ogg');
   }
 
   create() {

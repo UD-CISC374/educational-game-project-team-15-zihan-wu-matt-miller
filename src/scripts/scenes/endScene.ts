@@ -8,10 +8,13 @@ export default class EndScene extends Phaser.Scene {
     sceneWidth: number;
     sceneHeight: number;
     gem: Phaser.GameObjects.Sprite;
-    clickSFX: Phaser.Sound.BaseSound;
-    music: Phaser.Sound.BaseSound;
     completetext: Phaser.GameObjects.Text;
     button: Phaser.GameObjects.Image;
+
+    // SFX variables
+    clickSFX: Phaser.Sound.BaseSound;
+    tickSFX: Phaser.Sound.BaseSound;
+    music: Phaser.Sound.BaseSound;
     musicPlayedOnce = false;
 
     // Time variables
@@ -38,7 +41,10 @@ export default class EndScene extends Phaser.Scene {
             this.music.play();
             this.musicPlayedOnce = true;
         }
+        // Add SFX variables
         this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
+        this.tickSFX = this.sound.add('tick',{ loop:false, volume:0.5 });
+
         this.floor = this.add.rectangle( 0, 200, this.sceneWidth, this.sceneHeight/3, 0xFFFFFF).setOrigin(0,0);
         this.gem = this.add.sprite(this.sceneWidth-290, 280, "gem");
         this.gem.setScale(8);
@@ -91,10 +97,12 @@ export default class EndScene extends Phaser.Scene {
                         this.button.setInteractive();
 
                         this.button.on('pointerover', () => {
+                            this.tickSFX.play();
                             this.button.setTexture('play-bttn-dwn');
                             this.button.setScale(1.1);
                         });
                         this.button.on('pointerout', () => {
+                            this.tickSFX.play();
                             this.button.setTexture('play-bttn-up');
                             this.button.setScale(1);
                         });
