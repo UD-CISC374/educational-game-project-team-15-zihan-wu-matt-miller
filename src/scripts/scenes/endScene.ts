@@ -18,7 +18,7 @@ export default class EndScene extends Phaser.Scene {
     musicPlayedOnce = false;
 
     // Time variables
-    totalTime:string;
+    totalTime:string = '';
     timerTXT:Phaser.GameObjects.Text;
 
     constructor(){
@@ -31,6 +31,9 @@ export default class EndScene extends Phaser.Scene {
     init(){
         this.sceneWidth = this.cameras.main.width;
         this.sceneHeight = this.cameras.main.height;
+        // Only set the time once
+        if(this.totalTime == '')
+            this.totalTime = Timer.getFormattedTime();
     }
 
     create(){
@@ -54,7 +57,6 @@ export default class EndScene extends Phaser.Scene {
         this.player.setScale(7);
         this.player.play("player_right");
 
-        this.totalTime = Timer.getFormattedTime();
         this.timerTXT = this.add.text(0, this.sceneHeight/6, this.totalTime);
         let timerX = this.sceneWidth/2 - (this.timerTXT.width/2);
         this.timerTXT.setColor('white');
