@@ -46,6 +46,7 @@ export default class Level extends Phaser.Scene{
     alarmSFX: Phaser.Sound.BaseSound;
     sirenSFX: Phaser.Sound.BaseSound;
     tickSFX: Phaser.Sound.BaseSound;
+    jailSFX: Phaser.Sound.BaseSound;
 
     pauseSus: boolean = false;
   
@@ -98,6 +99,7 @@ export default class Level extends Phaser.Scene{
         this.wrongSFX = this.sound.add('wrong-1', { loop: false });
         this.alarmSFX = this.sound.add('alarm-1', { loop: false });
         this.sirenSFX = this.sound.add('siren-1', { loop: false });
+        this.jailSFX = this.sound.add('jail', { loop: false, volume: 0.3 });
     }
 
 
@@ -382,14 +384,15 @@ export default class Level extends Phaser.Scene{
                                                             ease        : 'Bounce.easeOut',
                                                             duration    : 2000,
                                                         });
-
-                                                        this.sleep(2000).then(()=>{ //wait until jail finishes animating to add restart
+                                                        this.sleep(800).then(()=>{ 
+                                                        this.jailSFX.play();
+                                                        this.sleep(1300).then(()=>{ //wait until jail finishes animating to add restart
                                                             //let caughttext = this.add.text(this.sceneWidth/2, 64 + this.sceneHeight/2, "You were spotted! \nRestart?",{font: "64px"}).setColor("0xFFFFFF").setDepth(99);
 
                                                             var tconfig = {
-                                                                x: (this.sceneWidth/2) - 225,
-                                                                y: (this.sceneHeight / 2) - 200,
-                                                                text: 'YOU WERE SPOTTED! \nRestart?',
+                                                                x: (this.sceneWidth/2),
+                                                                y: (this.sceneHeight / 2) - 160,
+                                                                text: 'YOU WERE SPOTTED!\nRestart?',
                                                                 style: {
                                                                     fontSize: '48px',
                                                                     fontFamily: 'MS PGothic',
@@ -399,11 +402,11 @@ export default class Level extends Phaser.Scene{
                                                                     lineSpacing: 24,
                                                                 }
                                                             };
-                                                            let caughttext = this.make.text(tconfig).setDepth(99);
-
+                                                            let caughttext = this.make.text(tconfig).setOrigin(.5,.5).setDepth(99);
                                                             // Declare buttons, and set their interaction
                                                             this.setCaughtButtons();
                                                         });
+                                                    });
 
 
                                                     });

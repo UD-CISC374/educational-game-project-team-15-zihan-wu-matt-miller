@@ -52,7 +52,7 @@ export default class Options extends Phaser.Scene{
             this.clickSFX.play();
             // start first scene with tutorial
             Tutorial.tutorialEnabled = true;
-            this.scene.start('Level1Scene');
+            this.scene.start('IntroScene');
         });
 
         // Set up noBttn
@@ -70,7 +70,7 @@ export default class Options extends Phaser.Scene{
             this.clickSFX.play();
             // start first scene without tutorial
             Tutorial.tutorialEnabled = false;
-            this.scene.start('Level1Scene');
+            this.scene.start('IntroScene');
         });
 
 
