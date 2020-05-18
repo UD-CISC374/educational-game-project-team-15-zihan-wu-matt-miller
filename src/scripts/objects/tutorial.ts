@@ -3,6 +3,8 @@ import { Color } from "./color";
 
 export default class Tutorial {
 
+    static tutorialEnabled?: boolean = true;
+
     static movement:boolean = false;
     static movement_flag:boolean = false;
     static gem:boolean = false;
@@ -15,21 +17,10 @@ export default class Tutorial {
     // Private constructor so no one can make an instance of it
     private constructor(){ }
 
-    // Some helpful functions used by all
-    /*static pauseGame(scene: Level){
-        console.log('pause game');
-        scene.pauseSus = true;
-        scene.player.pauseMovement = true;
-        scene.player.anims.stop();
-    }
-    static resumeGame(scene: Level){
-        console.log('restart game');
-        scene.pauseSus = false;
-        scene.player.pauseMovement = false;
-    }*/
-
     //font style
     static setFontStyle(text : Phaser.GameObjects.Text){
+        if(!Tutorial.tutorialEnabled)
+            return;
         text.setColor('white');
         text.setFontFamily('MS PGothic');
         text.setFontStyle('bold');
@@ -45,6 +36,8 @@ export default class Tutorial {
 
     // No condition has to be met for this to activate
     static handleMovement(scene: Level){
+        if(!Tutorial.tutorialEnabled)
+            return;
         // If this has already been triggered then just return
         if(Tutorial.movement)
             return;
@@ -68,6 +61,8 @@ export default class Tutorial {
 
     // The loop waiting for the player to move the character
     static movementLoop(scene:Level, image:Phaser.GameObjects.Image, count:number){
+        if(!Tutorial.tutorialEnabled)
+            return;
         // Remove the image if the player has moved
         if (Tutorial.movement_flag){
             scene.successSFX.play();
@@ -86,6 +81,8 @@ export default class Tutorial {
     }
 
     static handleGem(scene: Level){
+        if(!Tutorial.tutorialEnabled)
+            return;
         // If this has already been triggered then just return
         if(Tutorial.gem)
             return;
@@ -94,6 +91,9 @@ export default class Tutorial {
     }
 
     static handleCreateColor(scene: Level){
+        if(!Tutorial.tutorialEnabled)
+            return;
+
         if(Tutorial.createColor)
             return;
         Tutorial.createColor = true;
@@ -112,7 +112,7 @@ export default class Tutorial {
     }
 
     // Loop waiting for the player to mix the correct color
-    static loopColor(scene:Level, text:Phaser.GameObjects.Text, initColor:Color){
+    private static loopColor(scene:Level, text:Phaser.GameObjects.Text, initColor:Color){
         Tutorial.sleep(10).then(() => {
             // Player changed color
             if(scene.player.color != initColor){
@@ -133,6 +133,8 @@ export default class Tutorial {
     }
 
     static handleSuspicion(scene: Level){
+        if(!Tutorial.tutorialEnabled)
+            return;
         // If this has already been triggered then just return
         if(Tutorial.suspicion)
             return;
@@ -154,7 +156,7 @@ export default class Tutorial {
     }
 
     // Wait for the player to correctly create red
-    static suspicionLoop(initcolor:number, scene:Level, text:Phaser.GameObjects.Text){
+    private static suspicionLoop(initcolor:number, scene:Level, text:Phaser.GameObjects.Text){
         Tutorial.sleep(500).then(() => {
             if(scene.player.color == Color.RED){
                 //scene.successSFX.play(); // Not needed
@@ -171,6 +173,9 @@ export default class Tutorial {
     }
     
     static handleFloor(scene: Level){
+        if(!Tutorial.tutorialEnabled)
+            return;
+
         if(Tutorial.floor)
             return;
         Tutorial.floor = true;
@@ -184,7 +189,7 @@ export default class Tutorial {
         Tutorial.floorLoop(scene, text, arrow,0);
     }
 
-    static floorLoop(scene: Level, txt:Phaser.GameObjects.Text, arrw:Phaser.GameObjects.Image, i:number){
+    private static floorLoop(scene: Level, txt:Phaser.GameObjects.Text, arrw:Phaser.GameObjects.Image, i:number){
         Tutorial.sleep(500).then(() => {
             // The player completed the condition, so exit the loop
             if(scene.player.color == scene.tileColor){
@@ -209,32 +214,16 @@ export default class Tutorial {
      * Display text for a given duration(in ms).
      * Pauses the game for the duration of showing the text.
      * */ 
-    static displayTextTimed(scene:Level, text:Phaser.GameObjects.Text, duration:number){
+    private static displayTextTimed(scene:Level, text:Phaser.GameObjects.Text, duration:number){
         // Properly format the text
         Tutorial.setFontStyle(text);
         // Pause the game
-        scene.pauseGame();
+        //scene.pauseGame();
         // Wait until desired time has passed, then remove the text and restart the game
         Tutorial.sleep(duration).then(() => {
             text.destroy();
-            scene.resumeGame();
+            //scene.resumeGame();
         });
-    }
-
-    // Get here when the player gets caught
-    static handleMix(scene: Level){
-        // Run this everytime the player dies
-        /*if(Tutorial.mix)
-            return;*/
-        // Otherwise
-        
-        /*Tutorial.mix = true;
-        let mainCamera: Phaser.Cameras.Scene2D.Camera = scene.cameras.main;
-        let x = mainCamera.centerX - mainCamera.centerX/2;
-        let y = 100;
-        let text:Phaser.GameObjects.Text = scene.add.text(x, y, 
-            "Match the color of the floor to\nkeep your suspicion low", {font: "32px", fontWeight: "bold"}).setColor('white');
-        let arrow:Phaser.GameObjects.Image = scene.add.image(x + 500, y + 200, 'arrow-white');*/
     }
 
     // Set all the flags back to false

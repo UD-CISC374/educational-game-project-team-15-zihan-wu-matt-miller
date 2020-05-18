@@ -10,10 +10,11 @@ export default class StartScene extends Phaser.Scene{
     play_button: Phaser.GameObjects.Image;
     controls_button: Phaser.GameObjects.Image;
 
-    first_level_key:string = 'Level1Scene';// Level1Scene MainScene EndScene 
+    first_level_key:string = 'Options';// Level1Scene MainScene EndScene Options
 
     // Sound variables
     clickSFX:Phaser.Sound.BaseSound;
+    tickSFX:Phaser.Sound.BaseSound;
 
     constructor(){
         super({key: 'StartScene'});
@@ -29,6 +30,7 @@ export default class StartScene extends Phaser.Scene{
     create(){
         // Load clicking sound
         this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
+        this.tickSFX = this.sound.add('tick',{ loop:false, volume:0.5 });
 
         this.background = this.add.image(-180,-480,'start-bkg').setOrigin(0,0);
 
@@ -39,14 +41,14 @@ export default class StartScene extends Phaser.Scene{
         this.play_button.setInteractive();
         // Set those interactions
         this.play_button.on('pointerover',(event) => {
+            this.tickSFX.play();
             this.play_button.setTexture('play-bttn-dwn');
             this.play_button.setScale(1.1);
-            // play sound???
         });
         this.play_button.on('pointerout',(event) => {
+            this.tickSFX.play();
             this.play_button.setTexture('play-bttn-up');
             this.play_button.setScale(1);
-            // play sound???
         });
         this.play_button.on('pointerup',(event) => {
             this.clickSFX.play();
@@ -58,14 +60,14 @@ export default class StartScene extends Phaser.Scene{
 
         // Set those interactions
         this.controls_button.on('pointerover',(event) => {
+            this.tickSFX.play();
             this.controls_button.setTexture('ctrl-bttn-dwn');
             this.controls_button.setScale(1.1);
-            // play sound???
         });
         this.controls_button.on('pointerout',(event) => {
+            this.tickSFX.play();
             this.controls_button.setTexture('ctrl-bttn-up');
             this.controls_button.setScale(1);
-            // play sound???
         });
         this.controls_button.on('pointerup',(event) => {
             // Jump to another scene...

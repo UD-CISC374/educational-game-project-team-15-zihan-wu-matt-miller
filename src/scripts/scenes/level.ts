@@ -4,6 +4,7 @@ import { Color } from '../objects/color';
 import Inventory from '../objects/inventory';
 import Suspicionbar from '../objects/suspicionbar';
 import Tutorial from '../objects/tutorial';
+import Timer from '../objects/timer';
 
 export default class Level extends Phaser.Scene{
 
@@ -24,12 +25,28 @@ export default class Level extends Phaser.Scene{
     endpt;
     gem;
 
+    // Suspicion variables
+    // The rate that the suspicion meter will increase(lower is faster)
+    inc_rate:number = 15; // Was 5 before
+    // The rate that the suspicion meter will decrease(lower is faster)
+    dec_rate:number = 15; //25 before
+    MAX_SUS:number = 100;
+    prev_tileColor:Color;
+    inc:number = this.inc_rate;
+
+    // Timer variable
+    timerTXT:Phaser.GameObjects.Text;
+
     // Audio variables
     successSFX: Phaser.Sound.BaseSound;
     diamondSFX: Phaser.Sound.BaseSound;
     rewardSFX: Phaser.Sound.BaseSound;
     wrongSFX: Phaser.Sound.BaseSound;
     clickSFX: Phaser.Sound.BaseSound;
+    alarmSFX: Phaser.Sound.BaseSound;
+    sirenSFX: Phaser.Sound.BaseSound;
+    tickSFX: Phaser.Sound.BaseSound;
+    jailSFX: Phaser.Sound.BaseSound;
 
     pauseSus: boolean = false;
   
@@ -40,15 +57,16 @@ export default class Level extends Phaser.Scene{
     sceneWidth: number;
     sceneHeight: number;
 
-    MAX_SUS:number = 100;
-
     mapKey:string;
     tilesetName:string = 'camotiles';
     tilesetKey:string = 'tiles';
     nextsceneKey:string;
     sceneKey:string;
 
-    restartButton; 
+    // Button variables for when player gets caught
+    restartButton: Phaser.GameObjects.Image; 
+    menuButton: Phaser.GameObjects.Image;
+
     inputEnabled:boolean = true; 
     touchedGem:boolean = false;
 
@@ -62,9 +80,6 @@ export default class Level extends Phaser.Scene{
         this.clock = 0;
         this.suspicion = 0;
         this.tileColor = Color.NULL;  
-
-        // Initialize some variables based on the scene
-        //this.init();
     }
 
     init(){
@@ -77,10 +92,14 @@ export default class Level extends Phaser.Scene{
      */
     addSounds(){
         this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
+        this.tickSFX = this.sound.add('tick',{ loop:false, volume:0.5 });
         this.successSFX = this.sound.add('success-1', { loop: false });
         this.diamondSFX = this.sound.add('diamond-1', { loop: false });
         this.rewardSFX = this.sound.add('reward-1', { loop: false });
         this.wrongSFX = this.sound.add('wrong-1', { loop: false });
+        this.alarmSFX = this.sound.add('alarm-1', { loop: false });
+        this.sirenSFX = this.sound.add('siren-1', { loop: false });
+        this.jailSFX = this.sound.add('jail', { loop: false, volume: 0.3 });
     }
 
 
@@ -88,7 +107,7 @@ export default class Level extends Phaser.Scene{
         this.sceneWidth = this.cameras.main.width;
         this.sceneHeight = this.cameras.main.height;
 
-        // Add sounds
+        // Add all sounds
         this.addSounds();
 
         this.palette = new ColorPalette(this, 650, 540);
@@ -134,34 +153,42 @@ export default class Level extends Phaser.Scene{
         
         //tile index is ONE MORE than the id in tiled!
         this.belowLayer.setTileIndexCallback(112, ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.NULL;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+1), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.YELLOW;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+17), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.BLUE;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+33), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.RED;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+49), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.GREEN;
         }, this);
 
         this.belowLayer.setTileIndexCallback([105,106,107,108], ()=>{ //grass
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.GREEN;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+65), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.ORANGE;
         }, this);
   
         this.belowLayer.setTileIndexCallback(Array.from(Array(15), (e,i)=>i+81), ()=>{
+            this.prev_tileColor = this.tileColor;
             this.tileColor = Color.PURPLE;
         }, this);
     
@@ -176,6 +203,11 @@ export default class Level extends Phaser.Scene{
         this.inventory.color[2] = Color.YELLOW;
         this.inventory.updateInventory(); // This updates the rectangle color on the screen
 
+        this.timerTXT = this.add.text(0,0,Timer.getFormattedTime());
+        this.timerTXT.setColor('white');
+        this.timerTXT.setFontFamily('MS PGothic');
+        this.timerTXT.setFontStyle('bold');
+        this.timerTXT.setFontSize(25);
 
     }
 
@@ -185,10 +217,13 @@ export default class Level extends Phaser.Scene{
      */
     update(){
         this.clock++;
+
         
         if(this.checkStandingSecondary())
             Tutorial.handleCreateColor(this);
-            
+
+        // Update timer text
+        this.timerTXT.setText(Timer.getFormattedTime());
 
         if(this.inputEnabled == true){
             this.player.move(this.cursorKeys);
@@ -214,7 +249,10 @@ export default class Level extends Phaser.Scene{
                     this.successSFX.play();
                 else if(this.player.color != this.tileColor && this.player.color != priorColor)
                     this.wrongSFX.play();
-            }
+            } /*else if(Phaser.Input.Keyboard.JustDown(this.otherKeys.escape)){
+                this.scene.stop();
+                this.scene.start(this.nextsceneKey);
+            }*/
 
             // Set the players tint to the color of the player that was just calculated
             this.player.tint = this.player.color;
@@ -243,22 +281,26 @@ export default class Level extends Phaser.Scene{
    * Triggers effect if MAX_SUS is reached
    */
     handleSuspicion(){
-        // The rate that the suspicion meter will increase(lower is faster)
-        let rate:number = 10; // Was 5 before
-        // The rate that the suspicion meter will decrease(lower is faster)
-        let dec_rate:number = 15; //25 before
+        // inc, inc_rate, dec_rate
 
-        // Increase suspicion if user isn't matching floor
-        if(this.clock % rate == 0 && !this.pauseSus){
+        if(this.clock % this.inc == 0 && !this.pauseSus){
             // If the color isn't standing on the correct color tile
             if(this.player.color != this.tileColor){
                 this.suspicion = Math.min(this.MAX_SUS, this.suspicion+1);
-            } else {
-                // Check if decreasing the suspicion
-                if(this.clock % dec_rate == 0)
+            } else { 
+                // Reset inc if they are the correct color
+                this.inc = this.inc_rate;
+                // Decrease the suspicion
+                if(this.clock % this.dec_rate == 0)
                     this.suspicion = Math.max(0,this.suspicion-1);
             }
             this.suspicionText.setText("Suspicion: " + this.suspicion);
+
+            // Check if player has stayed the wrong color
+            if(this.tileColor == this.prev_tileColor && this.tileColor != this.player.color && this.clock % (this.inc*2) == 0){
+                this.inc--;
+                this.inc = Math.max(1, this.inc); // Dont let inc fall below 1
+            }
         }
 
         // After updating the suspicion amount, update the suspicion bar
@@ -280,6 +322,9 @@ export default class Level extends Phaser.Scene{
      * Play animation and reset the current screen
      *  */ 
     caught(){
+        // Play siren audio
+        this.alarmSFX.play();
+
         this.player.setVelocity(0,0);
         this.player.anims.stop();
         this.inputEnabled = false;
@@ -288,9 +333,6 @@ export default class Level extends Phaser.Scene{
 
         // Turn the player to face forward
         this.player.setFrame(1);
-
-        Tutorial.handleMix(this);
-
         
         // Flash red a few times
         this.sleep(timeout).then(() => { 
@@ -342,14 +384,15 @@ export default class Level extends Phaser.Scene{
                                                             ease        : 'Bounce.easeOut',
                                                             duration    : 2000,
                                                         });
-
-                                                        this.sleep(2000).then(()=>{ //wait until jail finishes animating to add restart
+                                                        this.sleep(800).then(()=>{ 
+                                                        this.jailSFX.play();
+                                                        this.sleep(1300).then(()=>{ //wait until jail finishes animating to add restart
                                                             //let caughttext = this.add.text(this.sceneWidth/2, 64 + this.sceneHeight/2, "You were spotted! \nRestart?",{font: "64px"}).setColor("0xFFFFFF").setDepth(99);
 
                                                             var tconfig = {
-                                                                x: (this.sceneWidth/2) - 225,
-                                                                y: (this.sceneHeight / 2) - 200,
-                                                                text: 'YOU WERE SPOTTED! \nRestart?',
+                                                                x: (this.sceneWidth/2),
+                                                                y: (this.sceneHeight / 2) - 160,
+                                                                text: 'YOU WERE SPOTTED!\nRestart?',
                                                                 style: {
                                                                     fontSize: '48px',
                                                                     fontFamily: 'MS PGothic',
@@ -359,24 +402,11 @@ export default class Level extends Phaser.Scene{
                                                                     lineSpacing: 24,
                                                                 }
                                                             };
-                                                            let caughttext = this.make.text(tconfig).setDepth(99);
-
-                                                            this.restartButton = this.add.image(this.sceneWidth/2, this.sceneHeight/2, 'play-bttn-up').setDepth(99);
-                                                            this.restartButton.setInteractive();
-
-                                                            this.restartButton.on('pointerover', () => {
-                                                                this.restartButton.setTexture('play-bttn-dwn');
-                                                                this.restartButton.setScale(1.1);
-                                                            });
-                                                            this.restartButton.on('pointerout', () => {
-                                                                this.restartButton.setTexture('play-bttn-up');
-                                                                this.restartButton.setScale(1);
-                                                            });
-                                                            this.restartButton.on('pointerup', () => {
-                                                                this.clickSFX.play();
-                                                                this.restartScene();
-                                                            });
+                                                            let caughttext = this.make.text(tconfig).setOrigin(.5,.5).setDepth(99);
+                                                            // Declare buttons, and set their interaction
+                                                            this.setCaughtButtons();
                                                         });
+                                                    });
 
 
                                                     });
@@ -396,6 +426,49 @@ export default class Level extends Phaser.Scene{
 
         // Needed b/c sleep is async so the code will keep running otherwise
         //this.scene.pause();
+    }
+
+    /**
+     * Sets all the variables for the two buttons when player gets caughts. Sets
+     */
+    setCaughtButtons():void{
+        // Create both buttons
+        this.restartButton = this.add.image(this.sceneWidth/2, this.sceneHeight/2, 'play-bttn-up').setDepth(99);
+        this.restartButton.setInteractive();
+        this.menuButton = this.add.image(this.sceneWidth/2, (this.sceneHeight*2.5)/4, 'menu-black').setDepth(99);
+        this.menuButton.setInteractive();
+
+        // restartButton
+        this.restartButton.on('pointerover', () => {
+            this.tickSFX.play();
+            this.restartButton.setTexture('play-bttn-dwn');
+            this.restartButton.setScale(1.1);
+        });
+        this.restartButton.on('pointerout', () => {
+            this.tickSFX.play();
+            this.restartButton.setTexture('play-bttn-up');
+            this.restartButton.setScale(1);
+        });
+        this.restartButton.on('pointerup', () => {
+            this.clickSFX.play();
+            this.restartScene();
+        });
+        // menuButton
+        this.menuButton.on('pointerover', () => {
+            this.tickSFX.play();
+            this.menuButton.setTexture('menu-white');
+            this.menuButton.setScale(1.1);
+        });
+        this.menuButton.on('pointerout', () => {
+            this.tickSFX.play();
+            this.menuButton.setTexture('menu-black');
+            this.menuButton.setScale(1);
+        });
+        this.menuButton.on('pointerup', () => {
+            this.clickSFX.play();
+            this.resetScene();
+            this.scene.start('StartScene');
+        });
     }
 
     /**

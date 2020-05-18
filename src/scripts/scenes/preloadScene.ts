@@ -1,7 +1,7 @@
 export default class PreloadScene extends Phaser.Scene {
 
   // The scene to jump to once initialization is complete
-  startScenceKey:string = 'StartScene';
+  startScenceKey:string = 'StartScene'; // StartScene Options
 
   constructor() {
     super({ key: 'PreloadScene' });
@@ -39,6 +39,15 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("ctrl-bttn-dwn","assets/controls-3-dwn.png");
     this.load.image("ctrl-bttn-up","assets/controls-3-up.png");
 
+    this.load.image('menu-black','assets/menu-black.png');
+    this.load.image('menu-white','assets/menu-white.png');
+
+    this.load.image('yes-black','assets/yes-black.png');
+    this.load.image('yes-white','assets/yes-white.png');
+
+    this.load.image('no-black','assets/no-black.png');
+    this.load.image('no-white','assets/no-white.png');
+
     // Load sounds
     this.load.audio('click-1','assets/sounds/click-1.ogg');
     this.load.audio('success-1','assets/sounds/pluck-success-1.ogg');
@@ -46,6 +55,11 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.audio('reward-1','assets/sounds/reward-1.ogg');
     this.load.audio('wrong-1','assets/sounds/wrong-1.ogg');
     this.load.audio('victory','assets/sounds/music/redeemed_victory.ogg');
+    this.load.audio('alarm-1','assets/sounds/alarm-1.ogg');
+    this.load.audio('siren-1','assets/sounds/siren-1-short.ogg');
+    this.load.audio('tick','assets/sounds/bttn-tick.ogg');
+    this.load.audio('jazz','assets/sounds/music/matthewpablo/Trouble Makers (Loopable).wav');
+    this.load.audio('jail','assets/sounds/soundeff/timbre__metal-clang.ogg');
   }
 
   create() {
