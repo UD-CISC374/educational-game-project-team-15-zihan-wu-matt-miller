@@ -28,9 +28,9 @@ export default class Level extends Phaser.Scene{
 
     // Suspicion variables
     // The rate that the suspicion meter will increase(lower is faster)
-    inc_rate:number = 15; // Was 5 before
+    inc_rate:number = 4; // Was 5 before 15
     // The rate that the suspicion meter will decrease(lower is faster)
-    dec_rate:number = 15; //25 before
+    dec_rate:number = 10; //25 before
     MAX_SUS:number = 100;
     prev_tileColor:Color;
     inc:number = this.inc_rate;
@@ -102,7 +102,7 @@ export default class Level extends Phaser.Scene{
         this.diamondSFX = this.sound.add('diamond-1', { loop: false });
         this.rewardSFX = this.sound.add('reward-1', { loop: false });
         this.wrongSFX = this.sound.add('wrong-1', { loop: false });
-        this.alarmSFX = this.sound.add('alarm-1', { loop: false });
+        this.alarmSFX = this.sound.add('alarm-1', { loop: false, volume: 0.5 });
         this.sirenSFX = this.sound.add('siren-1', { loop: false, volume: 0.5});
         this.jailSFX = this.sound.add('jail', { loop: false, volume: 0.5 });
     }
@@ -289,7 +289,7 @@ export default class Level extends Phaser.Scene{
     handleSuspicion(){
         // inc, inc_rate, dec_rate
 
-        if(this.clock % this.inc == 0 && !this.pauseSus){
+        if(this.clock % this.inc_rate == 0 && !this.pauseSus){
             // If the color isn't standing on the correct color tile
             if(this.player.color != this.tileColor){
                 this.suspicion = Math.min(this.MAX_SUS, this.suspicion+1);
@@ -302,11 +302,13 @@ export default class Level extends Phaser.Scene{
             }
             this.suspicionText.setText("Suspicion: " + this.suspicion);
 
+            // NOT DOING IT THIS WAY ANYMORE
             // Check if player has stayed the wrong color
+            /*
             if(this.tileColor == this.prev_tileColor && this.tileColor != this.player.color && this.clock % (this.inc*2) == 0){
                 this.inc--;
                 this.inc = Math.max(1, this.inc); // Dont let inc fall below 1
-            }
+            }*/
         }
 
         // After updating the suspicion amount, update the suspicion bar
@@ -471,7 +473,7 @@ export default class Level extends Phaser.Scene{
         });
         this.menuButton.on('pointerup', () => {
             this.clickSFX.play();
-            //this.resetScene();
+            this.resetScene();
             Music.bkgSFX.stop();
             Music.musicPlaying = false;
             this.scene.start('StartScene');

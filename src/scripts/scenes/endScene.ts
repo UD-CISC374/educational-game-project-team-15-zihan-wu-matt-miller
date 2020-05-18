@@ -90,17 +90,17 @@ export default class EndScene extends Phaser.Scene {
                             this.timerTXT.setFontStyle('bold');
                             this.timerTXT.setFontSize(60);
 
-                            this.button = this.add.image(this.sceneWidth / 2, 500, 'play-bttn-up').setOrigin(.5, .5).setDepth(99);
+                            this.button = this.add.image(this.sceneWidth / 2, 500, 'menu-black').setOrigin(.5, .5).setDepth(99);
                             this.button.setInteractive();
                             
                             this.button.on('pointerover',() => {
                                 this.tickSFX.play();
-                                this.button.setTexture('play-bttn-dwn');
+                                this.button.setTexture('menu-white');
                                 this.button.setScale(1.1);
                             });
                             this.button.on('pointerout',() => {
                                 this.tickSFX.play();
-                                this.button.setTexture('play-bttn-up');
+                                this.button.setTexture('menu-black');
                                 this.button.setScale(1);
                             });
                             this.button.on('pointerup', () => {
