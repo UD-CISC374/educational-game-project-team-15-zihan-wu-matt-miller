@@ -147,7 +147,7 @@ meta:
 
 ## Storyboarding
 
-![Story Board](storyboard.png)
+![Story Board](src/assets/storyboard.png)
 
 # Assets Needed
 
