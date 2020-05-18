@@ -5,6 +5,7 @@ import Inventory from '../objects/inventory';
 import Suspicionbar from '../objects/suspicionbar';
 import Tutorial from '../objects/tutorial';
 import Timer from '../objects/timer';
+import Music from '../objects/music';
 
 export default class Level extends Phaser.Scene{
 
@@ -102,8 +103,8 @@ export default class Level extends Phaser.Scene{
         this.rewardSFX = this.sound.add('reward-1', { loop: false });
         this.wrongSFX = this.sound.add('wrong-1', { loop: false });
         this.alarmSFX = this.sound.add('alarm-1', { loop: false });
-        this.sirenSFX = this.sound.add('siren-1', { loop: false });
-        this.jailSFX = this.sound.add('jail', { loop: false, volume: 0.3 });
+        this.sirenSFX = this.sound.add('siren-1', { loop: false, volume: 0.5});
+        this.jailSFX = this.sound.add('jail', { loop: false, volume: 0.5 });
     }
 
 
@@ -413,7 +414,6 @@ export default class Level extends Phaser.Scene{
                                                         });
                                                     });
 
-
                                                     });
                                                     
                                                 });
@@ -471,7 +471,9 @@ export default class Level extends Phaser.Scene{
         });
         this.menuButton.on('pointerup', () => {
             this.clickSFX.play();
-            this.resetScene();
+            //this.resetScene();
+            Music.bkgSFX.stop();
+            Music.musicPlaying = false;
             this.scene.start('StartScene');
         });
     }

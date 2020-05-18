@@ -1,5 +1,5 @@
 import { Sleeping } from "matter";
-
+import Music from '../objects/music';
 import Timer from '../objects/timer';
 import { Color } from "../objects/color";
 
@@ -54,6 +54,8 @@ export default class IntroScene extends Phaser.Scene {
     async create() {
         this.player.play("player_right");
 
+        Music.bkgSFX.pause();
+
         this.tweens.add({
             targets: this.player,
             x: this.sceneWidth/2,
@@ -93,6 +95,7 @@ export default class IntroScene extends Phaser.Scene {
                             this.sleep(500).then(()=>{  
                                 this.music.stop();
                                 this.musicPlayedOnce = false;
+                                Music.bkgSFX.resume();
                                 this.scene.start('Level1Scene');
                             });
                         });
