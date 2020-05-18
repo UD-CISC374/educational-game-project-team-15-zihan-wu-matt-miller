@@ -60,6 +60,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.audio('tick','assets/sounds/bttn-tick.ogg');
     this.load.audio('jazz','assets/sounds/music/matthewpablo/Trouble Makers (Loopable).wav');
     this.load.audio('jail','assets/sounds/soundeff/timbre__metal-clang.ogg');
+    this.load.audio('bkg','assets/sounds/bkg-1-cropped.ogg');
   }
 
   create() {

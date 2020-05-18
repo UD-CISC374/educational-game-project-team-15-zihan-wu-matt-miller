@@ -1,5 +1,5 @@
 import { Sleeping } from "matter";
-
+import Music from '../objects/music';
 import Timer from '../objects/timer';
 
 export default class EndScene extends Phaser.Scene {
@@ -28,7 +28,7 @@ export default class EndScene extends Phaser.Scene {
     preload() {
         //i don't know for the life of me why the sound is played more than once
         if (this.musicPlayedOnce == false) {
-            this.music = this.sound.add('victory', { loop: false, volume: 0.3 });
+            this.music = this.sound.add('victory', { loop: true, volume: 0.3 });
             this.music.play();
             this.musicPlayedOnce = true;
         }
@@ -57,6 +57,8 @@ export default class EndScene extends Phaser.Scene {
         
         this.gem.play("gem_rotate");
         this.player.play("player_right");
+
+        Music.bkgSFX.stop();
 
         this.tweens.add({
             targets: this.player,

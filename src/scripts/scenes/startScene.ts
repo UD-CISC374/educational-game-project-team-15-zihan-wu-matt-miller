@@ -1,4 +1,5 @@
 import Tutorial from '../objects/tutorial';
+import Music from '../objects/music';
 
 export default class StartScene extends Phaser.Scene{
 
@@ -15,6 +16,7 @@ export default class StartScene extends Phaser.Scene{
     // Sound variables
     clickSFX:Phaser.Sound.BaseSound;
     tickSFX:Phaser.Sound.BaseSound;
+    bkgSFX:Phaser.Sound.BaseSound;
 
     constructor(){
         super({key: 'StartScene'});
@@ -31,6 +33,10 @@ export default class StartScene extends Phaser.Scene{
         // Load clicking sound
         this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
         this.tickSFX = this.sound.add('tick',{ loop:false, volume:0.5 });
+        //this.bkgSFX = this.sound.add('bkg', { loop: true});
+        Music.bkgSFX = this.sound.add('bkg', { loop: true});
+        if(!Music.musicPlaying)
+            Music.bkgSFX.play();
 
         this.background = this.add.image(-180,-480,'start-bkg').setOrigin(0,0);
 

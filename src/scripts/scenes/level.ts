@@ -49,7 +49,7 @@ export default class Level extends Phaser.Scene{
     jailSFX: Phaser.Sound.BaseSound;
 
     // Shifts the map along the x-axis
-    OFFSET:number = 100;
+    OFFSET:number;
 
     pauseSus: boolean = false;
   
@@ -74,11 +74,12 @@ export default class Level extends Phaser.Scene{
     touchedGem:boolean = false;
 
     // Constructor takes in sceneKey, mapKey, tilesetName, tilesetKey
-    constructor(sceneKey:string, mapKey:string, nextsceneKey:string){
+    constructor(sceneKey:string, mapKey:string, nextsceneKey:string, offset:number){
         super({key: sceneKey});
         this.sceneKey = sceneKey;
         this.mapKey = mapKey;
         this.nextsceneKey = nextsceneKey;
+        this.OFFSET = offset;
 
         this.clock = 0;
         this.suspicion = 0;
@@ -196,7 +197,7 @@ export default class Level extends Phaser.Scene{
         }, this);
     
         // Initialize the inventory and the suspicionbar
-        this.inventory = new Inventory(this, 100, this.sceneHeight - 50);
+        this.inventory = new Inventory(this, 100, 540);//this.sceneHeight - 50
         this.suspicionBar = new Suspicionbar(this,this.sceneWidth, 25);
 
 
@@ -206,7 +207,8 @@ export default class Level extends Phaser.Scene{
         this.inventory.color[2] = Color.YELLOW;
         this.inventory.updateInventory(); // This updates the rectangle color on the screen
 
-        this.timerTXT = this.add.text(0,0,Timer.getFormattedTime());
+        this.timerTXT = this.add.text(this.sceneWidth/2,0,Timer.getFormattedTime());
+        this.timerTXT.setOrigin(0.5,0);
         this.timerTXT.setColor('white');
         this.timerTXT.setFontFamily('MS PGothic');
         this.timerTXT.setFontStyle('bold');
