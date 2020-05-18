@@ -28,7 +28,7 @@ export default class EndScene extends Phaser.Scene {
     preload() {
         //i don't know for the life of me why the sound is played more than once
         if (this.musicPlayedOnce == false) {
-            this.music = this.sound.add('victory', { loop: true, volume: 0.3 });
+            this.music = this.sound.add('victory', { loop: true, volume: 0.5 });
             this.music.play();
             this.musicPlayedOnce = true;
         }
@@ -59,6 +59,7 @@ export default class EndScene extends Phaser.Scene {
         this.player.play("player_right");
 
         Music.bkgSFX.stop();
+        Music.musicPlaying = false;
 
         this.tweens.add({
             targets: this.player,

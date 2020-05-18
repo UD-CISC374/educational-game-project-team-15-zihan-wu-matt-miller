@@ -97,7 +97,7 @@ export default class Level extends Phaser.Scene{
     addSounds(){
         this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
         this.tickSFX = this.sound.add('tick',{ loop:false, volume:0.5 });
-        this.successSFX = this.sound.add('success-1', { loop: false });
+        this.successSFX = this.sound.add('success-1', { loop: false, volume: 0.5});
         this.diamondSFX = this.sound.add('diamond-1', { loop: false });
         this.rewardSFX = this.sound.add('reward-1', { loop: false });
         this.wrongSFX = this.sound.add('wrong-1', { loop: false });
