@@ -48,6 +48,9 @@ export default class Level extends Phaser.Scene{
     tickSFX: Phaser.Sound.BaseSound;
     jailSFX: Phaser.Sound.BaseSound;
 
+    // Shifts the map along the x-axis
+    OFFSET:number = 100;
+
     pauseSus: boolean = false;
   
     inventory: Inventory;
@@ -118,9 +121,9 @@ export default class Level extends Phaser.Scene{
         this.tileset = this.map.addTilesetImage('camotiles', 'tiles');// "camotiles" "tiles"
 
         // Parameters: layer name (or index) from Tiled, tileset, x, y
-        this.belowLayer = this.map.createStaticLayer("Below Player", this.tileset, 0, 0).setDepth(-1);
-        this.worldLayer = this.map.createStaticLayer("World", this.tileset, 0, 0);
-        this.aboveLayer = this.map.createStaticLayer("Above Player", this.tileset, 0, 0).setDepth(1);
+        this.belowLayer = this.map.createStaticLayer("Below Player", this.tileset, this.OFFSET, 0).setDepth(-1);
+        this.worldLayer = this.map.createStaticLayer("World", this.tileset, this.OFFSET, 0);
+        this.aboveLayer = this.map.createStaticLayer("Above Player", this.tileset, this.OFFSET, 0).setDepth(1);
         this.worldLayer.setCollisionByProperty({ collides: true });
         this.belowLayer.setCollisionByProperty({ collides: true });
 
@@ -136,12 +139,12 @@ export default class Level extends Phaser.Scene{
 
         //finds start and end points from tilemap and use accordingly
         this.startpt = this.map.findObject("Objects", obj => obj.name === "start");
-        this.player = new Player(this, this.startpt.x, this.startpt.y);
+        this.player = new Player(this, this.startpt.x + this.OFFSET, this.startpt.y);
         this.physics.add.collider(this.player, this.worldLayer); 
         this.physics.add.collider(this.player, this.belowLayer); // add collider but don't set collision for overlap callback
     
         this.endpt = this.map.findObject("Objects", obj => obj.name === "end");
-        this.gem = this.add.sprite(this.endpt.x, this.endpt.y, "gem");
+        this.gem = this.add.sprite(this.endpt.x + this.OFFSET, this.endpt.y, "gem");
         //this.gem = this.add.sprite(100, 150, "gem");
         this.gem.play("gem_rotate");
         this.gem.setScale(2,2);
