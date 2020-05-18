@@ -1,6 +1,6 @@
 ---
 waltz:
-  title: Camo Caper's Educational Game Design Document
+  title: Camo Caper
 meta:
   version: 0.0.2
   gdd authors:
@@ -18,13 +18,13 @@ meta:
 
 ## Elevator Pitch
 
-*Top-down color mixing stealth game where you play as a chameleon and you must match the color of the background to not get caught on your heist for treasure.*
+*Camo Caper is a top-down stealth game designed to teach color mixing and color theory. Play as the famous cat thief with a magical color changing cape on a heist for the newest collection of priceless gems. Maneuver through maps, while blending in with the background to avoid getting spotted! Stay hidden, stay sneaky. If you are visible for too long, the guards will catch you!*
 
 ## Influences (Brief)
 
 - *Influence #1*:
-  - Medium: *Real life*
-  - Explanation: *Chameleons blend into their backgrounds to hide and matching the background matches well with color mixing.*
+  - Medium: *Fantasy settings, Harry Potter*
+  - Explanation: *Just the idea of an invisibility cloak and how that lends to blending into the background*
 - *Influence #2*:
   - Medium: *Maze games and adventure games*
   - Explanation: *Influenced by having a character navigate a world and have to do certain things to unlock / avoiding certain areas to get to a goal.*
@@ -34,8 +34,8 @@ meta:
 
 ## Core Gameplay Mechanics (Brief)
 
-- *Use arrow keys (OR WASD) to move*
-- *Use number pad to mix colors*
+- *Use arrow keys to move*
+- *Use 1,2,3,4, and space to mix colors *
 - *Suspicion meter rises and falls depending on how visible the player is*
 - *The player loses if the suspicion meter reaches 100%*
 
@@ -74,7 +74,7 @@ meta:
 
 - *The concept of using color matching for steatlh as a main game-play aspect is unique*
 - *Color theory is not a commonly taught discipline*
-- *Game has a quirky theme of having phantom thief chameleon main character*
+- *Game has a quirky theme of having phantom thief cat main character*
 
 # Player Interaction Patterns and Modes
 
@@ -94,7 +94,7 @@ meta:
 
 # Procedures/Actions
 
-*Use the arrow keys to move around and the num pad to mix colors to change the chameleons colors.*
+*Use the arrow keys to move around and the numbers to mix colors to change the player's colors.*
 
 # Rules
 
@@ -103,7 +103,6 @@ meta:
 - *If the player is the same color as the floor, the suspicion meter goes down over time*
 - *Once the player reaches the goal of the current level, the player moves on to the next pre-set level*
 - *Over time, the levels become more complicated*
-- *Players can pick up colors from the ground to use to blend into the background in the current level, picking up colors allows you to create more color combinations to blend in with*
 
 # Objects/Entities
 
@@ -112,15 +111,15 @@ meta:
 - *Walls so the player doesnt pass through them*
 - *Guiding text when the player encounters new things*
 - *Colors on the ground that you can pick up*
-- *Color palette sidebar used to change the color of the chameleon*
+- *Color palette sidebar used to change the color of the player*
 - *Color inventory*
 - *Suspicion bar*
 - *Each level / scene would have different arrangement of tiles*
 
 ## Core Gameplay Mechanics (Detailed)
 
-- *Use arrow keys (OR WASD) to move*: *W/up-arrow moves the player up, A/left-arrow moves the player to the left, S/down-arrow moves the player down and D/righ-arrow moves the player to the right. The player can only move on floor tiles and can not move through walls. If a player attempts to move in a direction there is a wall blocking them, they will not move.*
-- *Use number pad to mix colors*: *The player has colors in their color inventory. There are three total spots in the inventory corresponding to the three different primary colors. Each of these spots has an associated key, Press 1 to add the first color to the palatte, 2 for the second and 3 for the third. 0 clears the palette and ENTER submits the color change of the chameleon.*
+- *Use arrow keys to move*: *Up-arrow moves the player up, left-arrow moves the player to the left, down-arrow moves the player down and right-arrow moves the player to the right. The player can only move on floor tiles and can not move through walls. If a player attempts to move in a direction there is a wall blocking them, they will not move.*
+- *Use numbers and space to mix colors*: *The player has colors in their color inventory. There are three total spots in the inventory corresponding to the three different primary colors. Each of these spots has an associated key, Press 1 to add the first color to the palatte, 2 for the second and 3 for the third. 0 clears the palette and SPACE submits the color change of the player.*
 - *Suspicion meter rises and falls depending on how visible the player is*: *While the player is standing on a tile that is a different color than they are, the suspicion meter will gradually increase. Alternatively, while the player is on a tile that is the same color, the suspicion meter will gradually decrease.*
 - *The player loses if the suspicion meter reaches 100%*: *If the suspicion meter reaches 100%, then the player is spotted and shown a screen that they are caught and are prompted to restart the level*
   
@@ -144,7 +143,7 @@ meta:
 
 ## Story (Brief)
 
-*You are a phantom thief chameleon going on a series of heists, but need to sneak past the guards/security in each case to grab your target.*
+*You are a phantom thief going on a series of heists for a gem collection, but need to sneak past the guards/security in each case to grab your target.*
 
 ## Storyboarding
 
@@ -159,7 +158,7 @@ meta:
 ## Graphical
 
 - Characters List
-  - *Chameleon main character*
+  - *Thief / caper main character*
   - *Possible guards*
 - Textures:
   - *Loot*
