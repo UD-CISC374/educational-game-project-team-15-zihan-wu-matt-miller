@@ -33,10 +33,12 @@ export default class StartScene extends Phaser.Scene{
         // Load clicking sound
         this.clickSFX = this.sound.add('click-1',{ loop:false, volume:0.5 });
         this.tickSFX = this.sound.add('tick',{ loop:false, volume:0.5 });
-        //this.bkgSFX = this.sound.add('bkg', { loop: true});
+        
         Music.bkgSFX = this.sound.add('bkg', { loop: true});
-        if(!Music.musicPlaying)
+        if(!Music.musicPlaying){
             Music.bkgSFX.play();
+            Music.musicPlaying = true;
+        }
 
         this.background = this.add.image(-180,-480,'start-bkg').setOrigin(0,0);
 

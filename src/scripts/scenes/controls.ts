@@ -1,3 +1,5 @@
+import Music from '../objects/music';
+
 export default class Controls extends Phaser.Scene{
     // Sound variables
     clickSFX:Phaser.Sound.BaseSound;
@@ -49,6 +51,9 @@ export default class Controls extends Phaser.Scene{
         });
         this.back_button.on('pointerup',(event) => {
             this.clickSFX.play();
+            // Stop the music and let it reset upon entering startscene
+            //Music.bkgSFX.stop();
+            //Music.musicPlaying = false;
             this.scene.start('StartScene');
         });
     }
