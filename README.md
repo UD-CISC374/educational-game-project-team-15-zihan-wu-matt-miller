@@ -14,7 +14,7 @@
 ![Screenshot](src/assets/screenshots/large.png)
 
 ## Gameplay video link
-[Link to video](https://)
+[Link to video](https://youtu.be/XTB5pU0WMj8)
 
 # Important Files
 
