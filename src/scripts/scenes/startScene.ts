@@ -40,6 +40,7 @@ export default class StartScene extends Phaser.Scene{
         }
         if(!Music.musicPlaying){
             Music.bkgSFX.play();
+            Music.musicPlaying = true;
         }
 
         this.background = this.add.image(-180,-480,'start-bkg').setOrigin(0,0);
